@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Визуальная новелла</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <div id="dialogueText">{{ scenes[currentScene].text }}</div>
+        <div id="choices">
+            <button
+                v-for="choice in scenes[currentScene].choices"
+                :key="choice.text"
+                class="choice-button"
+                @click="makeChoice(choice)"
+            >
+                {{ choice.text }}
+            </button>
+        </div>
+    </div>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

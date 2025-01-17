@@ -1,0 +1,61 @@
+/* Общий стиль */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Текст диалога */
+#dialogueText {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 10px;
+    max-width: 90%;
+}
+
+/* Контейнер кнопок */
+#choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Стиль кнопок */
+.choice-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.choice-button:hover {
+    background-color: #0056b3;
+}
+
+/* Адаптивный стиль для мобильных устройств */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    #dialogueText {
+        font-size: 18px;
+    }
+
+    .choice-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
