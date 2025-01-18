@@ -2,53 +2,69 @@ const app = Vue.createApp({
     data() {
         return {
             currentScene: "start",
+            currentBackground: "assets/images/backgrounds/start.jpg",
+            currentCharacter: null,
             scenes: {
                 start: {
-                    text: "Добро пожаловать в игру! Что вы хотите сделать?",
+                    text: "Добро пожаловать! Что вы хотите сделать?",
+                    background: "assets/images/backgrounds/start.jpg",
+                    character: null,
                     choices: [
                         { text: "Начать приключение", nextScene: "adventure" },
                         { text: "Выход", nextScene: "end" }
                     ]
                 },
                 adventure: {
-                    text: "Вы отправились в удивительное приключение. Куда вы хотите пойти?",
+                    text: "Вы отправились в приключение! Куда пойдём?",
+                    background: "assets/images/backgrounds/forest.jpg",
+                    character: "assets/images/characters/character1.png",
                     choices: [
                         { text: "В лес", nextScene: "forest" },
                         { text: "В город", nextScene: "city" }
                     ]
                 },
                 forest: {
-                    text: "Вы попали в лес. Здесь красиво и тихо. Что дальше?",
+                    text: "Вы в лесу. Здесь красиво и тихо.",
+                    background: "assets/images/backgrounds/forest.jpg",
+                    character: "assets/images/characters/character2.png",
                     choices: [
                         { text: "Исследовать лес", nextScene: "end" },
                         { text: "Вернуться назад", nextScene: "adventure" }
                     ]
                 },
                 city: {
-                    text: "Вы пришли в город. Он полон жизни. Что дальше?",
+                    text: "Вы в городе. Здесь шумно и людно.",
+                    background: "assets/images/backgrounds/city.jpg",
+                    character: "assets/images/characters/character3.png",
                     choices: [
-                        { text: "Посетить рынок", nextScene: "end" },
-                        { text: "Выйти из города", nextScene: "adventure" }
+                        { text: "На рынок", nextScene: "end" },
+                        { text: "Вернуться назад", nextScene: "adventure" }
                     ]
                 },
                 end: {
                     text: "Спасибо за игру!",
+                    background: "assets/images/backgrounds/start.jpg",
+                    character: null,
                     choices: [
-                        {text: "Вернутся в начало игры", nextScene: "start"}
+                        { text: "Вернуться в главное меню", nextScene: "start" }
                     ]
                 }
-            },
-            playerChoices: []
+            }
         };
     },
     methods: {
         loadScene(sceneId) {
+            const scene = this.scenes[sceneId];
             this.currentScene = sceneId;
+            this.currentBackground = scene.background || "assets/images/backgrounds/default.jpg";
+            this.currentCharacter = scene.character || null;
         },
         makeChoice(choice) {
-            this.playerChoices.push(choice.text);
             this.loadScene(choice.nextScene);
         }
+    },
+    mounted() {
+        this.loadScene(this.currentScene);
     }
 });
 

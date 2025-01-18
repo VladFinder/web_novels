@@ -9,6 +9,10 @@
 </head>
 <body>
     <div id="app">
+        <div id="background" :style="{ backgroundImage: 'url(' + currentBackground + ')' }"></div>
+        <div id="character" v-if="currentCharacter">
+            <img :src="currentCharacter" alt="Character">
+        </div>
         <div id="dialogueText">{{ scenes[currentScene].text }}</div>
         <div id="choices">
             <button
