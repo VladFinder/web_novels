@@ -9,20 +9,33 @@
 </head>
 <body>
     <div id="app">
+        <!-- Фон -->
         <div id="background" :style="{ backgroundImage: 'url(' + currentBackground + ')' }"></div>
-        <div id="character" v-if="currentCharacter">
-            <img :src="currentCharacter" alt="Character">
-        </div>
-        <div id="dialogueText">{{ scenes[currentScene].text }}</div>
-        <div id="choices">
-            <button
-                v-for="choice in scenes[currentScene].choices"
-                :key="choice.text"
-                class="choice-button"
-                @click="makeChoice(choice)"
+
+        <!-- Персонажи -->
+        <div id="characters">
+            <div 
+                v-for="character in currentCharacters" 
+                :key="character.image"
+                :class="['character', character.position]"
             >
-                {{ choice.text }}
-            </button>
+                <img :src="character.image" :alt="character.name">
+            </div>
+        </div>
+
+        <!-- Текст и кнопки -->
+        <div id="interface">
+            <div id="dialogueText">{{ scenes[currentScene].text }}</div>
+            <div id="choices">
+                <button
+                    v-for="choice in scenes[currentScene].choices"
+                    :key="choice.text"
+                    class="choice-button"
+                    @click="makeChoice(choice)"
+                >
+                    {{ choice.text }}
+                </button>
+            </div>
         </div>
     </div>
     <script src="scripts/app.js"></script>

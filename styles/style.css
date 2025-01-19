@@ -1,3 +1,4 @@
+/* Общий стиль */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,8 +6,8 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    position: relative;
 }
 
 /* Фон */
@@ -21,37 +22,71 @@ body {
     z-index: -1;
 }
 
-/* Персонаж */
-#character {
+/* Персонажи */
+#characters {
     position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 10%;
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     z-index: 1;
 }
 
-#character img {
-    max-height: 60%;
-    max-width: 40%;
+.character {
+    
+    max-height: 100%;
+}
+
+.character img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+/* Позиции персонажей */
+/* .character.left {
+    left: 5%;
+}
+
+.character.center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.character.right {
+    right: 5%;
+} */
+
+/* Интерфейс */
+#interface {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    z-index: 2;
 }
 
 /* Текст */
 #dialogueText {
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    padding: 10px 20px;
     font-size: 18px;
-    margin-bottom: 20px;
     text-align: center;
+    margin-bottom: 15px;
     max-width: 90%;
-    z-index: 2;
 }
 
+/* Кнопки */
 #choices {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
-    z-index: 2;
+    width: 100%;
+    justify-content: center;
 }
 
 .choice-button {
@@ -63,12 +98,16 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
 }
 
 .choice-button:hover {
     background-color: #0056b3;
 }
 
+/* Мобильная версия */
 @media screen and (max-width: 768px) {
     #dialogueText {
         font-size: 16px;
@@ -77,5 +116,16 @@ body {
     .choice-button {
         font-size: 14px;
         padding: 8px 16px;
+    }
+
+    #characters {
+        height: 25%;
+    }
+    .character img {
+        max-width: 50%;
+    }
+    #choices {
+        flex-direction: column;
+        align-items: center;
     }
 }

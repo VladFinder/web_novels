@@ -3,51 +3,56 @@ const app = Vue.createApp({
         return {
             currentScene: "start",
             currentBackground: "assets/images/backgrounds/start.jpg",
-            currentCharacter: null,
+            currentCharacters: [],
             scenes: {
                 start: {
-                    text: "Добро пожаловать! Что вы хотите сделать?",
-                    background: "assets/images/backgrounds/ome.jpg",
-                    character: null,
+                    text: "Добро пожаловать! Выберите действие:",
+                    background: "assets/images/backgrounds/start.jpg",
+                    characters: [],
                     choices: [
-                        { text: "Начать приключение", nextScene: "adventure" },
+                        { text: "Начать игру", nextScene: "home" },
                         { text: "Выход", nextScene: "end" }
                     ]
                 },
-                adventure: {
-                    text: "Вы отправились в приключение! Куда пойдём?",
-                    background: "assets/images/backgrounds/ome.jpg",
-                    character: "assets/images/characters/images.jpg",
+                home: {
+                    text: "Осёл, пойдём кое что покажу",
+                    background: "assets/images/backgrounds/home.jpg",
+                    characters: [
+                        { name: "Шрек", image: "assets/images/characters/shrek.png", position: "left" },
+                        { name: "Осёл", image: "assets/images/characters/osel.png", position: "right" }
+                    ],
                     choices: [
-                        { text: "В лес", nextScene: "forest" },
-                        { text: "В город", nextScene: "city" }
+                        { text: "Идти", nextScene: "toilet" },
+                        { text: "Не идти", nextScene: "start" }
                     ]
                 },
-                forest: {
-                    text: "Вы в лесу. Здесь красиво и тихо.",
-                    background: "assets/images/backgrounds/ome.jpg",
-                    character: "assets/images/characters/shrek.png",
+                toilet: {
+                    text: "Фуууууу, чо так воняет?",
+                    background: "assets/images/backgrounds/toilet.jpg",
+                    characters: [
+                        { name: "Осёл", image: "assets/images/characters/osel.png", position: "center" }
+                    ],
                     choices: [
-                        { text: "Исследовать лес", nextScene: "end" },
-                        { text: "Вернуться назад", nextScene: "adventure" }
+                        { text: "Дальше", nextScene: "toilet_2" }
                     ]
                 },
-                city: {
-                    text: "Вы в городе. Здесь шумно и людно.",
-                    background: "assets/images/backgrounds/ome.jpg",
-                    character: "assets/images/characters/shrek.png",
+                toilet_2: {
+                    text: "Потому что ты насрал осёл и не смыл...",
+                    background: "assets/images/backgrounds/toilet.jpg",
+                    characters: [
+                        { name: "Шрек", image: "assets/images/characters/shrek.png", position: "center" }
+                    ],
                     choices: [
-                        { text: "На рынок", nextScene: "end" },
-                        { text: "Вернуться назад", nextScene: "adventure" }
+                        { text: "Пон", nextScene: "end" }
                     ]
                 },
                 end: {
                     text: "Спасибо за игру!",
-                    background: "assets/images/backgrounds/ome.jpg",
-                    character: null,
+                    background: "assets/images/backgrounds/start.jpg",
+                    characters: [],
                     choices: [
-                        { text: "Вернуться в главное меню", nextScene: "start" }
-                    ] 
+                        { text: "В начало", nextScene: "start" }
+                    ]
                 }
             }
         };
@@ -57,7 +62,7 @@ const app = Vue.createApp({
             const scene = this.scenes[sceneId];
             this.currentScene = sceneId;
             this.currentBackground = scene.background || "assets/images/backgrounds/default.jpg";
-            this.currentCharacter = scene.character || null;
+            this.currentCharacters = scene.characters || [];
         },
         makeChoice(choice) {
             this.loadScene(choice.nextScene);
