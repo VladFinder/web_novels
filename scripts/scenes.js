@@ -33,7 +33,7 @@ const scenes = {
         ]
     },
     gl1_2: {
-        text: "Лейла: Обижать ее, тестовое сообщение?",
+        text: "Лейла: Обижать ее?",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
         characters: [
             { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
