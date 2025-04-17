@@ -12,70 +12,8 @@
         <!-- Фон -->
         <div id="background" :style="{ backgroundImage: 'url(' + currentBackground + ')' }"></div>
 
-        <!-- Основное игровое меню -->
-        <div id="mainMenu" v-if="isMainMenuOpen">
-            <div class="menu-overlay">
-                <div class="menu-content">
-                    <h1>Игровое меню</h1>
-                    <button @click="closeMainMenu">Продолжить</button>
-                    <button @click="openSaveMenu">Сохранить</button>
-                    <button @click="openLoadMenu">Загрузить</button>
-                    <button @click="openSettings">Настройки</button>
-                    <button @click="returnToStartMenu">Выход в главное меню</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Модальное окно сохранения -->
-        <div id="saveMenu" v-if="isSaveMenuOpen" class="modal">
-            <div class="modal-content">
-                <h2>Выберите слот для сохранения:</h2>
-                <div v-for="(slot, index) in saveSlots" :key="index" class="save-slot">
-                    <p>Слот {{ index + 1 }}: 
-                        <span v-if="slot">{{ slot.timestamp }}</span>
-                        <span v-else>Пусто</span>
-                    </p>
-                    <button @click="saveToSlot(index)">Сохранить</button>
-                </div>
-                <button @click="closeSaveMenu">Отмена</button>
-            </div>
-        </div>
-
-        <!-- Модальное окно загрузки -->
-        <div id="loadMenu" v-if="isLoadMenuOpen" class="modal">
-            <div class="modal-content">
-                <h2>Выберите слот для загрузки:</h2>
-                <div v-for="(slot, index) in saveSlots" :key="index" class="save-slot">
-                    <p>Слот {{ index + 1 }}: 
-                        <span v-if="slot">{{ slot.timestamp }}</span>
-                        <span v-else>Пусто</span>
-                    </p>
-                    <button @click="loadSaveSlot(index)">Загрузить</button>
-                </div>
-                <button @click="closeLoadMenu">Отмена</button>
-            </div>
-        </div>
-
-        <!-- Настройки -->
-        <div id="settingsMenu" v-if="isSettingsOpen" class="modal">
-            <div class="modal-content">
-                <h2>Настройки</h2>
-                <label>Громкость:</label>
-                <input type="range" v-model="audioVolume" min="0" max="1" step="0.1" @input="updateVolume">
-                <button @click="closeSettings">Закрыть</button>
-            </div>
-        </div>
-
-        <!-- Главное стартовое меню -->
-        <div id="startMenu" v-if="currentScene === 'menu'">
-            <h1>Визуальная новелла</h1>
-            <button class="menu-button" @click="loadScene('dis')">Начать игру</button>
-            <button class="menu-button" @click="openLoadMenu">Загрузить сохранение</button>
-            <button class="menu-button" @click="openSettings">Настройки</button>
-        </div>
-
         <!-- Персонажи -->
-        <div id="characters" v-if="currentScene !== 'menu'">
+        <div id="characters">
             <div 
                 v-for="character in currentCharacters" 
                 :key="character.image"
@@ -85,8 +23,8 @@
             </div>
         </div>
 
-        <!-- Интерфейс -->
-        <div id="interface" v-if="currentScene !== 'menu'">
+        <!-- Текст и кнопки -->
+        <div id="interface">
             <div id="dialogueText">{{ scenes[currentScene].text }}</div>
             <div id="choices">
                 <button
@@ -98,14 +36,8 @@
                     {{ choice.text }}
                 </button>
             </div>
-            <!-- Кнопка вызова меню -->
-            <button id="menuButton" @click="toggleMainMenu">Меню</button>
         </div>
     </div>
-
-    <!-- Аудио -->
-    <audio id="backgroundMusic" loop></audio>
-
-    <script src="scripts/app.js" type="module"></script>
+    <script src="scripts/app.js"></script>
 </body>
 </html>
