@@ -14,11 +14,41 @@ const scenes = {
         ]
     },
     dis: {
-        text: "",
+        text: "Дисклеймер: Вдохновением для данного произведения послужили гавайские культура и мифология, однако многие достоверные факты были изменены для художественного умысла авторов. Мы не претендуем на историческую достоверность, лишь знакомим читателя с культурой."
+,
         background: "assets/images/backgrounds/dis.mov",
         characters: [],
         choices: [
-            { text: "Дальше", nextScene: "gl1_1" }
+            { text: "Дальше", nextScene: "dis1" }
+        ]
+    },
+    dis1: {
+        text: "В начале был Пу,"
+,
+        background: "assets/images/backgrounds/dis.mov",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "dis2" }
+        ]
+    },
+    dis2: {
+        text: "Из Пу произошел Коре"
+,
+        background: "assets/images/backgrounds/dis.mov",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "dis3" }
+        ]
+    },
+    dis3: {
+        text: "Коре разделился на Землю и Небо, чей союз породил Первых Богов."
+        text: "И ими же был разрушен."
+        text: "Разлученные, Земля и Небо долго плакали."
+,
+        background: "dis3.mov",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "dis4" }
         ]
     },
     // Сцены из истории
@@ -33,7 +63,7 @@ const scenes = {
         ]
     },
     gl1_2: {
-        text: "Лейла: Обижать ее, тестовое сообщение?",
+        text: "Лейла: Обижать ее, тестовое сообщение?"
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
         characters: [
             { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
@@ -243,6 +273,16 @@ const scenes = {
         ]
     },
     gl1_22: {
+        text: "Протерев глаза, Лейла подошла к зеркалу…",
+        background: "assets/images/backgrounds/leilas_mirror.jpg",
+        characters: [
+            { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "end" }
+        ]
+    },
+    gl1_23: {
         text: "Протерев глаза, Лейла подошла к зеркалу…",
         background: "assets/images/backgrounds/leilas_mirror.jpg",
         characters: [
