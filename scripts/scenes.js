@@ -63,27 +63,26 @@ const scenes = {
         text: "Остров утопал...",
         background: "",
         characters: [],
-        choices: ["в тишине","в ливнях",
+        choices: [
+            { text: "в тишине", nextScene: "dis3" },
+            { text: "в ливнях", nextScene: "dis3" },
             { text: "Дальше", nextScene: "dis3" }
         ]
     },
     gl1_2: {
-        text: "Лейла: Обижать ее, тестовое сообщение?",
-        background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
-        
+        text: "Мама: Создала для нас землю, драгоценные камни, пищу для растений. И…",
+        background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",   
         characters: [
-            { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_3" }
         ]
     },
     gl1_3: {
-        text: "Мама: Пользоваться ей! Такого она не потерпит. Как зашумит земля, как польется лава! Нрав огня неукротим… Раз – и!",
+        text: "Мама, звеня ракушками, вложила Лейле в ладошки браслет.",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
-        characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
-        ],
+        characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_4" }
         ]
