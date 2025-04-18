@@ -98,7 +98,7 @@ const scenes = {
         background: "",
         characters: [],
         choices: [
-            { text: "Дальше", nextScene: "gl1_text2" }
+            { text: "Дальше", nextScene: "gl1_2" }
         ]
     },
     gl1_2: {
