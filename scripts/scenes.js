@@ -64,31 +64,70 @@ const scenes = {
         background: "",
         characters: [],
         choices: [
-            { text: "в тишине", nextScene: "dis3" },
-            { text: "в ливнях", nextScene: "dis3" },
-            { text: "Дальше", nextScene: "dis3" }
+            { text: "в тишине", nextScene: "choice1" },
+            { text: "в ливнях", nextScene: "choice2" },
+        ]
+    },
+    choice1: {
+        text: "Только мотыльки бились об окно - в доме еще горел свет.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_2"},
+        ]
+    },
+    choice2: {
+        text: "Тяжелые капли дождя разбивались об окно.",
+        text: "Ветер хлестал водой по деревьям.",
+        text: "А дома было тепло и сухо.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_2" },
+        ]
+    },
+    gl1_textmom: {
+        text: "Мама: Создала для нас землю, драгоценные камни, пищу для растений. И…",
+        background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
+        characters: [
+            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_text1" }
+        ]
+    },
+    gl1_text1: {
+        text: "Мама, звеня ракушками, вложила Лейле в ладошки браслет.",
+        text: "Очищенный перламутр сиял ярче тусклой комнатной лампы.",
+        text: "Рыбацкой леской в браслет был вплетен прозрачный темный камень.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_text2" }
         ]
     },
     gl1_2: {
-        text: "Мама: Создала для нас землю, драгоценные камни, пищу для растений. И…",
+        text: "Лейла: Что это?",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",   
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_3" }
         ]
     },
     gl1_3: {
-        text: "Мама, звеня ракушками, вложила Лейле в ладошки браслет.",
+        text: "Мама: Это, как говорят на Большой Земле, обсидиан… вулканическое стекло. Там, где встречаются Пеле и Намака, огонь и вода, они навеки застывают. Сестра не может пойти против сестры - обе проиграют..",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
-        characters: [],
+        characters: [
+            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+        ],
         choices: [
             { text: "Дальше", nextScene: "gl1_4" }
         ]
     },
     gl1_4: {
-        text: "Мама защекотала Лейлу.",
+        text: "Мама: Носи его и не снимай. И у меня….",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
         characters: [
             { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
@@ -98,17 +137,15 @@ const scenes = {
         ]
     },
     gl1_4_1: {
-        text: "Девочка, хохоча, заболтала в воздухе худыми ножками.",
+        text: "Мама показала свою руку.",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
-        characters: [
-            { name: "Мама", image: "assets/images/characters/leila.png", position: "center" }
-        ],
+        characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_5" }
         ]
     },
     gl1_5: {
-        text: "Мама: Как вспылит!..",
+        text: "Мама: Такой же. Это дар Пеле. Ты знаешь, как обращаться с ее дарами?",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
         characters: [
             { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
@@ -118,10 +155,53 @@ const scenes = {
         ]
     },
     gl1_6: {
-        text: "И, однажды, Пеле вспылила. Ночью перед Макахики, когда Лейла искала маму в лесу. Макахики – гавайский праздник урожая.",
-        background: "assets/images/backgrounds/volcano_eruption.jpg",
+        text: "Лейла: Уважительно?",
+        background: "",
+        characters: [
+            { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
+        ],
+        audio: "",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_6_1" }
+        ]
+    },
+    gl1_6_1: {
+        text: "Мама:  Да… Бери, но отдавай что-то взамен. Никогда не пользуйся благами земли сверх меры. Такого она не потерпит. Как зашумит земля, как польется лава! Нрав огня неукротим… Раз – и!?",
+        background: "",
+        characters: [
+            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+        ],
+        audio: "",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_6_2" }
+        ]
+    },
+    gl1_6_2: {
+        text: "Мама защекотала Лейлу. Девочка, хохоча, заболтала в воздухе худыми ножками.",
+        background: "",
         characters: [],
-        audio: "assets/audio/ground_rumble.mp3",
+        audio: "",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_6_3" }
+        ]
+    },
+    gl1_6_3: {
+        text: "Мама: Как вспылит!",
+        background: "",
+        characters: [
+            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+        ],
+        audio: "",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_7" }
+        ]
+    },
+    gl1_6_4: {
+        text: "И, однажды, Пеле вспылила.",
+        text: "Ночью после Макахики, когда Лейла искала маму на священной земле.",
+        background: "",
+        characters: [],
+        audio: "",
         choices: [
             { text: "Дальше", nextScene: "gl1_7" }
         ]
@@ -132,11 +212,21 @@ const scenes = {
         characters: [],
         audio: "assets/audio/ground_cracks.mp3",
         choices: [
+            { text: "Дальше", nextScene: "gl1_7_1" }
+        ]
+    },
+    gl1_7_1: {
+        text: "Сквозь грохот, срывая горло, Лейлу звал друг:",
+        background: "",
+        characters: [],
+        audio: "",
+        choices: [
             { text: "Дальше", nextScene: "gl1_8" }
         ]
     },
+    // Сцены с Хани
     gl1_8: {
-        text: "Хани: «Лейла!» (Звук: хлопанье крыльев)",
+        text: "Хани: «Лейла!»",
         background: "assets/images/backgrounds/forest_night.jpg",
         characters: [
             { name: "Хани", image: "assets/images/characters/hani.png", position: "left" },
@@ -168,7 +258,7 @@ const scenes = {
         ]
     },
     gl1_11: {
-        text: "Звук: гул земли кончается. Деревня была наполовину разрушена. Многие пострадали. Кто-то умер. Кто-то пропал.",
+        text: "Деревня была наполовину разрушена. Многие пострадали. Кто-то умер. Кто-то пропал.",
         background: "assets/images/backgrounds/destroyed_village.jpg",
         characters: [],
         audio: "assets/audio/quiet_aftermath.mp3",
@@ -177,7 +267,7 @@ const scenes = {
         ]
     },
     gl1_12: {
-        text: "Звук: белый шум. На много лун над островом нависла тень вулканической богини. Поисковые группы прочесывали местность, но маму Лейла так и не нашла.",
+        text: "На много лун над островом нависла тень вулканической богини. Поисковые группы прочесывали местность, но маму Лейла так и не нашла.",
         background: "assets/images/backgrounds/volcano_cloud.jpg",
         characters: [
             { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
@@ -218,7 +308,7 @@ const scenes = {
         ]
     },
     gl1_16: {
-        text: "В голове доносился крик: «ЛЕЙЛА!» (Звук: грохот. Вспышка белого экрана)",
+        text: "В голове доносился крик: «ЛЕЙЛА!» ",
         background: "assets/images/backgrounds/white_screen.jpg",
         characters: [],
         audio: "assets/audio/scream.mp3",
@@ -228,7 +318,7 @@ const scenes = {
     },
     // Современная локация
     gl1_17: {
-        text: "ЛОКАЦИЯ: КОМНАТА ЛЕЙЛЫ В ПУУВАИ. РАССЛАБЛЕННАЯ МУЗЫКА.",
+        text: "ЛОКАЦИЯ: КОМНАТА ЛЕЙЛЫ В ПУУВАИ",
         background: "assets/images/backgrounds/leilas_room_puuvai_modern.jpg",
         characters: [],
         audio: "assets/audio/relax_music.mp3",
@@ -247,7 +337,8 @@ const scenes = {
         ]
     },
     gl1_19: {
-        text: "«Резкая боль: последняя рюмка настойки была лишней. В голову ударила боль. Об окно бились камушки. Нетерпеливый голос: «Просыпайся!» Л: Hauna. (Подсказка: hauna - задница (гавайск.)",
+text: "«Тут же в голову ударила резкая боль: последняя рюмка настойки была лишней.",
+text: "Придя в себя, Лейла услышала: об окно бились камушки.",
         background: "assets/images/backgrounds/leilas_window.jpg",
         characters: [
             { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" },
