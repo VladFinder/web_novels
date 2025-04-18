@@ -12,6 +12,7 @@
         <!-- Фон -->
         <div id="background" :style="{ backgroundImage: 'url(' + currentBackground + ')' }"></div>
 
+<<<<<<< Updated upstream
         <!-- Основное игровое меню -->
         <div id="mainMenu" v-if="isMainMenuOpen">
             <div class="menu-overlay">
@@ -74,6 +75,36 @@
             <button class="menu-button" @click="openSettings">Настройки</button>
         </div>
 
+=======
+        <!-- Главное меню -->
+        <div id="mainMenu" v-if="currentScene === 'menu'">
+            <h1>Визуальная новелла</h1>
+            <button class="menu-button" @click="loadScene('start')">Начать игру</button>
+            <button class="menu-button" @click="showSaves">Просмотр сохранений</button>
+            <button class="menu-button" @click="openSettings">Настройки</button>
+        </div>
+
+        <!-- Панель настроек -->
+        <div id="settings" v-if="isSettingsOpen">
+            <h2>Настройки</h2>
+            <label for="volume">Громкость:</label>
+            <input type="range" id="volume" min="0" max="1" step="0.1" v-model="audioVolume">
+            <button class="menu-button" @click="closeSettings">Закрыть</button>
+        </div>
+
+        <!-- Сохранения -->
+        <div id="saves" v-if="isSavesOpen">
+            <h2>Сохранения</h2>
+            <ul>
+                <li v-for="(save, index) in saves" :key="index">
+                    Сохранение {{ index + 1 }}: {{ save }}
+                    <button @click="loadSave(save)">Загрузить</button>
+                </li>
+            </ul>
+            <button class="menu-button" @click="closeSaves">Закрыть</button>
+        </div>
+
+>>>>>>> Stashed changes
         <!-- Персонажи -->
         <div id="characters" v-if="currentScene !== 'menu'">
             <div 
@@ -85,7 +116,11 @@
             </div>
         </div>
 
+<<<<<<< Updated upstream
         <!-- Интерфейс -->
+=======
+        <!-- Текст и кнопки -->
+>>>>>>> Stashed changes
         <div id="interface" v-if="currentScene !== 'menu'">
             <div id="dialogueText">{{ scenes[currentScene].text }}</div>
             <div id="choices">
@@ -98,6 +133,7 @@
                     {{ choice.text }}
                 </button>
             </div>
+<<<<<<< Updated upstream
             <!-- Кнопка вызова меню -->
             <button id="menuButton" @click="toggleMainMenu">Меню</button>
         </div>
@@ -107,5 +143,19 @@
     <audio id="backgroundMusic" loop></audio>
 
     <script src="scripts/app.js" type="module"></script>
+=======
+            <!-- Кнопка сохранения -->
+            <button id="saveButton" class="choice-button" @click="saveGameManually">Сохранить игру</button>
+            <!-- Кнопка возврата в главное меню -->
+            <button id="returnToMenu" class="choice-button" @click="returnToMenu">В главное меню</button>
+        </div>
+    </div>
+
+    <!-- Аудио для фоновой музыки -->
+    <audio id="backgroundMusic" autoplay loop>
+        <source src="assets/audio/background.mp3" type="audio/mpeg">
+    </audio>
+    <script src="scripts/app.js"></script>
+>>>>>>> Stashed changes
 </body>
 </html>

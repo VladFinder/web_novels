@@ -24,7 +24,95 @@ body {
     background-size: cover;
     background-position: center;
     z-index: -1;
+<<<<<<< Updated upstream
     transition: background-image 0.5s;
+=======
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* Главное меню */
+#mainMenu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 3;
+}
+
+#mainMenu h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.menu-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+.menu-button:hover {
+    background-color: #0056b3;
+}
+
+/* Настройки */
+#settings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    z-index: 4;
+    width: 300px;
+    text-align: center;
+}
+
+#settings h2 {
+    margin-bottom: 15px;
+}
+
+#settings input[type="range"] {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Сохранения */
+#saves {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    z-index: 4;
+    width: 300px;
+    text-align: center;
+}
+
+#saves h2 {
+    margin-bottom: 15px;
+}
+
+#saves ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#saves li {
+    margin-bottom: 10px;
+>>>>>>> Stashed changes
 }
 
 /* Персонажи */
@@ -45,11 +133,17 @@ body {
 
 .character img {
     max-height: 100%;
+<<<<<<< Updated upstream
     max-width: 30%;
+=======
+    max-width: 100%;
+    transition: opacity 0.5s ease-in-out;
+>>>>>>> Stashed changes
 }
 
 /* Позиции персонажей */
 .character.left {
+<<<<<<< Updated upstream
     margin-left: 5%;
 }
 
@@ -62,6 +156,24 @@ body {
 .character.right {
     margin-right: 5%;
     margin-left: auto;
+=======
+    position: absolute;
+    left: 10%;
+    bottom: 0;
+}
+
+.character.right {
+    position: absolute;
+    right: 10%;
+    bottom: 0;
+}
+
+.character.center {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+>>>>>>> Stashed changes
 }
 
 /* Интерфейс */
@@ -84,6 +196,13 @@ body {
     text-align: center;
     margin-bottom: 15px;
     max-width: 90%;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* Кнопки выбора */
@@ -113,6 +232,7 @@ body {
     background-color: #0056b3;
 }
 
+<<<<<<< Updated upstream
 /* Основное игровое меню */
 #mainMenu {
     position: fixed;
@@ -289,6 +409,26 @@ body {
 #settingsMenu input[type="range"] {
     width: 100%;
     margin: 10px 0;
+=======
+/* Кнопка возврата в главное меню */
+#returnToMenu {
+    margin-top: 10px;
+    background-color: #6c757d; /* Серый цвет для кнопки возврата */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+#returnToMenu:hover {
+    background-color: #495057; /* Тёмно-серый при наведении */
+>>>>>>> Stashed changes
 }
 
 /* Мобильная версия */
@@ -305,16 +445,25 @@ body {
     #characters {
         height: 50%;
     }
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
     .character img {
         margin-bottom: -350px;
         max-width: 100%;
     }
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
     #choices {
         flex-direction: column;
         align-items: center;
     }
+<<<<<<< Updated upstream
     
     .modal-content {
         width: 90%;
@@ -329,4 +478,6 @@ body {
     .menu-button {
         width: 90%;
     }
+=======
+>>>>>>> Stashed changes
 }
