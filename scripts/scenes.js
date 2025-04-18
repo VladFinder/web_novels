@@ -42,18 +42,35 @@ const scenes = {
     },
     // Сцены из истории
     gl1_1: {
-        text: "Мама: Знаешь, как бы она никогда не позволила с собой обращаться?",
+        text: "Мама: Считается, что все наши острова созданы из плоти и крови Пеле. Что жизнь посреди океана выкована огнем.",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
         characters: [
             { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
         ],
         choices: [
-            { text: "Дальше", nextScene: "gl1_2" }
+            { text: "Дальше", nextScene: "gl1_text" }
+        ]
+    },
+    gl1_text: {
+        text: "Лейла слушала маму, затаив дыхание.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_choice" }
+        ]
+    },
+    gl1_choice: {
+        text: "Остров утопал...",
+        background: "",
+        characters: [],
+        choices: ["в тишине","в ливнях",
+            { text: "Дальше", nextScene: "dis3" }
         ]
     },
     gl1_2: {
-        text: "Лейла: Обижать ее, тестовое сообщение?"
+        text: "Лейла: Обижать ее, тестовое сообщение?",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
+        
         characters: [
             { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
         ],
