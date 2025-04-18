@@ -87,7 +87,10 @@
 
         <!-- Интерфейс -->
         <div id="interface" v-if="currentScene !== 'menu'">
-            <div id="dialogueText">{{ scenes[currentScene].text }}</div>
+            <!-- Текст диалога -->
+            <div id="dialogueText" v-html="formatText(scenes[currentScene].text)">{{ formatText(scenes[currentScene].text) }}</div>
+
+            <!-- Кнопки выбора -->
             <div id="choices">
                 <button
                     v-for="choice in scenes[currentScene].choices"
@@ -98,6 +101,7 @@
                     {{ choice.text }}
                 </button>
             </div>
+
             <!-- Кнопка вызова меню -->
             <button id="menuButton" @click="toggleMainMenu">Меню</button>
         </div>

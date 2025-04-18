@@ -176,6 +176,15 @@ const app = Vue.createApp({
             
             // Загрузка начальной сцены
             this.loadScene(this.currentScene);
+        },
+        
+        /**
+         * Форматирует текст, заменяя \n на <br>
+         * @param {string} text - Текст для форматирования
+         * @returns {string} - Отформатированный текст
+         */
+        formatText(text) {
+            return text.replace(/\n/g, '<br>');
         }
     },
     mounted() {
