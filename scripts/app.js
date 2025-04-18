@@ -188,8 +188,10 @@ const app = Vue.createApp({
         }
     },
     mounted() {
-        // Инициализация игры при монтировании компонента
-        this.initializeGame();
+        // // Добавляем версию в URL
+        const currentUrl = window.location.href;
+        const versionedUrl = `${currentUrl}?v=${Date.now()}`;
+        tg.openUrl(versionedUrl);
     }
 });
 
