@@ -337,30 +337,27 @@ const scenes = {
         ]
     },
     gl1_19: {
-text: "«Тут же в голову ударила резкая боль: последняя рюмка настойки была лишней.",
+text: "Тут же в голову ударила резкая боль: последняя рюмка настойки была лишней.",
 text: "Придя в себя, Лейла услышала: об окно бились камушки.",
         background: "assets/images/backgrounds/leilas_window.jpg",
         characters: [
             { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" },
-            { name: "Хани", image: "assets/images/characters/hani_modern.png", position: "right" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_20" }
         ]
     },
     gl1_20: {
-        text: "Л: «Что это с ним?..» Солнце было еще низко. Л: «Как сам умудрился проснуться после такой попойки…»",
+        text: "С улицы донеслось нетерпеливое: «Просыпайся!»",
         background: "assets/images/backgrounds/leilas_room_morning.jpg",
-        characters: [
-            { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" }
-        ],
+        characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_21" }
         ]
     },
     gl1_21: {
-        text: "Л: «Тело ныло. На правом запястье – синяк. Браслет остался у Хани… Как попала домой?»",
-        background: "assets/images/backgrounds/wrist_bruise.jpg",
+        text: "Hauna.",
+        background: "",
         characters: [
             { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" }
         ],
@@ -369,25 +366,108 @@ text: "Придя в себя, Лейла услышала: об окно бил
         ]
     },
     gl1_22: {
-        text: "Протерев глаза, Лейла подошла к зеркалу…",
+        text: "Лейла сползла с кровати подошла к окну.",
+        text: "Внизу из стороны в сторону, озираясь по сторонам, сновал Хани.", 
         background: "assets/images/backgrounds/leilas_mirror.jpg",
-        characters: [
-            { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" }
-        ],
+        characters: [],
         choices: [
-            { text: "Дальше", nextScene: "end" }
+            { text: "Дальше", nextScene: "gl1_23" }
         ]
     },
     gl1_23: {
-        text: "Протерев глаза, Лейла подошла к зеркалу…",
-        background: "assets/images/backgrounds/leilas_mirror.jpg",
-        characters: [
-            { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" }
-        ],
+        text: "Что это с ним?",
+        background: "",
+        characters: [],
         choices: [
-            { text: "Дальше", nextScene: "end" }
+            { text: "Дальше", nextScene: "gl1_24" }
         ]
     },
+    gl1_24: {
+        text: "Солнце было еще низко.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_25" }
+        ]
+    },
+    gl1_25: {
+        text: "Разбудил в такую рань!? Как сам умудрился проснуться после такой попойки…",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_26" }
+        ]
+    },
+    gl1_26: {
+        text: "Голова гудела. Ныло правое запястье. Еще вчера на нем висел браслет. Мамин. Сейчас здесь красовался синяк.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_27" }
+        ]
+    },
+    gl1_27: {
+        text: "Оставила мамин браслет у Хани?... И как я попала домой?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_28" }
+        ]
+    },
+    gl1_28: {
+        text: "Вашей героине предстоит сделать первый выбор, определяющий ее путь.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_29" }
+        ]
+    },
+    gl1_29: {
+        text: "Героиня, следующая Пути Цветка, пылкая и яркая, ей нравится быть в центре внимания. Она действует спонтанно, принимает неожиданные решения, стремится исследовать мир далеко за пределами дома. Ее значимость определяется личностными качествами.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_30" }
+        ]
+    },
+    gl1_30: {
+        text: "Героиня по Пути Ракушки поступает взвешенно, с оглядкой на свою семью. Она чтит традиции рода. Героиня знает: в ее сердце спрятана жемчужина, и, если раскрываться каждому встречному, рано или поздно сокровенное отнимут. Ее значимость определяется знатным происхождением.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_31" }
+        ]
+            },
+    
+    gl1_choice3: {
+        text: "",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Привести себя в порядок после сна.", nextScene: "choicegl1_3_1" },
+            { text: "Прочитать мамину записку.", nextScene: "choicegl1_3_2" }
+        ]
+    },
+    choicegl1_3_1: {
+        text: "Волосы были растрепаны, кожа раскраснелась, словно обожженная полуденным солнцем.",
+        text: "Больше всего горели шрамы, пробегавшие тонкой полоской по щекам.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_2" }
+        ]
+    },
+    choicegl1_3_1_2: {
+        text: "Вот-вот минет десять лет с той ночи.",
+        text: "Тогда Лейла почти не плакала: по утрам она обыскивала леса, а по вечерам - восстанавливала семейное кафе.",
+        text: "Теперь девушка вспоминала о своей боли, только глядя в зеркало на ожоги, так похожие на две дорожки невыплаканных слез.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_3" }
+        ]
+    },
+
     end: {
         text: "Спасибо за игру!",
         background: "assets/images/backgrounds/start.jpg",
