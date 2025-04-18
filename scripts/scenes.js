@@ -467,7 +467,118 @@ text: "Придя в себя, Лейла услышала: об окно бил
             { text: "Дальше", nextScene: "choicegl1_3_1_3" }
         ]
     },
-
+    choicegl1_3_1_3: {
+        text: "Горечь утраты не прошла: только сжималась внутри под натиском времени.",
+        text: "Закаляла.",
+        text: "Как и мама, Лейла с поднятой головой встречала любые невзгоды.Всегда повторяла про себя слова с записки, оставленной мамой перед исчезновением, а теперь украшавшей зеркало.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "note1" }
+        ]
+    },
+    note1: {
+        text: "“A smooth sea never made a skilled sailor”.",
+        text: "“В спокойном море не стать хорошим моряком”.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_4" }
+        ]
+    },
+    choicegl1_3_1_4: {
+        text: "Написано было по-английски. Язык, который на Ниихау понимали только они: мать и дочь.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_5" }
+        ]
+    },
+    choicegl1_3_1_5: {
+        text: "В окно снова прилетел камень.",
+        text: "Лейла, торопясь, расчесала вьющиеся волосы…",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_6" }
+        ]
+    },
+    choicegl1_3_1_6: {
+        text: "В окно снова ударился камень.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_3" }
+        ]
+    },
+    choicegl1_3_2: {
+        text: "Пока бабушка Лейлы не пускала хоуле и на порог семейного кафе, ее мама с открытым сердцем слушала рассказы о Большой Земле.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_1" }
+        ]
+    },
+    choicegl1_3_2_1: {
+        text: "От нее Лейла научилась говорить и читать на английском языке.",
+        text: "Каждый день, перед тем, как куда-то уйти, Ноелани оставляла для дочки под рамой зеркала записку.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_2" }
+        ]
+    },
+    choicegl1_3_2_2: {
+        text: " “Она так редко бывала дома.”",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_3" }
+        ]
+    },
+    choicegl1_3_2_3: {
+        text: "Ровным почерком по-английски было выведено:",
+        text: "“A smooth sea never made a skilled sailor”",
+        text: "“В спокойном море не стать хорошим моряком”",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_4" }
+        ]
+    },
+    choicegl1_3_2_4: {
+        text: "Чернила почти выцвели. Как давно это было…",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_5" }
+        ]
+    },
+    choicegl1_3_2_5: {
+        text: "“Почти десять лет назад.”",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_6" }
+        ]
+    },
+    choicegl1_3_2_6: {
+        text: "От этой мысли зажгло кончики ушей.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_7" }
+        ]
+    },
+    choicegl1_3_2_7: {
+        text: "Лейла натянуто улыбнулась собственному отражению: растрепанные волосы, раскрасневшиеся щеки, рассеченные тонкими шрамами от ожогов.",
+        text: "И тут же вздрогнула: в окно снова ударился камень.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_8" }
+        ]
+    },
     end: {
         text: "Спасибо за игру!",
         background: "assets/images/backgrounds/start.jpg",
