@@ -460,7 +460,7 @@ const scenes = {
     },
     gl1_11: {
         text: "Деревня была наполовину разрушена. Многие пострадали. Кто-то умер. Кто-то пропал.",
-        background: "assets/images/backgrounds/destroyed_village.jpg",
+        background: "assets\images\backgrounds\cutscenes\gl1_11.mp4",
         characters: [],
         audio: "assets/audio/quiet_aftermath.mp3",
         choices: [
