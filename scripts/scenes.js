@@ -559,6 +559,488 @@ const scenes = {
             { text: "Дальше", nextScene: "choicegl1_3_2_8" }
         ]
     },
+    gl1_31: {
+        text: "Лейла подскочила к окну, открыла створку – и в нее чуть было не влетел камень.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_32" }
+        ]
+    },
+    gl1_32: {
+        text: "Успела увернуться, перевесилась через подоконник и крикнула:",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_33" }
+        ]
+    },
+    gl1_33: {
+        text: "Лейла: «И тебе доброе... утро...»",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_34" }
+        ]
+    },
+    gl1_34: {
+        text: "Хани под окнами уже не было. На крик обернулись дети, катающие по площади булыжник, и засмеялись. Лейла закатила глаза и наклонилась поднять упавший на пол камень.\nЗамахнулась выбросить его на улицу – и…",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4" }
+        ]
+    },
+    choicegl1_4: {
+        text: "",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Попала прямо в глаз Хани.", nextScene: "choicegl1_4_1" },
+            { text: "Чуть не попала прямо в Хани.", nextScene: "choicegl1_4_2" }
+        ]
+    },
+    choicegl1_4_1: {
+        text: "В окне из ниоткуда появилось довольное лицо. Лейла не успела среагировать: камень уже летел...",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_1_1" }
+        ]
+    },
+    choicegl1_4_1_1: {
+        text: "Хани: «Ай!»",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_1_2" }
+        ]
+    },
+    choicegl1_4_1_2: {
+        text: "От неожиданности Хани разомкнул хватку, полетел вниз — Лейла, немедля, подскочила к нему, хватая за предплечье.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_1_3" }
+        ]
+    },
+    choicegl1_4_1_3: {
+        text: "Другой рукой он успел схватить ветку растущего рядом дерева, по которому и вскарабкался.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_1_4" }
+        ]
+    },
+    choicegl1_4_1_4: {
+        text: "Хани: «Какого хрена, Лейла»?!",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_1_5" }
+        ]
+    },
+    choicegl1_4_1_5: {
+        text: "Лейла: Я что, знала, что ты лезешь? Забирайся, тяжелый, как тюлень...",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_1_6" }
+        ]
+    },
+    choicegl1_4_1_6: {
+        text: "Хани: Это мышцы! И годы тренировок.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_1_7" }
+        ]
+    },
+    choicegl1_4_1_7: {
+        text: "Вместо того, чтобы запрыгнуть в окно, Хани, красуясь, начал подтягиваться на ветке.\nТа жалобно заскрипела.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_35" }
+        ]
+    },
+    choicegl1_4_2_1: {
+        text: "Довольное лицо появилось прямо перед Лейлой.\nОна успела только ойкнуть: камень уже летел, но друг вовремя уклонился.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_2_2" }
+        ]
+    },
+    choicegl1_4_2_2: {
+        text: "Лейла: Хани проводил снаряд взглядом, присвистнув.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_2_3" }
+        ]
+    },
+    choicegl1_4_2_3: {
+        text: "Хани: Не ожидал, Лейла...»",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_2_4" }
+        ]
+    },
+    choicegl1_4_2_4: {
+        text: "Лейла: Прости! Это я не ожидала, что ты так быстро залезешь.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_2_5" }
+        ]
+    },
+    choicegl1_4_2_5: {
+        text: "Хани: А что тут лезть?\nВ доказательство своих слов, Хани, ловко переставляя руки, взобрался еще выше.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_2_6" }
+        ]
+    },
+    choicegl1_4_2_6: {
+        text: "Х: Я бы спилил эту ветку, так ведь любой дурак в окно влезть может.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_2_7" }
+        ]
+    },
+    choicegl1_4_2_7: {
+        text: "Лейла: Я пока что вижу только одного.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_2_8" }
+        ]
+    },
+    choicegl1_4_2_8: {
+        text: "Хани завертел головой по сторонам.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_4_2_9" }
+        ]
+    },
+    choicegl1_4_2_9: {
+        text: "Х: Где? Кого?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_35" }
+        ]
+    },
+    gl1_35: {
+        text: "ХАНИ!!!",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_36" }
+        ]
+    },
+    gl1_36: {
+        text: "От громогласного мужского баса с деревьев вспорхнули в воздух птицы.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_37" }
+        ]
+    },
+    gl1_37: {
+        text: "Хани: Сторонись!\nРаскачавшись в воздухе ногами, Хани с грохотом влетел в окно.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_38" }
+        ]
+    },
+    gl1_38: {
+        text: "Прокатился по полу кубарем до самой кровати.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_39" }
+        ]
+    },
+    gl1_39: {
+        text: "Лейла: Кто это? ",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_40" }
+        ]
+    },
+    gl1_40: {
+        text: "Ответа не последовало: Хани, приложив палец к губам, подполз к окну.\nНе осмелившись высунуться до конца, выглянул на улицу.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_41" }
+        ]
+    },
+    gl1_41: {
+        text: "Хани: Короче, мне нельзя идти домой, я уволен и...",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_42" }
+        ]
+    },
+    gl1_42: {
+        text: "Вновь прогремело:\nП:ХАНИ!!!",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_43" }
+        ]
+    },
+    gl1_43: {
+        text: "Хани: И меня ищет мой бывший босс...",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_44" }
+        ]
+    },
+    gl1_44: {
+        text: "П: ЛЕЙЛАННИ?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_45" }
+        ]
+    },
+    gl1_45: {
+        text: "Локтем прикрыв кудрявую макушку друга, Лейла высунулась из окна и с напускной беззаботностью помахала Пилипо.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_46" }
+        ]
+    },
+    gl1_46: {
+        text: "Хани все это время обнимал Лейлу за ноги и шептал слова молитвы.\nРазобрать можно было только: “Не выдавай меня”.\nСжалившись, девушка шепнула себе под нос:",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_47" }
+        ]
+    },
+    gl1_47: {
+        text: "Лейла: Будешь должен.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_48" }
+        ]
+    },
+    gl1_48: {
+        text: "Лейла: Пилипо, доброе утро! “Охиа” сегодня не принимает посетителей, сами понимаете – подготовка к празднику. ",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_49" }
+        ]
+    },
+    gl1_49: {
+        text: "Пилипо: Конечно, Лейланни, я по делу.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_50" }
+        ]
+    },
+    gl1_50: {
+        text: "Лейла: Ищете Тутувахини?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_51" }
+        ]
+    },
+    gl1_51: {
+        text: "П: Нет, но… Как она себя чувствует?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_52" }
+        ]
+    },
+    gl1_52: {
+        text: "Лейла: Как всегда. В хлопотах перед праздником.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_53" }
+        ]
+    },
+    gl1_53: {
+        text: "П: Слушай, Лейланни. Ты же дружишь с Хани? Не видела его?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_54" }
+        ]
+    },
+    gl1_54: {
+        text: "Лейла перевесилась через подоконник  и, вытянувшись, оглядела деревню.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_55" }
+        ]
+    },
+    gl1_55: {
+        text: "Жизнь здесь текла спокойно: под переливы укулеле щебетали птицы, девочки плели цветочные ожерелья, мальчишки мерились силой.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_56" }
+        ]
+    },
+    gl1_56: {
+        text: "Л: Нет, не видать. Что-то ему передать?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_57" }
+        ]
+    },
+    gl1_57: {
+        text: "П: Да...",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_58" }
+        ]
+    },
+    gl1_58: {
+        text: "Пилипо покрепче сжал бумеранг в кулаке и насупился, подбирая слова.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_59" }
+        ]
+    },
+    gl1_59: {
+        text: "П:Он уволен. Пусть зайдет за расплатой.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_60" }
+        ]
+    },
+    gl1_60: {
+        text: "Не расслышав последнее слово, Лейла уточнила:",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_61" }
+        ]
+    },
+    gl1_61: {
+        text: "Лейла: За оплатой?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_62" }
+        ]
+    },
+    gl1_62: {
+        text: "Пилипо неуверенно кивнул.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_63" }
+        ]
+    },
+    gl1_63: {
+        text: "П: Что ж, надеюсь, я найду его раньше. Счастливого Макахики тебе и бабушке!",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_64" }
+        ]
+    },
+    gl1_64: {
+        text: "Л: Проведите праздник...",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_5" }
+        ]
+    },
+    choicegl1_5: {
+        text: "П: Спасибо, Лейланни.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "С семьей!", nextScene: "gl1_66" }
+            { text: "С удовольствием!", nextScene: "gl1_66" }
+        ]
+    },
+    gl1_66: {
+        text: "Проследив за Пилипо взглядом, Лейла обернулась к Хани:",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_67" }
+        ]
+    },
+    gl1_67: {
+        text: "Л: Проработал пять дней. Уже уволен?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_68" }
+        ]
+    },
+    gl1_68: {
+        text: "Хани безразлично пожал плечами и приземлился на кровать, хватаясь за голову.\nЛейла, не дождавшись ответа, села рядом.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_69" }
+        ]
+    },
+    gl1_69: {
+        text: "Х: Новый рекорд. ",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_70" }
+        ]
+    },
+    gl1_70: {
+        text: "Л: Тебе, вроде, нравилась эта работа? Что-то натворил?",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_71" }
+        ]
+    },
+    gl1_71: {
+        text: "Х: Может быть.",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_72" }
+        ]
+    },
+    gl1_72: {
+        text: "Хани перевалился на другой бок и недовольно протянул:",
+        background: "",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_73" }
+        ]
+    },
     end: {
         text: "Спасибо за игру!",
         background: "assets/images/backgrounds/start.jpg",
