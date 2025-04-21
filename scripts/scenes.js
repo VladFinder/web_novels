@@ -890,7 +890,7 @@ const scenes = {
         background: "assets\images\backgrounds\room_window.png",
         characters: [],
         choices: [
-            { text: "Дальше", nextScene: "gl1_35" }
+            { text: "Дальше", nextScene: "gl1_35bruise" }
         ]
     },
     choicegl1_4_2: {
@@ -1162,6 +1162,7 @@ const scenes = {
         text: "Лейла перевесилась через подоконник  и, вытянувшись, оглядела деревню.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [],
+        audio: "assets\images\SOUNDS\jungle_birds.mp3",
         choices: [
             { text: "Дальше", nextScene: "gl1_55" }
         ]
@@ -1170,6 +1171,7 @@ const scenes = {
         text: "Жизнь здесь текла спокойно: под переливы укулеле щебетали птицы, девочки плели цветочные ожерелья, мальчишки мерились силой.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [],
+        audio: "assets\images\SOUNDS\ukulele_short.mp3",
         choices: [
             { text: "Дальше", nextScene: "gl1_56" }
         ]
@@ -1239,7 +1241,7 @@ const scenes = {
         ]
     },
     gl1_63: {
-        text: "Что ж, надеюсь, я найду его раньше. Счастливого Макахики тебе и бабушке!",
+        text: "Что ж, надеюсь, я найду его раньше. Счастливого Макахики тебе и бабушке! ПОДСКАЗКА: Макахики - гавайский праздник урожая.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [
             { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
@@ -1255,7 +1257,7 @@ const scenes = {
             { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
         ],
         choices: [
-            { text: "С семьей!", nextScene: "choicegl1_5" }
+            { text: "С семьей!", nextScene: "choicegl1_5" },
             { text: "С удовольствием!", nextScene: "choicegl1_5" }
         ]
     },
@@ -1274,6 +1276,7 @@ const scenes = {
         text: "Проследив за Пилипо взглядом, Лейла обернулась к Хани:",
         background: "assets\images\backgrounds\room_window.png",
         characters: [],
+        audio: "assets\images\SOUNDS\music\main_theme.mp3",
         choices: [
             { text: "Дальше", nextScene: "gl1_67" }
         ]
@@ -1307,9 +1310,11 @@ const scenes = {
         ]
     },
     gl1_70: {
-        text: "Л: Тебе, вроде, нравилась эта работа? Что-то натворил?",
+        text: "Тебе, вроде, нравилась эта работа? Что-то натворил?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
         choices: [
             { text: "Дальше", nextScene: "gl1_71" }
         ]
@@ -1330,6 +1335,551 @@ const scenes = {
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_73" }
+        ]
+    },
+    gl1_73: {
+        text: "Бежал от него через всю деревню с больной головой.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_74" }
+        ]
+    },
+    gl1_74: {
+        text: "Тут, Лейла просияла:",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_75" }
+        ]
+    },
+    gl1_75: {
+        text: "Неужели это после вчерашнего? Я помню, ты разговаривал с Кейлой…",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_76" }
+        ]
+    },
+    gl1_76: {
+        text: "Хани не отвечал: только растирал ноющие виски.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_77" }
+        ]
+    },
+    // ХАНИ С СИНЯКОМ
+    gl1_35bruise: {
+        text: "ХАНИ!!!",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_36bruise" }
+        ]
+    },
+    gl1_36bruise: {
+        text: "От громогласного мужского баса с деревьев вспорхнули в воздух птицы.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        audio: "assets\images\SOUNDS\wings.mp3",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_37bruise" }
+        ]
+    },
+    gl1_37bruise: {
+        text: "Сторонись!\nРаскачавшись в воздухе ногами, Хани с грохотом влетел в окно.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters:[
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        audio: "assets\images\SOUNDS\falling.mp3",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_38bruise" }
+        ]
+    },
+    gl1_38bruise: {
+        text: "Прокатился по полу кубарем до самой кровати.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_39bruise" }
+        ]
+    },
+    gl1_39bruise: {
+        text: "Кто это? ",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_40bruise" }
+        ]
+    },
+    gl1_40bruise: {
+        text: "Ответа не последовало: Хани, приложив палец к губам, подполз к окну.\nНе осмелившись высунуться до конца, выглянул на улицу.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_41bruise" }
+        ]
+    },
+    gl1_41bruise: {
+        text: "Короче, мне нельзя идти домой, я уволен и...",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_42bruise" }
+        ]
+    },
+    gl1_42bruise: {
+        text: "Вновь прогремело:\n ХАНИ!!!",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_43bruise" }
+        ]
+    },
+    gl1_43bruise: {
+        text: "И меня ищет мой бывший босс...",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_44bruise" }
+        ]
+    },
+    gl1_44bruise: {
+        text: "ЛЕЙЛАННИ?",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_45bruise" }
+        ]
+    },
+    gl1_45bruise: {
+        text: "Локтем прикрыв кудрявую макушку друга, Лейла высунулась из окна и с напускной беззаботностью помахала Пилипо.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_46bruise" }
+        ]
+    },
+    gl1_46bruise: {
+        text: "Хани все это время обнимал Лейлу за ноги и шептал слова молитвы.\nРазобрать можно было только: “Не выдавай меня”.\nСжалившись, девушка шепнула себе под нос:",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_47bruise" }
+        ]
+    },
+    gl1_47bruise: {
+        text: "Будешь должен.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters:[
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_48bruise" }
+        ]
+    },
+    gl1_48bruise: {
+        text: "Пилипо, доброе утро! “Охиа” сегодня не принимает посетителей, сами понимаете – подготовка к празднику. ",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_49bruise" }
+        ]
+    },
+    gl1_49bruise: {
+        text: "Конечно, Лейланни, я по делу.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_50bruise" }
+        ]
+    },
+    gl1_50bruise: {
+        text: "Ищете Тутувахини? ПОДСКАЗКА: Тутувахини - бабушка (гавайск.).",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_51bruise" }
+        ]
+    },
+    gl1_51bruise: {
+        text: "Нет, но… Как она себя чувствует?",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_52bruise" }
+        ]
+    },
+    gl1_52bruise: {
+        text: "Как всегда. В хлопотах перед праздником.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_53bruise" }
+        ]
+    },
+    gl1_53bruise: {
+        text: "Слушай, Лейланни. Ты же дружишь с Хани? Не видела его?",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_54bruise" }
+        ]
+    },
+    gl1_54bruise: {
+        text: "Лейла перевесилась через подоконник  и, вытянувшись, оглядела деревню.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        audio: "assets\images\SOUNDS\jungle_birds.mp3",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_55bruise" }
+        ]
+    },
+    gl1_55bruise: {
+        text: "Жизнь здесь текла спокойно: под переливы укулеле щебетали птицы, девочки плели цветочные ожерелья, мальчишки мерились силой.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        audio: "assets\images\SOUNDS\ukulele_short.mp3",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_56bruise" }
+        ]
+    },
+    gl1_56bruise: {
+        text: "Нет, не видать. Что-то ему передать?",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_57bruise" }
+        ]
+    },
+    gl1_57bruise: {
+        text: "Да...",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_58bruise" }
+        ]
+    },
+    gl1_58bruise: {
+        text: "Пилипо покрепче сжал бумеранг в кулаке и насупился, подбирая слова.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_59bruise" }
+        ]
+    },
+    gl1_59bruise: {
+        text: "Он уволен. Пусть зайдет за расплатой.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_60bruise" }
+        ]
+    },
+    gl1_60bruise: {
+        text: "Не расслышав последнее слово, Лейла уточнила:",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_61bruise" }
+        ]
+    },
+    gl1_61bruise: {
+        text: "За оплатой?",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_62bruise" }
+        ]
+    },
+    gl1_62bruise: {
+        text: "Пилипо неуверенно кивнул.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_63bruise" }
+        ]
+    },
+    gl1_63bruise: {
+        text: "Что ж, надеюсь, я найду его раньше. Счастливого Макахики тебе и бабушке! ПОДСКАЗКА: Макахики - гавайский праздник урожая.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_64bruise" }
+        ]
+    },
+    gl1_64bruise: {
+        text: "Проведите праздник...",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "С семьей!", nextScene: "choicegl1_5bruise" },
+            { text: "С удовольствием!", nextScene: "choicegl1_5bruise" }
+        ]
+    },
+          
+    choicegl1_5bruise: {
+        text: "Спасибо, Лейланни.",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [
+            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "l1_66bruise" }
+        ]
+    },
+    gl1_66bruise: {
+        text: "Проследив за Пилипо взглядом, Лейла обернулась к Хани:",
+        background: "assets\images\backgrounds\room_window.png",
+        characters: [],
+        audio: "assets\images\SOUNDS\music\main_theme.mp3",
+        choices: [
+            { text: "Дальше", nextScene: "gl1_67bruise" }
+        ]
+    },
+    gl1_67bruise: {
+        text: "Проработал пять дней. Уже уволен?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_68bruise" }
+        ]
+    },
+    gl1_68bruise: {
+        text: "Хани безразлично пожал плечами и приземлился на кровать, хватаясь за голову.\nЛейла, не дождавшись ответа, села рядом.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_69bruise" }
+        ]
+    },
+    gl1_69bruise: {
+        text: "Новый рекорд. ",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_70bruise" }
+        ]
+    },
+    gl1_70bruise: {
+        text: "Тебе, вроде, нравилась эта работа? Что-то натворил?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_71bruise" }
+        ]
+    },
+    gl1_71bruise: {
+        text: "Может быть.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_72bruise" }
+        ]
+    },
+    gl1_72bruise: {
+        text: "Хани перевалился на другой бок и недовольно протянул:",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_73bruise" }
+        ]
+    },
+    gl1_73bruise: {
+        text: "Бежал от него через всю деревню с больной головой.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_74bruise" }
+        ]
+    },
+    gl1_74bruise: {
+        text: "Еще и ты… звезданула.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_74bruise_1" }
+        ]
+    },
+    gl1_74bruise_1: {
+        text: "Лейла виновато вздохнула.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_77bruise" }
+        ]
+    },
+    gl1_75bruise: {
+        text: "Неужели это после вчерашнего? Я помню, ты разговаривал с Кейлой…",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_76bruise" }
+        ]
+    },
+    gl1_76bruise: {
+        text: "Хани не отвечал: только растирал ноющие виски.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_77bruise" }
+        ]
+    },
+    gl1_77bruise: {
+        text: "Поверить не могу! Потерял работу, переспав с дочкой начальника?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_78bruise" }
+        ]
+    },
+    gl1_78bruise: {
+        text: "Послышалось недовольное бурчание. Хани отвернулся к стене, точно прятал глаза.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_79bruise" }
+        ]
+    },
+    gl1_79bruise: {
+        text: "«Никакой ответственности...»",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "«Никак не укоренится.»", nextScene: "gl1_80bruise" },
+            { text: "«Наслаждается свободой.»", nextScene: "gl1_81bruise" }
+        ]
+    },
+    gl1_80bruise: {
+        text: "«Дрейфует по жизни, как медуза.»",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_82bruise" }
+        ]
+    },
+    gl1_81bruise: {
+        text: "«Кажется, я ему завидую.»",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_83bruise" }
+        ]
+    },
+    gl1_82bruise: {
+        text: "«А мне - выручать...»",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_84bruise" }
+        ]
+    },
+    gl1_83bruise: {
+        text: "«Может, чему-то и стоит у него поучиться... Так и завять можно - сидеть, как я, на одном месте.»",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_84bruise" }
+        ]
+    },
+    gl1_84bruise: {
+        text: "Лейла кивнула головой в сторону двери.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_85bruise" }
+        ]
+    },
+    gl1_85bruise: {
+        text: "Ладно, пойдем на кухню. Обработаю твой глаз.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters:  [
+            { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_86bruise" }
+        ]
+    },
+    gl1_86bruise: {
+        text: "Стой, я забыл.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [
+            { name: "Хани", image: "assets\images\characters\Hani0.png", position: "center" }
+        ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_87ruise_1" }
+        ]
+    },
+    gl1_87bruise: {
+        text: "Хани потянулся в задний карман шорт.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise" }
         ]
     },
     end: {
