@@ -196,7 +196,7 @@ const scenes = {
         text: "Это, как говорят на Большой Земле, обсидиан… вулканическое стекло. Там, где встречаются Пеле и Намака, огонь и вода, они навеки застывают. Сестра не может пойти против сестры - обе проиграют...   ПОДСКАЗКА: Обсидиан — природное вулканическое стекло, образующееся в результате быстрого охлаждения лавы.",
         background: "",
         characters: [
-            { name:, image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice1_6" }
@@ -324,7 +324,7 @@ const scenes = {
         text: "Это, как говорят на Большой Земле, обсидиан… вулканическое стекло. Там, где встречаются Пеле и Намака, огонь и вода, они навеки застывают. Сестра не может пойти против сестры - обе проиграют...   ПОДСКАЗКА: Обсидиан — природное вулканическое стекло, образующееся в результате быстрого охлаждения лавы.",
         background: "",
         characters: [
-            { name:, image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice2_6" }
@@ -1171,7 +1171,7 @@ const scenes = {
         text: "Жизнь здесь текла спокойно: под переливы укулеле щебетали птицы, девочки плели цветочные ожерелья, мальчишки мерились силой.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [],
-        audio: "assets\images\SOUNDS\ukulele_short.mp3",
+        audio: "assets/images/SOUNDS/ukulele_short.mp3",
         choices: [
             { text: "Дальше", nextScene: "gl1_56" }
         ]
@@ -1565,7 +1565,7 @@ const scenes = {
         text: "Жизнь здесь текла спокойно: под переливы укулеле щебетали птицы, девочки плели цветочные ожерелья, мальчишки мерились силой.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [],
-        audio: "assets\images\SOUNDS\ukulele_short.mp3",
+        audio: "assets/images/SOUNDS/ukulele_short.mp3",
         choices: [
             { text: "Дальше", nextScene: "gl1_56bruise" }
         ]
@@ -1880,6 +1880,383 @@ const scenes = {
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_88bruise" }
+        ]
+    },
+    gl1_88bruise_flower: {
+        text: "Цветок Охиа. Как раз под твой воинственный настрой.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower1" }
+        ]
+    },
+    gl1_88bruise_flower2: {
+        text: "Лейла с недоверием покосилась на друга.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower3" }
+        ]
+    },
+    gl1_88bruise_flower3: {
+        text: "Л: Сорвал с моего дерева?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower4" }
+        ]
+    },
+    gl1_88bruise_flower4: {
+        text: "Хани сыграл бровями. Промолчал.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower5" }
+        ]
+    },
+    gl1_88bruise_flower5: {
+        text: "Л(ИКИ): “Точно сорвал с моего дерева.”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower6" }
+        ]
+    },
+    gl1_88bruise_flower6: {
+        text: "Л: Поставлю в вазу...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower7" }
+        ]
+    },
+    gl1_88bruise_flower7: {
+        text: "Х: Нет, это же для тебя. Увидел, подумал и сорвал. Подожди.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower8" }
+        ]
+    },
+    gl1_88bruise_flower8: {
+        text: "Лейла замерла, позволяя Хани заложить цветок за ухо.\nСмотрела на ноги.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower9" }
+        ]
+    },
+    gl1_88bruise_flower9: {
+        text: "Л(ИКИ): “Не смутилась же?...”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower10" }
+        ]
+    },
+    gl1_88bruise_flower10: {
+        text: "Окружил медовый аромат.\nХани тоже замер.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower11" }
+        ]
+    },
+    gl1_88bruise_flower11: {
+        text: "Л(ИКИ):”Смотрит на меня?”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower12" }
+        ]
+    },
+    gl1_88bruise_flower12: {
+        text: "Подняла взгляд - ошиблась.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower13" }
+        ]
+    },
+    gl1_88bruise_flower13: {
+        text: "Л(ИКИ): “Смотрит на себя. Конечно.”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower14" }
+        ]
+    },
+    gl1_88bruise_flower13: {
+        text: "Хани разглядывал свой синяк в зеркало.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_flower14" }
+        ]
+    },
+    gl1_88bruise_shell: {
+        text: "Х: Пока бежал, нашел ракушку… Похожа на тебя, а?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell1" }
+        ]
+    },
+    gl1_88bruise_shell1: {
+        text: "Лейла смутилась.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell2" }
+        ]
+    },
+    gl1_88bruise_shell2: {
+        text: "Л: Чем же?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell3" }
+        ]
+    },
+    gl1_88bruise_shell3: {
+        text: "Х: Ну... ",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell4" }
+        ]
+    },
+    gl1_88bruise_shell4: {
+        text: "Подбирая слова, Хани повертел подарок в руках.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell5" }
+        ]
+    },
+    gl1_88bruise_shell5: {
+        text: "Х: Сложная, как ты.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell6" }
+        ]
+    },
+    gl1_88bruise_shell7: {
+        text: "Л(ИКИ): “Сложная? Да я самая простая!”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell8" }
+        ]
+    },
+    gl1_88bruise_shell8: {
+        text: "Л(ИКИ): “Он и разбираться не пробовал.”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell9" }
+        ]
+    },
+    gl1_88bruise_shell9: {
+        text: "Х: Такая же закрученная...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell10" }
+        ]
+    },
+    gl1_88bruise_shell10: {
+        text: "Лейла с обидой посмотрела на подарок.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell11" }
+        ]
+    },
+    gl1_88bruise_shell11: {
+        text: "Л: Оставь у зеркала.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell12" }
+        ]
+    },
+    gl1_88bruise_shell12: {
+        text: "Хани, задержав на подруге теплый взгляд, кивнул.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell13" }
+        ]
+    },
+    gl1_88bruise_shell13: {
+        text: "Х: И вся эта сложность создает красоту. Ракушки.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell14" }
+        ]
+    },
+    gl1_88bruise_shell14: {
+        text: "Лейла закатила глаза.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell15" }
+        ]
+    },
+    gl1_88bruise_shell15: {
+        text: "Л: Ты странный.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell16" }
+        ]
+    },
+    gl1_88bruise_shell16: {
+        text: "Х: Ага, меня по голове ударили. Кто же это был?...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell17" }
+        ]
+    },
+    gl1_88bruise_shell17: {
+        text: "Л(ИКИ): “Ни о чем не жалею.”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell18" }
+        ]
+    },
+    gl1_88bruise_shell18: {
+        text: "Хани, оставив ракушку на столе, посмотрел на свое отражение.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_88bruise_shell19" }
+        ]
+    },
+    gl1_88bruise: {
+        text: "Х: Ну у тебя и замах… Не хочешь поучаствовать в Макахики?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_89bruise" }
+        ]
+    },
+    gl1_89bruise: {
+        text: "Бедром толкая дверь комнаты, Лейла поманила Хани пальцем.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_90bruise" }
+        ]
+    },
+    gl1_90bruise: {
+        text: "",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Не до того. На мне кафе, помнишь?", nextScene: "gl1_choice5_1" }
+            { text: "С радостью бы показала вам, мальчишки, как правильно работать мышцами. ", nextScene: "gl1_choice5_2" }
+        ]
+    },
+    gl1_choice5_1: {
+        text: "Х: Ты занимаешься им с детства. Неужели нет желания попробовать что-то еще?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_choice5_1_1" }
+        ]
+    },
+    gl1_choice5_1_1: {
+        text: "Лейла, пожав плечами, отправилась на первый этаж.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_choice5_1_2" }
+        ]
+    },
+    gl1_choice5_1_2: {
+        text: "Л: Есть желания, а есть обязанности. К тому же, я люблю “Охиа”.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_91bruise" }
+        ]
+    },
+    gl1_choice5_2: {
+        text: "Но не смогу. Кто-то должен готовить еду, пока все будут развлекаться.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_choice5_2_1" }
+        ]
+    },
+    gl1_choice5_2_1: {
+        text: "Х: Ты все можешь, стоит только захотеть.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_choice5_2_2" }
+        ]
+    },
+    gl1_choice5_2_2: {
+        text: "Л: Я знаю.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_choice5_2_3" }
+        ]
+    },
+    gl1_choice5_2_3: {
+        text: "Ловким движением Лейла запрыгнула на перила лестницы и съехала на первый этаж.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_choice5_2_4" }
+        ]
+    },
+    gl1_choice5_2_4: {
+        text: "Х: К тому же...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_91bruise" }
+        ]
+    },
+    gl1_91bruise: {
+        text: "Нагнав Лейлу уже внизу, Хани предложил:",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_92bruise" }
+        ]
+    },
+    gl1_92bruise: {
+        text: "Х: К твоему счастью, я теперь абсолютно свободен. Давай я помогу тебе с кафе?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_93bruise" }
+        ]
+    },
+    gl1_93bruise: {
+        text: "Лейла недоверчиво покосилась на него.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_94bruise" }
+        ]
+    },
+    gl1_94bruise: {
+        text: "Л: С таким синяком? Распугаешь народ.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_95bruise" }
         ]
     },
     end: {
