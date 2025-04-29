@@ -2,15 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
     <title>Визуальная новелла</title>
     <link rel="stylesheet" href="styles/style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
 </head>
 <body>
     <div id="app">
-        <!-- Фон -->
-        <div id="background" :style="{ backgroundImage: 'url(' + currentBackground + ')' }"></div>
+        <!-- Временно для отладки -->
+        <div style="position: fixed; top: 0; left: 0; background: rgba(255,255,255,0.8); padding: 10px; z-index: 9999;">
+            Текущий фон: {{ currentBackground }}
+        </div>
+
+        <!-- Видео фон для сцен -->
+        <div id="videoBackground" v-if="scenes[currentScene]?.video">
+            <video autoplay muted loop playsinline>
+                <source :src="scenes[currentScene].video.mp4" type="video/mp4">
+                <source :src="scenes[currentScene].video.webm" type="video/webm">
+                Ваш браузер не поддерживает видео
+            </video>
+        </div>
+        
+        <!-- Обычный фон для сцен без видео -->
+        <div id="background" 
+             v-if="!scenes[currentScene]?.video" 
+             :style="{ backgroundImage: 'url(' + currentBackground + ')' }">
+        </div>
 
         <!-- Основное игровое меню -->
         <div id="mainMenu" v-if="isMainMenuOpen">
@@ -93,10 +110,11 @@
             <!-- Кнопки выбора -->
             <div id="choices">
                 <button
-                    v-for="choice in scenes[currentScene].choices"
+                    v-for="choice in getAvailableChoices()"
                     :key="choice.text"
                     class="choice-button"
                     @click="makeChoice(choice)"
+                    @touchstart.prevent="makeChoice(choice)"
                 >
                     {{ choice.text }}
                 </button>

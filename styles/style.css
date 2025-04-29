@@ -3,25 +3,56 @@
  */
 
 /* Общий стиль */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Предотвращаем прокрутку */
+}
+
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    overflow: hidden;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     position: relative;
 }
 
+/* Убедимся, что контейнер приложения правильно позиционирован */
+#app {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+}
+
 /* Фон */
-#background {
-    position: absolute;
+#videoBackground, #background {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+#background {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#videoBackground video {
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
 }
 
 /* Персонажи */
