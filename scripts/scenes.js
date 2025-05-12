@@ -4446,11 +4446,387 @@ const scenes = {
         ]
     },
     gl1_165choice2_26: {
-        text: "Воин 1: Мы не можем позволить себе рисковать.",
+        text: "Воин 1: Где вы были этой ночью?",
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice2_27" }
+        ]
+    },
+    gl1_165choice2_27: {
+        text: "Лейлу из холода бросило в жар. Она вспомнила: этой ночью они с О-Лин нарушали комендантский час.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_28" }
+        ]
+    },
+    gl1_165choice2_28: {
+        text: "Выпивали дома у Хани, веселье затянулось - и вот наступила ночь. У Хани начало что-то получаться с Кейлой - он долго отвешивал комплименты ее пышным бедрам. Девушки решили оставить воркующих одних.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_29" }
+        ]
+    },
+    gl1_165choice2_29: {
+        text: "От количества выпитого потерявшие всякий страх, Лейла и О-Лин бежали по улицам, прячась от патрульных.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_30" }
+        ]
+    },
+    gl1_165choice2_30: {
+        text: "Л: Спала... Дома. Что-то случилось?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_31" }
+        ]
+    },
+    gl1_165choice2_31: {
+        text: "Воины нахмурились.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_32" }
+        ]
+    },
+    gl1_165choice2_32: {
+        text: "Воин 3 (Кекоа): У вас очень красивый браслет. Вы сами его сплели?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_33" }
+        ]
+    },
+    gl1_165choice2_33: {
+        text: "Лейла почувствовала, как страх щекочет затылок.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_34" }
+        ]
+    },
+    gl1_165choice2_34: {
+        text: "Л: «О, Кане...»",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_35" }
+        ]
+    },
+    gl1_165choice2_35: {
+        text: "ОЛ: Лейла! Вот ты где! Окелани стало плохо, бежим скорее!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_36" }
+        ]
+    },
+    gl1_165choice2_36: {
+        text: "Из ниоткуда появилась О-Лин – набегу схватила Лейлу за руку и вырвала из окружения воинов.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_37" }
+        ]
+    },
+    gl1_165choice2_37: {
+        text: "Лейла не успела даже обернуться.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_38" }
+        ]
+    },
+    gl1_165choice2_38: {
+        text: "Л: «Тутувахини плохо?!»",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_39" }
+        ]
+    },
+    gl1_165choice2_39: {
+        text: "ОЛ: Она снова вспоминает извержение и зовет тебя!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_40" }
+        ]
+    },
+    gl1_165choice2_40: {
+        text: "Л: «Снова?...»",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_41" }
+        ]
+    },
+    gl1_165choice2_41: {
+        text: "ОЛ: Говорит, за дочкой не уследила, еще и внучка куда-то пропала...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_42" }
+        ]
+    },
+    gl1_165choice2_42: {
+        text: "Лейла не нужно было оборачиваться, чтобы понять, что войны смотрят девушкам вслед и их тяжелые взгляды сверлят им спины.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_43" }
+        ]
+    },
+    gl1_165choice2_43: {
+        text: "О-Лин увела Лейлу за поворот - там уже ждал Хани с ведрами, пряча от редких прохожих лицо за листвой.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_44" }
+        ]
+    },
+    gl1_165choice2_44: {
+        text: "Л: Что-то с тутувахини?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_45" }
+        ]
+    },
+    gl1_165choice2_45: {
+        text: "О-Лин рассмеялась.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_46" }
+        ]
+    },
+    gl1_165choice2_46: {
+        text: "ОЛ: Поверила? Это была моя импровизация, не переживай. Что этим красавчикам было нужно?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_47" }
+        ]
+    },
+    gl1_165choice2_47: {
+        text: "Х: Девочки, понимаю, соскучились за ночь, но давайте не задерживаться. Не хочу иметь дел с Коа.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_48" }
+        ]
+    },
+    gl1_165choice2_48: {
+        text: "Хани передернуло от одного упоминания воинов.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_49" }
+        ]
+    },
+    gl1_165choice2_49: {
+        text: "Уже на ходу она приглушенно ответила :",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_50" }
+        ]
+    },
+    gl1_165choice2_50: {
+        text: "Л: Ничего, остановили, спрашивали, кто такая... и про браслет. А я не помню, оставила я второй такой же у тебя или потеряла ночью.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_51" }
+        ]
+    },
+    gl1_165choice2_51: {
+        text: "ОЛ: Так ты ничего не помнишь?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_52" }
+        ]
+    },
+    gl1_165choice2_52: {
+        text: "Л:...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_53" }
+        ]
+    },
+    gl1_165choice2_53: {
+        text: "ОЛ: Я тебя расстрою, но он порвался, когда ты упала.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_54" }
+        ]
+    },
+    gl1_165choice2_54: {
+        text: "Лейла закрыла лицо ладонями.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_55" }
+        ]
+    },
+    gl1_165choice2_55: {
+        text: "Л: Они его нашли? Кажется, они его нашли.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_56" }
+        ]
+    },
+    gl1_165choice2_56: {
+        text: "Л(ИКИ): “Мамин браслет!”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_57" }
+        ]
+    },
+    gl1_165choice2_57: {
+        text: "Л(ИКИ): “Я потеряла его навсегда.”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_58" }
+        ]
+    },
+    gl1_165choice2_58: {
+        text: "Л: И они, выходит, знают, что я гуляла ночью.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_59" }
+        ]
+    },
+    gl1_165choice2_59: {
+        text: "О-Лин пихнула подругу локтем в бок.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_60" }
+        ]
+    },
+    gl1_165choice2_60: {
+        text: "ОЛ: И что они сделают? Ты из знатной семьи, для них табу даже поднимать на тебя руку.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_61" }
+        ]
+    },
+    gl1_165choice2_61: {
+        text: "Л: Изгнать нас с Вахи Пана им табу не помешало...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_62" }
+        ]
+    },
+    gl1_165choice2_62: {
+        text: "Х: Подумаешь! Гуляешь ты по Вахи Пана или по обычной земле, неважно. Главное - чья кровь течет в тебе.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_63" }
+        ]
+    },
+    gl1_165choice2_63: {
+        text: "Х: А вот и рыбацкая хижина! О-Лини, ты с нами?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_64" }
+        ]
+    },
+    gl1_165choice2_64: {
+        text: "О-Лин, обнимая Лейлу на прощанье, послала ему воздушный поцелуй.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_65" }
+        ]
+    },
+    gl1_165choice2_65: {
+        text: "ОЛ: Не хочу вонять рыбой на Макахики. К тому же, у нас с девчонками утренняя хула.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_66" }
+        ]
+    },
+    gl1_165choice2_67: {
+        text: "Л: Иолана с вами?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_68" }
+        ]
+    },
+    gl1_165choice2_68: {
+        text: "Разговор с военными не отпускал Лейлу.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_69" }
+        ]
+    },
+    gl1_165choice2_70: {
+        text: "О-Лин задумалась.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_71" }
+        ]
+    },
+    gl1_165choice2_71: {
+        text: "ОЛ: Не видела ее вчера. Наверное будет! Захотите посмотреть - мы за валуном!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_72" }
+        ]
+    },
+    gl1_165choice2_72: {
+        text: "Лейла кивнула.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_73" }
+        ]
+    },
+    gl1_165choice2_73: {
+        text: "Л: Удачи на хула!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_74" }
+        ]
+    },
+    gl1_165choice2_74: {
+        text: "Хани отсалютовал подруге и, гремя ведрами, побежал к хижине Макана.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_75" }
+        ]
+    },
+    gl1_165choice2_75: {
+        text: "Лейла медленно побрела следом. Внутри неприятно бурлила тревоа. Она не могла понять, что именно ее беспокоит.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice2_76" }
         ]
     },
     end: {
