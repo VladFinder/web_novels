@@ -5202,8 +5202,8 @@ const scenes = {
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
-            { text: "Появиться с достоинством", nextScene: "gl1_165choice3_46_shell" }
-             { text: "Появиться ярко", nextScene: "gl1_165choice3_46_flower" },
+            { text: "Появиться с достоинством", nextScene: "gl1_165choice3_46_shell" },
+            { text: "Появиться ярко", nextScene: "gl1_165choice3_46_flower" },
         ]
     },
     gl1_165choice3_46_shell: {
@@ -5875,7 +5875,7 @@ const scenes = {
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
-            { text: "Сделать работу, а потом развлекаться.", nextScene: "gl1_171_shell" }
+            { text: "Сделать работу, а потом развлекаться.", nextScene: "gl1_171_shell" },
             { text: "Пойти к О-Лин?", nextScene: "gl1_171_flower" }
         ]
     },
@@ -6044,7 +6044,7 @@ const scenes = {
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
-            { text: "Поддерживает традиции.", nextScene: "gl1_180_shell" }
+            { text: "Поддерживает традиции.", nextScene: "gl1_180_shell" },
             { text: "Просто боится женщин.", nextScene: "gl1_180_flower" }
         ]
     },
@@ -6318,6 +6318,382 @@ const scenes = {
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_202" }
+        ]
+    },
+    gl1_202: {
+        text: "Хани удивленно поднял брови.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_203" }
+        ]
+    },
+    gl1_203: {
+        text: "Х: Нево-что? Нахваталась английских слов...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_204" }
+        ]
+    },
+    gl1_204: {
+        text: "Он поднялся с места и пошел к берегу, где в накатывающих волнах репетировали танец девушки. Лейла поспешила за ним.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_205" }
+        ]
+    },
+    gl1_205: {
+        text: "Л: Не смей меня бросать в разгар праздника, слышишь?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_206" }
+        ]
+    },
+    gl1_206: {
+        text: "Х: А я и не брошу. Буду участвовать от имени “Охиа”. Как говорят хоуле, “Реклама”?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_207" }
+        ]
+    },
+    gl1_207: {
+        text: "Л: Кому ты собрался нас “рекламировать”? На острове все знают о нашем кафе. Оно единственное.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_208" }
+        ]
+    },
+    gl1_208: {
+        text: "Х: Плохой из тебя “бизнесмен”.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_209" }
+        ]
+    },
+    gl1_209: {
+        text: "Л: Правильно “бизнесвумен”.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_210" }
+        ]
+    },
+    gl1_210: {
+        text: "Х: Правильно “бизнесвахини”.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_211" }
+        ]
+    },
+    gl1_211: {
+        text: "ОЛ: Сладкие, кончайте ссориться. Весь настрой сбиваете.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_212" }
+        ]
+    },
+    gl1_212: {
+        text: "О-Лин стояла, уперев руки в боки, склонив голову к плечу. Хани приобнял ее за плечи и прижал к себе.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_213" }
+        ]
+    },
+    gl1_213: {
+        text: "Х: Отлично танцуете.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_214" }
+        ]
+    },
+    gl1_214: {
+        text: "Девушки заулыбались, но не О-Лин. Она достаточно хорошо знала Хани.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_215" }
+        ]
+    },
+    gl1_215: {
+        text: "ОЛ: Тебе что-то надо?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_216" }
+        ]
+    },
+    gl1_216: {
+        text: "Х: Да. Лейла хочет прокатиться. Мы возьмем ваши Алайи?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_217" }
+        ]
+    },
+    gl1_217: {
+        text: "О-Лин перевела вопросительный взгляд на Лейлу.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_218" }
+        ]
+    },
+    gl1_218: {
+        text: "Л: Хотим развеяться.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_219" }
+        ]
+    },
+    gl1_219: {
+        text: "ОЛ:Ладно, берите. Лишь бы девочки перестали отвлекаться... Иолана вообще не пришла.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_220" }
+        ]
+    },
+    gl1_220: {
+        text: "Х: Махало! Мы пошли. Не смеем отвлекать прекрасных танцовщиц.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_221" }
+        ]
+    },
+    gl1_221: {
+        text: "На пляже раздались игривые смешки.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_222" }
+        ]
+    },
+    gl1_222: {
+        text: "Вырываясь из объятий Хани, О-Лин шепнула:",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_223" }
+        ]
+    },
+    gl1_223: {
+        text: "ОЛ: Лейла, пусть он уплывет подальше и не мешает нам. Макахики на носу, нам нужно готовиться, чтоб не оплошать перед богами.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_224" }
+        ]
+    },
+    gl1_224: {
+        text: "Под сердцем у Лейлы заныло. Казалось, с тех пор, как семью изгнали со священной земли, боги стали глухи к их молитвам.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_225" }
+        ]
+    },
+    gl1_225: {
+        text: "Л(ИКИ): “Иначе почему мама не вернулась...”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_226" }
+        ]
+    },
+    gl1_226: {
+        text: "Лейла сжала зубы. Она не могла позволить себе думать о маме. Не могла позволить себе думать о том, что она могла бы вернуться.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_227" }
+        ]
+    },
+    gl1_227: {
+        text: "ОЛ: Лейла?",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_228" }
+        ]
+    },
+    gl1_228: {
+        text: "Л: Да. Без проблем.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_229" }
+        ]
+    },
+    gl1_229: {
+        text: "В следующий же миг она крепко взяла Хани, который красовался мышцами перед девочками, за руку и потащила к доскам.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_230" }
+        ]
+    },
+    gl1_230: {
+        text: "Х: Старайтесь, девчонки! Когда я снова стану королем Макахики, я хочу видеть без-у-пречную хулу.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_231" }
+        ]
+    },
+    gl1_231: {
+        text: "ОЛ: Слышали? Соберитесь! Поко, играй. Раз, два, три, четыре...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_232" }
+        ]
+    },
+    gl1_232: {
+        text: "Запела укулеле.  Хани наконец отлепил взгляд от качающихся из стороны в сторону бедер, мокрых от брызг волн, и поравнялся с Лейлой. Та уже поднимала доску.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_233" }
+        ]
+    },
+    gl1_233: {
+        text: "Л: Догоняй.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_234" }
+        ]
+    },
+    gl1_234: {
+        text: "С каждым шагом предвкушение нарастало. На волнах Лейла успокаивалась.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_235" }
+        ]
+    },
+    gl1_235: {
+        text: "Л(ИКИ): “Чем опаснее ситуация, тем комфортнее я себя чувствую...”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_236" }
+        ]
+    },
+    gl1_236: {
+        text: "Л(ИКИ):” Словно хочу бежать.”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_237" }
+        ]
+    },
+    gl1_237: {
+        text: "И Лейла побежала навстречу волне. Оказавшись на глубине, легла на доску. Она не оглядывалась на Хани, пусть он и кричал что-то. Только плыла вперед, слушая, как дыхание сливается с шумом океана. Снова дома.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_238" }
+        ]
+    },
+    gl1_238: {
+        text: "Л(ИКИ): “Я не могу позволить себе думать о том, что я не могу...”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_239" }
+        ]
+    },
+    gl1_239: {
+        text: "Быстрее и быстрее... Лейла поднялась на ноги. Ветер свистел в ушах.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_240" }
+        ]
+    },
+    gl1_240: {
+        text: "Х: Поймал!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_241" }
+        ]
+    },
+    gl1_241: {
+        text: "Тот тоже уже был на гребне волны. Светился счастьем.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_242" }
+        ]
+    },
+    gl1_242: {
+        text: "Л: Хани! Радуга!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_243" }
+        ]
+    },
+    gl1_243: {
+        text: "Х: Где?!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_244" }
+        ]
+    },
+    gl1_244: {
+        text: "Л: На тебе!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_245" }
+        ]
+    },
+gl1_245: {
+        text: "Хани присел, и доску мотнуло выше - точно он плыл по мерцающей радуге. Прямо как...",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_246" }
+        ]
+    },
+    gl1_246: {
+        text: "Л(ИКИ): “Лоно.”",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_247" }
+        ]
+    },
+    gl1_247: {
+        text: "Х: Хороший знак!",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_248" }
+        ]
+    },
+    gl1_248: {
+        text: "Лейла не могла сдержать смех. Она обернулась к Хани и увидела, что он тоже смеется.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_249" }
         ]
     },
     end: {
