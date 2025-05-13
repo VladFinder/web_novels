@@ -4829,6 +4829,23 @@ const scenes = {
             { text: "Дальше", nextScene: "gl1_165choice2_76" }
         ]
     },
+     gl1_165choice3: {
+        text: "Прислушалась.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice3_1" }
+        ]
+    },
+    gl1_165choice3_1: {
+        text: "В такт биению сердца Хани послышались шаги. Грузные, ритмичные. Лейла затаила дыхание. Это были Воины Коа.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_165choice3_2" }
+        ]
+    },
+    
     end: {
         text: "Спасибо за игру!",
         background: "assets/images/backgrounds/start.jpg",
