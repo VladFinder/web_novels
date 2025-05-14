@@ -588,7 +588,7 @@ const scenes = {
         ]
     },
     gl1_25: {
-        text: "Разбудил в такую рань!? Как сам умудрился проснуться после такой попойки…",
+        text: "Разбудил в такую рань!? Как сам умудрился проснуться после такой попойки...",
         background: "assets\images\backgrounds\room_morning.png",
         characters: [
             { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
@@ -733,7 +733,7 @@ const scenes = {
         ]
     },
     choicegl1_3_2_4: {
-        text: "Чернила почти выцвели. Как давно это было…",
+        text: "Чернила почти выцвели. Как давно это было...",
         background: "assets\images\backgrounds\mirror.png",
         characters: [
             { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
@@ -798,9 +798,10 @@ const scenes = {
         ]
     },
     gl1_34: {
-        text: "Хани под окнами уже не было. На крик обернулись дети, катающие по площади булыжник, и засмеялись. Лейла закатила глаза и наклонилась поднять упавший на пол камень.\nЗамахнулась выбросить его на улицу – и…",
+        text: "Хани под окнами уже не было. На крик обернулись дети, катающие по площади булыжник, и засмеялись. Лейла закатила глаза и наклонилась поднять упавший на пол камень.\nЗамахнулась выбросить его на улицу – и...",
         background: "assets\images\backgrounds\room_window.png",
         characters: [],
+        audio: "assets\images\SOUNDS\children_play.mp3",
         choices: [
             { text: "Дальше", nextScene: "choicegl1_4" }
         ]
