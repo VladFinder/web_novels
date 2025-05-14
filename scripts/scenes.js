@@ -150,7 +150,7 @@ const scenes = {
     },
     gl1_choice1: {
         text: "Только мотыльки бились в окно - в доме еще горел свет.",
-        background: "assets\images\backgrounds\комната ночь.PNG",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [],
         audio: "assets\images\SOUNDS\ночные сверчки.mp3",
         choices: [
@@ -159,7 +159,7 @@ const scenes = {
     },
     gl1_choice1_1: {
         text: "Считается, что все наши острова созданы из плоти и крови Пеле. Что жизнь посреди океана выкована огнем.",
-        background: "assets\images\backgrounds\комната ночь.PNG",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -170,7 +170,7 @@ const scenes = {
     },
     ggl1_choice1_2: {
         text: "Создала для нас землю, драгоценные камни, пищу для растений. И…",
-        background: "assets\images\backgrounds\комната ночь.PNG",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -188,7 +188,7 @@ const scenes = {
     },
     gl1_choice1_4: {
         text: "Что это?",
-        background: "",   
+        background: "assets\images\backgrounds\roomnight.PNG",   
         characters: [
             { name: "Лейла", image: "assets\images\characters\lilleila.png", position: "center" }
         ],
@@ -198,7 +198,7 @@ const scenes = {
     },
     gl1_choice1_5: {
         text: "Это, как говорят на Большой Земле, обсидиан… вулканическое стекло. Там, где встречаются Пеле и Намака, огонь и вода, они навеки застывают. Сестра не может пойти против сестры - обе проиграют...   ПОДСКАЗКА: Обсидиан — природное вулканическое стекло, образующееся в результате быстрого охлаждения лавы.",
-        background: "",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -208,7 +208,7 @@ const scenes = {
     },
     gl1_choice1_6: {
         text: "Носи его и не снимай. И у меня….",
-        background: "",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -218,7 +218,7 @@ const scenes = {
     },
     gl1_choice1_7: {
         text: "Мама показала свою руку.",
-        background: "",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice1_8" }
@@ -226,7 +226,7 @@ const scenes = {
     },
     gl1_choice1_8: {
         text: "Такой же. Это дар Пеле. Ты знаешь, как обращаться с ее дарами?",
-        background: "",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -236,7 +236,7 @@ const scenes = {
     },
     gl1_choice1_9: {
         text: "Уважительно?",
-        background: "",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [
             { name: "Лейла", image: "assets\images\characters\lilleila.png", position: "center" }
         ],
@@ -246,8 +246,8 @@ const scenes = {
         ]
     },
     gl1_choice1_10: {
-        text: "Да… Бери, но отдавай что-то взамен. Никогда не пользуйся благами земли сверх меры. Такого она не потерпит. Как зашумит земля, как польется лава! Нрав огня неукротим… Раз – и!?",
-        background: "",
+        text: "Да... Бери, но отдавай что-то взамен. Никогда не пользуйся благами земли сверх меры. Такого она не потерпит. Как зашумит земля, как польется лава! Нрав огня неукротим… Раз – и!?",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -258,7 +258,7 @@ const scenes = {
     },
     gl1_choice1_11: {
         text: "Мама защекотала Лейлу. Девочка, хохоча, заболтала в воздухе худыми ножками.",
-        background: "",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [],
         audio: "assets\images\SOUNDS\child_laugh.mp3",
         choices: [
@@ -267,7 +267,7 @@ const scenes = {
     },
     gl1_choice1_12: {
         text: "Как вспылит!",
-        background: "",
+        background: "assets\images\backgrounds\roomnight.PNG",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -278,7 +278,7 @@ const scenes = {
     },
     gl1_choice2: {
         text: "Тяжелые капли дождя разбивались об окно.\nВетер хлестал водой по деревьям.\nА дома было тепло и сухо.",
-        background: "assets\images\backgrounds\комната ночь дождь.mp4",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [],
         audio: "assets\images\SOUNDS\ливень.mp3",
         choices: [
@@ -287,7 +287,7 @@ const scenes = {
     },
     gl1_choice2_1: {
         text: "Считается, что все наши острова созданы из плоти и крови Пеле. Что жизнь посреди океана выкована огнем.",
-        background: "assets\images\backgrounds\комната ночь дождь.mp4",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -298,7 +298,7 @@ const scenes = {
     
     gl1_choice2_2: {
         text: "Создала для нас землю, драгоценные камни, пищу для растений. И…",
-        background: "assets\images\backgrounds\комната ночь дождь.mp4",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -316,7 +316,7 @@ const scenes = {
     },
     gl1_choice2_4: {
         text: "Что это?",
-        background: "",   
+        background: "assets\images\backgrounds\roomnightrain.mp4",   
         characters: [
             { name: "Лейла", image: "assets\images\characters\lilleila.png", position: "center" }
         ],
@@ -325,8 +325,8 @@ const scenes = {
         ]
     },
     gl1_choice2_5: {
-        text: "Это, как говорят на Большой Земле, обсидиан… вулканическое стекло. Там, где встречаются Пеле и Намака, огонь и вода, они навеки застывают. Сестра не может пойти против сестры - обе проиграют...   ПОДСКАЗКА: Обсидиан — природное вулканическое стекло, образующееся в результате быстрого охлаждения лавы.",
-        background: "",
+        text: "Это, как говорят на Большой Земле, обсидиан... вулканическое стекло. Там, где встречаются Пеле и Намака, огонь и вода, они навеки застывают. Сестра не может пойти против сестры - обе проиграют...   ПОДСКАЗКА: Обсидиан — природное вулканическое стекло, образующееся в результате быстрого охлаждения лавы.",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -335,8 +335,8 @@ const scenes = {
         ]
     },
     gl1_choice2_6: {
-        text: "Носи его и не снимай. И у меня….",
-        background: "",
+        text: "Носи его и не снимай. И у меня...",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -346,7 +346,7 @@ const scenes = {
     },
     gl1_choice2_7: {
         text: "Мама показала свою руку.",
-        background: "",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice2_8" }
@@ -354,7 +354,7 @@ const scenes = {
     },
     gl1_choice2_8: {
         text: "Такой же. Это дар Пеле. Ты знаешь, как обращаться с ее дарами?",
-        background: "",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -364,7 +364,7 @@ const scenes = {
     },
     gl1_choice2_9: {
         text: "Уважительно?",
-        background: "",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [
             { name: "Лейла", image: "assets\images\characters\lilleila.png", position: "center" }
         ],
@@ -374,8 +374,8 @@ const scenes = {
         ]
     },
     gl1_choice2_10: {
-        text: "Да… Бери, но отдавай что-то взамен. Никогда не пользуйся благами земли сверх меры. Такого она не потерпит. Как зашумит земля, как польется лава! Нрав огня неукротим… Раз – и!?",
-        background: "",
+        text: "Да... Бери, но отдавай что-то взамен. Никогда не пользуйся благами земли сверх меры. Такого она не потерпит. Как зашумит земля, как польется лава! Нрав огня неукротим… Раз – и!?",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
@@ -386,7 +386,7 @@ const scenes = {
     },
     gl1_choice2_11: {
         text: "Мама защекотала Лейлу. Девочка, хохоча, заболтала в воздухе худыми ножками.",
-        background: "",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [],
         audio: "assets\images\SOUNDS\child_laugh.mp3",
         choices: [
@@ -395,7 +395,7 @@ const scenes = {
     },
     gl1_choice2_12: {
         text: "Как вспылит!",
-        background: "",
+        background: "assets\images\backgrounds\roomnightrain.mp4",
         characters: [
             { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
