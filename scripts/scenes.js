@@ -161,7 +161,7 @@ const scenes = {
         text: "Считается, что все наши острова созданы из плоти и крови Пеле. Что жизнь посреди океана выкована огнем.",
         background: "assets\images\backgrounds\комната ночь.PNG",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice1_2" }
@@ -172,7 +172,7 @@ const scenes = {
         text: "Создала для нас землю, драгоценные камни, пищу для растений. И…",
         background: "assets\images\backgrounds\комната ночь.PNG",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice1_3" }
@@ -200,7 +200,7 @@ const scenes = {
         text: "Это, как говорят на Большой Земле, обсидиан… вулканическое стекло. Там, где встречаются Пеле и Намака, огонь и вода, они навеки застывают. Сестра не может пойти против сестры - обе проиграют...   ПОДСКАЗКА: Обсидиан — природное вулканическое стекло, образующееся в результате быстрого охлаждения лавы.",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice1_6" }
@@ -210,7 +210,7 @@ const scenes = {
         text: "Носи его и не снимай. И у меня….",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice1_7" }
@@ -228,7 +228,7 @@ const scenes = {
         text: "Такой же. Это дар Пеле. Ты знаешь, как обращаться с ее дарами?",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice1_9" }
@@ -249,7 +249,7 @@ const scenes = {
         text: "Да… Бери, но отдавай что-то взамен. Никогда не пользуйся благами земли сверх меры. Такого она не потерпит. Как зашумит земля, как польется лава! Нрав огня неукротим… Раз – и!?",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         audio: "",
         choices: [
@@ -269,7 +269,7 @@ const scenes = {
         text: "Как вспылит!",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         audio: "",
         choices: [
@@ -289,7 +289,7 @@ const scenes = {
         text: "Считается, что все наши острова созданы из плоти и крови Пеле. Что жизнь посреди океана выкована огнем.",
         background: "assets\images\backgrounds\комната ночь дождь.mp4",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice2_2" }
@@ -300,7 +300,7 @@ const scenes = {
         text: "Создала для нас землю, драгоценные камни, пищу для растений. И…",
         background: "assets\images\backgrounds\комната ночь дождь.mp4",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice2_3" }
@@ -328,7 +328,7 @@ const scenes = {
         text: "Это, как говорят на Большой Земле, обсидиан… вулканическое стекло. Там, где встречаются Пеле и Намака, огонь и вода, они навеки застывают. Сестра не может пойти против сестры - обе проиграют...   ПОДСКАЗКА: Обсидиан — природное вулканическое стекло, образующееся в результате быстрого охлаждения лавы.",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice2_6" }
@@ -338,7 +338,7 @@ const scenes = {
         text: "Носи его и не снимай. И у меня….",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice2_7" }
@@ -356,7 +356,7 @@ const scenes = {
         text: "Такой же. Это дар Пеле. Ты знаешь, как обращаться с ее дарами?",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_choice2_9" }
@@ -377,7 +377,7 @@ const scenes = {
         text: "Да… Бери, но отдавай что-то взамен. Никогда не пользуйся благами земли сверх меры. Такого она не потерпит. Как зашумит земля, как польется лава! Нрав огня неукротим… Раз – и!?",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         audio: "",
         choices: [
@@ -397,7 +397,7 @@ const scenes = {
         text: "Как вспылит!",
         background: "",
         characters: [
-            { name: "Мама", image: "assets/images/characters/leilas_mom.png", position: "center" }
+            { name: "Мама", image: "assets/images/characters/mom_leila.PNG", position: "center" }
         ],
         audio: "",
         choices: [
@@ -725,7 +725,7 @@ const scenes = {
         ]
     },
     choicegl1_3_2_2: {
-        text: " “Она так редко бывала дома.”",
+        text: "“Она так редко бывала дома.”",
         background: "assets\images\backgrounds\mirror.png",
         characters: [
             { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
@@ -2755,9 +2755,9 @@ const scenes = {
         ]
     },
     gl1_104: {
-        text: "Окелани: Должен что?",
+        text: "Должен что?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Бабушка", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_105" }
         ]
@@ -2795,9 +2795,9 @@ const scenes = {
         ]
     },
     gl1_114bruise: {
-        text: "О: А с тобой что приключилось?",
+        text: "А с тобой что приключилось?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_115bruise" }
         ]
@@ -2811,9 +2811,9 @@ const scenes = {
         ]
     },
     gl1_116bruise: {
-        text: "О: Лейла? Ты, наконец, поставила подхалима на место?",
+        text: "Лейла? Ты, наконец, поставила подхалима на место?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_117bruise" }
         ]
@@ -2843,9 +2843,9 @@ const scenes = {
         ]
     },
     gl1_120bruise: {
-        text: "О: Все верно",
+        text: "Все верно",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_121bruise" }
         ]
@@ -2859,9 +2859,9 @@ const scenes = {
         ]
     },
     gl1_122bruise: {
-        text: "О: Все “особенное” заканчивается плохо. Смиренная жизнь без страстей - и страдания не найдут, как к тебе подступиться. Да, Лейла?",
+        text: "Все “особенное” заканчивается плохо. Смиренная жизнь без страстей - и страдания не найдут, как к тебе подступиться. Да, Лейла?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_123bruise" }
         ]
@@ -2924,9 +2924,9 @@ const scenes = {
         ]
     },
     gl1_123flower1: {
-        text: "О: Долгая.",
+        text: "Долгая.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_123flower2" }
         ]
@@ -2964,9 +2964,9 @@ const scenes = {
         ]
     },
     gl1_125bruise: {
-        text: "О: Неужели?",
+        text: "Неужели?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_126bruise" }
         ]
@@ -2988,9 +2988,9 @@ const scenes = {
         ]
     },
     gl1_128bruise: {
-        text: "О: Ты? Работать?",
+        text: "Ты? Работать?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_129bruise" }
         ]
@@ -3036,9 +3036,9 @@ const scenes = {
         ]
     },
     gl1_109: {
-        text: "О: Работник... раз ты тут будешь работать, не теряй времени. Иди, помоги Лейле забрать у Макана свежий улов.",
+        text: "Работник... раз ты тут будешь работать, не теряй времени. Иди, помоги Лейле забрать у Макана свежий улов.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_110" }
         ]
@@ -3052,17 +3052,17 @@ const scenes = {
         ]
     },
     gl1_111: {
-        text: "О: Эта рыба из морозильной камеры... безвкусная гадость.",
+        text: "Эта рыба из морозильной камеры... безвкусная гадость.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_134bruise" }
         ]
     },
     gl1_134bruise: {
-        text: "О: Такую только к твоему фингалу прикладывать.",
+        text: "Такую только к твоему фингалу прикладывать.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Окелани", image:"assets\images\characters\okelani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_135bruise" }
         ]
