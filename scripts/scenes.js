@@ -5506,9 +5506,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell35: {
-        text: "Х: Попробовать? Коа запрещено вступать в отношения.",
+        text: "Попробовать? Коа запрещено вступать в отношения.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell36" }
         ]
@@ -5754,9 +5754,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_flower19: {
-        text: "Х: “Лучше спросите, что я буду делать следующей ночью”... На что ты надеялась?",
+        text: "“Лучше спросите, что я буду делать следующей ночью”... На что ты надеялась?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_flower20" }
         ]
@@ -5778,9 +5778,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_flower22: {
-        text: "Х: Ничего серьезного из интрижки с Коа не выйдет. Им же запрещены привязанности.",
+        text: "Ничего серьезного из интрижки с Коа не выйдет. Им же запрещены привязанности.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_flower23" }
         ]
@@ -5802,9 +5802,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_flower25: {
-        text: "Х: Так точно, детка, рыба сама не приплывет в “Охиа”! Хотя это, между прочим, было бы очень круто, Лейла.",
+        text: "Так точно, детка, рыба сама не приплывет в “Охиа”! Хотя это, между прочим, было бы очень круто, Лейла.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_flower26" }
         ]
@@ -5818,9 +5818,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_flower27: {
-        text: "Х: “Х: “Охиа”. Реально свежая рыба.”",
+        text: "“Охиа. Реально свежая рыба.”",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_flower28" }
         ]
@@ -5874,9 +5874,9 @@ const scenes = {
         ]
     },
     gl1_168: {
-        text: "Х: И на горизонте не видно...",
+        text: "И на горизонте не видно...",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_169" }
         ]
@@ -5890,9 +5890,9 @@ const scenes = {
         ]
     },
     gl1_170: {
-        text: "Х: Слушай, ждать явно долго. Пока Макан вернется... Как насчет...",
+        text: "Слушай, ждать явно долго. Пока Макан вернется... Как насчет...",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Сделать работу, а потом развлекаться.", nextScene: "gl1_171_shell" },
             { text: "Пойти к О-Лин?", nextScene: "gl1_171_flower" }
@@ -5907,9 +5907,9 @@ const scenes = {
         ]
     },
     gl1_171_shell1: {
-        text: "Х: Сколько раз он уходил, не дождавшись тебя?",
+        text: "Сколько раз он уходил, не дождавшись тебя?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_shell2" }
         ]
@@ -5931,17 +5931,17 @@ const scenes = {
         ]
     },
     gl1_171_shell4: {
-        text: "Х: И в этот раз не уйдет!",
+        text: "И в этот раз не уйдет!",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_172" }
         ]
     },
     gl1_171_flower: {
-        text: "Х: Узнаю мою бунтарку. Видишь, мы отлично сработаемся.",
+        text: "Узнаю мою бунтарку. Видишь, мы отлично сработаемся.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower1" }
         ]
@@ -5955,9 +5955,9 @@ const scenes = {
         ]
     },
     gl1_171_flower2: {
-        text: "Х: Без вопросов! Я-то знаю, у меня их было много...",
+        text: "Без вопросов! Я-то знаю, у меня их было много...",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower3" }
         ]
@@ -5971,9 +5971,9 @@ const scenes = {
         ]
     },
     gl1_171_flower4: {
-        text: "Х: Кажется, не так уж сложно будет работать на тебя.",
+        text: "Кажется, не так уж сложно будет работать на тебя.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower5" }
         ]
@@ -6011,7 +6011,7 @@ const scenes = {
         ]
     },
     gl1_174: {
-        text: "ОЛ: Ну же, девочки, хоть кто-то из вас хочет попасть на Священные земли? Или вы уже смирились, что это буду я? Постарайтесь, почувствуйте ритм ветра… Пять лей на дороге не валяется.",
+        text: "ОЛ: Ну же, девочки, хоть кто-то из вас хочет попасть на Священные земли? Или вы уже смирились, что это буду я? Постарайтесь, почувствуйте ритм ветра... Пять лей на дороге не валяется.",
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
@@ -6035,9 +6035,9 @@ const scenes = {
         ]
     },
     gl1_177: {
-        text: "Х: А?",
+        text: "А?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_178" }
         ]
@@ -6051,9 +6051,9 @@ const scenes = {
         ]
     },
     gl1_179: {
-        text: "Х: А, да, в этом году той, что лучше всех станцует хулу, дарят пять лей. Калео, видимо, считает, женщина годна только танцевать. И это - жрец...",
+        text: "А, да, в этом году той, что лучше всех станцует хулу, дарят пять лей. Калео, видимо, считает, женщина годна только танцевать. И это - жрец...",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_180" }
         ]
@@ -6084,9 +6084,9 @@ const scenes = {
         ]
     },
     gl1_180_shell2: {
-        text: "Х: Думаешь, они там, на священной земле, живут какую-то другую жизнь?",
+        text: "Думаешь, они там, на священной земле, живут какую-то другую жизнь?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_180_shell3" }
         ]
@@ -6132,9 +6132,9 @@ const scenes = {
         ]
     },
     gl1_180_flower2: {
-        text: "Х: А что думаешь?",
+        text: "А что думаешь?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_180_flower3" }
         ]
@@ -6156,9 +6156,9 @@ const scenes = {
         ]
     },
     gl1_180_flower5: {
-        text: "Х: Ты все еще думаешь, что извержение тут не при чем?",
+        text: "Ты все еще думаешь, что извержение тут не при чем?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_180_flower6" }
         ]
@@ -6172,9 +6172,9 @@ const scenes = {
         ]
     },
     gl1_181: {
-        text: "Х: И все равно, одна победа - одна лея. Так было всегда. Каждый талант важен.",
+        text: "И все равно, одна победа - одна лея. Так было всегда. Каждый талант важен.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_182" }
         ]
@@ -6188,9 +6188,9 @@ const scenes = {
         ]
     },
     gl1_183: {
-        text: "Х: Если у тебя действительно хорошая смекалка, то ты знаешь, что на священной земле делать нечего. И чего О-Лин туда тянет, неужели не помнит, как ты...",
+        text: "Если у тебя действительно хорошая смекалка, то ты знаешь, что на священной земле делать нечего. И чего О-Лин туда тянет, неужели не помнит, как ты...",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_184" }
         ]
@@ -6204,17 +6204,17 @@ const scenes = {
         ]
     },
     gl1_185: {
-        text: "Х: Все в порядке?",
+        text: "Все в порядке?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_186" }
         ]
     },
     gl1_186: {
-        text: "Х: Hauna. прости.",
+        text: "Hauna. прости.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_187" }
         ]
@@ -6260,9 +6260,9 @@ const scenes = {
         ]
     },
     gl1_192: {
-        text: "Х: Да. Знаешь, когда будет Макахики, спокойно не поплаваешь. Давай, поймаем момент. Поймаем волну.",
+        text: "Да. Знаешь, когда будет Макахики, спокойно не поплаваешь. Давай, поймаем момент. Поймаем волну.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_193" }
         ]
@@ -6276,9 +6276,9 @@ const scenes = {
         ]
     },
     gl1_194: {
-        text: "Х: Я бы посмотрел, танцуй там ты. Но...",
+        text: "Я бы посмотрел, танцуй там ты. Но...",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_195" }
         ]
@@ -6300,9 +6300,9 @@ const scenes = {
         ]
     },
     gl1_197: {
-        text: "Х: Вот видишь. Танцы успею посмотреть, когда заберу победу во всех играх. Тогда они будут танцевать для меня, смекаешь?",
+        text: "Вот видишь. Танцы успею посмотреть, когда заберу победу во всех играх. Тогда они будут танцевать для меня, смекаешь?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_198" }
         ]
@@ -6316,9 +6316,9 @@ const scenes = {
         ]
     },
     gl1_199: {
-        text: "Х: В который раз заберу победу и стану Лоно. Тяжело быть лучшим... но и свои плюсы есть.",
+        text: "В который раз заберу победу и стану Лоно. Тяжело быть лучшим... но и свои плюсы есть.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_200" }
         ]
@@ -6348,9 +6348,9 @@ const scenes = {
         ]
     },
     gl1_203: {
-        text: "Х: Нево-что? Нахваталась английских слов...",
+        text: "Нево-что? Нахваталась английских слов...",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_204" }
         ]
@@ -6372,9 +6372,9 @@ const scenes = {
         ]
     },
     gl1_206: {
-        text: "Х: А я и не брошу. Буду участвовать от имени “Охиа”. Как говорят хоуле, “Реклама”?",
+        text: "А я и не брошу. Буду участвовать от имени “Охиа”. Как говорят хоуле, “Реклама”?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_207" }
         ]
@@ -6388,9 +6388,9 @@ const scenes = {
         ]
     },
     gl1_208: {
-        text: "Х: Плохой из тебя “бизнесмен”.",
+        text: "Плохой из тебя “бизнесмен”.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_209" }
         ]
@@ -6404,9 +6404,9 @@ const scenes = {
         ]
     },
     gl1_210: {
-        text: "Х: Правильно “бизнесвахини”.",
+        text: "Правильно “бизнесвахини”.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_211" }
         ]
@@ -6428,9 +6428,9 @@ const scenes = {
         ]
     },
     gl1_213: {
-        text: "Х: Отлично танцуете.",
+        text: "Отлично танцуете.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_214" }
         ]
@@ -6452,9 +6452,9 @@ const scenes = {
         ]
     },
     gl1_216: {
-        text: "Х: Да. Лейла хочет прокатиться. Мы возьмем ваши Алайи?",
+        text: "Да. Лейла хочет прокатиться. Мы возьмем ваши Алайи?",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_217" }
         ]
@@ -6484,9 +6484,9 @@ const scenes = {
         ]
     },
     gl1_220: {
-        text: "Х: Махало! Мы пошли. Не смеем отвлекать прекрасных танцовщиц.",
+        text: "Махало! Мы пошли. Не смеем отвлекать прекрасных танцовщиц.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_221" }
         ]
@@ -6556,7 +6556,7 @@ const scenes = {
         ]
     },
     gl1_229: {
-        text: "В следующий же миг она крепко взяла Хани, который красовался мышцами перед девочками, за руку и потащила к доскам.",
+        text: "В следующий же миг она крепко взяла за руку Хани, который красовался мышцами перед девочками, и потащила к доскам.",
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
@@ -6564,9 +6564,9 @@ const scenes = {
         ]
     },
     gl1_230: {
-        text: "Х: Старайтесь, девчонки! Когда я снова стану королем Макахики, я хочу видеть без-у-пречную хулу.",
+        text: "Старайтесь, девчонки! Когда я снова стану королем Макахики, я хочу видеть без-у-пречную хулу.",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_231" }
         ]
@@ -6644,9 +6644,9 @@ const scenes = {
         ]
     },
     gl1_240: {
-        text: "Х: Поймал!",
+        text: "Поймал!",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_241" }
         ]
@@ -6668,9 +6668,9 @@ const scenes = {
         ]
     },
     gl1_243: {
-        text: "Х: Где?!",
+        text: "Где?!",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_244" }
         ]
@@ -6700,9 +6700,9 @@ gl1_245: {
         ]
     },
     gl1_247: {
-        text: "Х: Хороший знак!",
+        text: "Хороший знак!",
         background: "assets\images\backgrounds\room_morning.png",
-        characters: [],
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_248" }
         ]
