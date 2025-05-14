@@ -447,7 +447,7 @@ const scenes = {
         text: "Лейла сжимала мамин браслет. Над головой били крыльями напуганные птицы. Словно воцарился Коре. Коре - хаос.",
         background: "assets\images\backgrounds\cutscenes\gl1_9.MP4",
         characters: [
-            { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
+            { name: "Лейла", image: "assets/images/characters/leilanni.png", position: "center" }
         ],
         audio: "assets/audio/bird_flapping.mp3",
         choices: [
@@ -475,9 +475,7 @@ const scenes = {
     dis20: {
         text: "На много лун над островом нависла тень вулканической богини. Поисковые группы прочесывали местность, но маму Лейла так и не нашла.",
         background: "assets/images/backgrounds/volcano_cloud.jpg",
-        characters: [
-            { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
-        ],
+        characters: [],
         audio: "assets/audio/white_noise.mp3",
         choices: [
             { text: "Дальше", nextScene: "dis21" }
@@ -495,9 +493,7 @@ const scenes = {
     dis22: {
         text: "Жизнь продолжилась. Только каждый год, перед Макахики, Лейла вспоминала. Тревога поселилась в её теле.",
         background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
-        characters: [
-            { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
-        ],
+        characters: [],
         choices: [
             { text: "Дальше", nextScene: "dis23" }
         ]
@@ -505,9 +501,7 @@ const scenes = {
     dis23: {
         text: "Биение сердца – словно подземные толчки. Гул в ушах – словно вулканический рёв. Жгучая боль на щеках не утихала. Кровь казалась раскалённой лавой.",
         background: "assets\images\backgrounds\cutscenes\gl1_15.MP4",
-        characters: [
-            { name: "Лейла", image: "assets/images/characters/leila.png", position: "center" }
-        ],
+        characters: [],
         audio: "assets/audio/heartbeat.mp3",
         choices: [
             { text: "Дальше", nextScene: "dis24" }
@@ -535,9 +529,7 @@ const scenes = {
     gl1_18: {
         text: "Лейла вскочила на кровати. Уведомление: Пууваи, 15 ноября, 2008 год. 08:00",
         background: "assets/images/backgrounds/room_morning.png",
-        characters: [
-            { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" }
-        ],
+        characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_19" }
         ]
@@ -545,9 +537,7 @@ const scenes = {
     gl1_19: {
         text: "Тут же в голову ударила резкая боль: последняя рюмка настойки была лишней.\nПридя в себя, Лейла услышала: об окно бились камушки.",
         background: "assets/images/backgrounds/room_morning.png",
-        characters: [
-            { name: "Лейла", image: "assets/images/characters/leila_modern.png", position: "center" },
-        ],
+        characters: [ ],
         audio: "assets\images\SOUNDS\rock_window.mp3",
         choices: [
             { text: "Дальше", nextScene: "gl1_20" }
