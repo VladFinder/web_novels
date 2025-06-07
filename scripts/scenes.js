@@ -78,7 +78,7 @@ const scenes = {
     },
     dis7: {
         text: "Но однажды, Кане отвернул Землю от Неба, населив ее богами, вождями и людьми. ПОДСКАЗКА: Кане – верховный бог, прародитель всех вождей и общинников в гавайской мифологии.",
-        background: "assets\images\backgrounds\cutscenes\dis7.mp4",
+        background: "assets\images\backgrounds\cutscenes\dis7new.mp4",
         characters: [],
         audio: "",
         choices: [
@@ -87,7 +87,7 @@ const scenes = {
     },
     dis8: {
         text: "Так появилась на Земле Пеле: вдохнула жизнь в вулканическую лаву. ПОДСКАЗКА: Пеле – богиня вулканов. ",
-        background: "assets\images\backgrounds\cutscenes\dis8.MP4",
+        background: "assets\images\backgrounds\cutscenes\dis8new.MP4",
         characters: [],
         audio: "assets\images\SOUNDS\female_breath.mp3",
         choices: [
@@ -114,7 +114,7 @@ const scenes = {
     },
     dis11: {
         text: "Пусть вдали от семьи, но Пеле хотела жить по своим правилам.",
-        background: "assets\images\backgrounds\cutscenes\dis11.MP4",
+        background: "assets\images\backgrounds\cutscenes\dis11new.MP4",
         characters: [],
         audio: "",
         choices: [
@@ -405,7 +405,7 @@ const scenes = {
         ]
     },
     dis13: {
-        text: "И, однажды, Пеле вспылила.\nНочью после Макахики, когда Лейла искала маму на священной земле.",
+        text: "И, однажды, Пеле вспылила.\nНочью после Макахики, когда Лейла искала маму на священной земле. ПОДСКАЗКА: Макахики – гавайский праздник урожая.",
         background: "assets\images\backgrounds\cutscenes\DISSTORY.mp4",
         characters: [],
         audio: "",
@@ -444,7 +444,7 @@ const scenes = {
         ]
     },
     dis17: {
-        text: "Лейла сжимала мамин браслет. Над головой били крыльями напуганные птицы. Словно воцарился Коре. Коре - хаос.",
+        text: "В руке девочка сжимала мамин браслет. Над головой били крыльями напуганные птицы. Словно воцарился Коре. ПОДСКАЗКА: Коре - хаос.",
         background: "assets\images\backgrounds\cutscenes\gl1_9.MP4",
         characters: [
             { name: "Лейла", image: "assets/images/characters/leilanni.png", position: "center" }
@@ -473,7 +473,7 @@ const scenes = {
         ]
     },
     dis20: {
-        text: "На много лун над островом нависла тень вулканической богини. Поисковые группы прочесывали местность, но маму Лейла так и не нашла.",
+        text: "На много лун над островом нависла тень вулканической богини. \nВсе то время, что она густым облаком танцевала в столбе пепла, поисковые группы прочесывали местность. \nНо маму Лейла так и не нашла.",
         background: "assets/images/backgrounds/volcano_cloud.jpg",
         characters: [],
         audio: "assets/audio/white_noise.mp3",
@@ -482,7 +482,16 @@ const scenes = {
         ]
     },
     dis21: {
-        text: "Островитяне стали ревностно молиться Пеле. Возвели храм в её честь. И вулкан, убаюканный молитвами, уснул.",
+        text: "Островитяне, напуганные гневом богини, стали ревностно молиться Пеле. Возвели храм в её честь. Просили о спокойствии. И вулкан, убаюканный молитвами, уснул.",
+        background: "assets/images/backgrounds/pele_shrine.jpg",
+        characters: [],
+        audio: "assets/audio/prayers.mp3",
+        choices: [
+            { text: "Дальше", nextScene: "dis21_1" }
+        ]
+    },
+    dis21_1: {
+        text: "И вулкан, убаюканный слившейся в едином порыве молитвой сотен голосов, уснул.",
         background: "assets/images/backgrounds/pele_shrine.jpg",
         characters: [],
         audio: "assets/audio/prayers.mp3",
@@ -491,15 +500,24 @@ const scenes = {
         ]
     },
     dis22: {
-        text: "Жизнь продолжилась. Только каждый год, перед Макахики, Лейла вспоминала. Тревога поселилась в её теле.",
-        background: "assets/images/backgrounds/leilas_room_puuvai_old.jpg",
+        text: "Жизнь продолжилась. \nТолько каждый год, перед Макахики, Лейла вспоминала. Чувствовала: тот день еще живет в ней. \nПОДСКАЗКА: Макахики – гавайский праздник урожая.",
+        background: "assets\images\backgrounds\black.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "dis23" }
         ]
     },
     dis23: {
-        text: "Биение сердца – словно подземные толчки. Гул в ушах – словно вулканический рёв. Жгучая боль на щеках не утихала. Кровь казалась раскалённой лавой.",
+        text: "Биение сердца – словно подземные толчки. Гул в ушах – вулканический рёв. \n С годами жгучая боль на щеках не утихала.",
+        background: "assets\images\backgrounds\cutscenes\gl1_15.MP4",
+        characters: [],
+        audio: "assets/audio/heartbeat.mp3",
+        choices: [
+            { text: "Дальше", nextScene: "dis23_1" }
+        ]
+    },
+    dis23_1: {
+        text: "Собственная кровь начинала казаться Лейле раскаленной лавой.",
         background: "assets\images\backgrounds\cutscenes\gl1_15.MP4",
         characters: [],
         audio: "assets/audio/heartbeat.mp3",
@@ -527,7 +545,7 @@ const scenes = {
         ]
     },
     gl1_18: {
-        text: "Лейла вскочила на кровати. Уведомление: Пууваи, 15 ноября, 2008 год. 08:00",
+        text: "Лейла вскочила на кровати. УВЕДОМЛЕНИЕ: Пууваи, 15 ноября, 2008 год. 08:23",
         background: "assets/images/backgrounds/room_morning.png",
         characters: [],
         choices: [
@@ -547,12 +565,13 @@ const scenes = {
         text: "С улицы донеслось нетерпеливое: «Просыпайся!»",
         background: "assets/images/backgrounds/room_morning.png",
         characters: [],
+        audio: "assets\images\SOUNDS\rock_window.mp3",
         choices: [
             { text: "Дальше", nextScene: "gl1_21" }
         ]
     },
     gl1_21: {
-        text: "Hauna.",
+        text: "Hauna. \nПОДСКАЗКА: hauna - задница (гавайск.)",
         background: "assets/images/backgrounds/room_morning.png",
         characters: [
             { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
@@ -562,7 +581,7 @@ const scenes = {
         ]
     },
     gl1_22: {
-        text: "Лейла сползла с кровати подошла к окну.\nВнизу из стороны в сторону, озираясь по сторонам, сновал Хани.", 
+        text: "Лейла сползла с кровати и подошла к окну.\nВнизу, озираясь по сторонам, суетился Хани.", 
         background: "assets/images/backgrounds/room_morning.png",
         characters: [],
         choices: [
@@ -612,6 +631,14 @@ const scenes = {
             { name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }
         ],
         choices: [
+            { text: "Дальше", nextScene: "gl1_27_1" }
+        ]
+    },
+    gl1_27_1: {
+        text: "Протерев глаза, Лейла подошла к зеркалу…",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
             { text: "Дальше", nextScene: "gl1_28" }
         ]
     },
@@ -624,7 +651,7 @@ const scenes = {
         ]
     },
     gl1_29: {
-        text: "Героиня, следующая Пути Цветка, пылкая и яркая, ей нравится быть в центре внимания. Она действует спонтанно, принимает неожиданные решения, стремится исследовать мир далеко за пределами дома. Ее значимость определяется личностными качествами.",
+        text: "Героиня, следующая Пути Цветка, пылкая и яркая, ей нравится быть в центре внимания.\nОна действует спонтанно, принимает неожиданные решения, стремится исследовать мир далеко за пределами дома. Ее значимость определяется личностными качествами.",
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
@@ -632,7 +659,7 @@ const scenes = {
         ]
     },
     gl1_30: {
-        text: "Героиня по Пути Ракушки поступает взвешенно, с оглядкой на свою семью. Она чтит традиции рода. Героиня знает: в ее сердце спрятана жемчужина, и, если раскрываться каждому встречному, рано или поздно сокровенное отнимут. Ее значимость определяется знатным происхождением.",
+        text: "Героиня по Пути Ракушки поступает взвешенно, с оглядкой на свою семью. Она чтит традиции рода. \nГероиня знает: в ее сердце спрятана жемчужина, и, если раскрываться каждому встречному, рано или поздно сокровенное отнимут. Ее значимость определяется происхождением.",
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
@@ -665,7 +692,31 @@ const scenes = {
         ]
     },
     choicegl1_3_1_3: {
-        text: "Горечь утраты не прошла: только сжималась внутри под натиском времени.\nЗакаляла.\nКак и мама, Лейла с поднятой головой встречала любые невзгоды.Всегда повторяла про себя слова с записки, оставленной мамой перед исчезновением, а теперь украшавшей зеркало.",
+        text: "Горечь утраты не прошла: только сжималась внутри под натиском времени.\nЗакаляла.",
+        background: "assets\images\backgrounds\mirror.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_3_1" }
+        ]
+    },
+    choicegl1_3_1_3_1: {
+        text: "Так, что Лейла даже не поморщилась, когда ей горячей иголкой прокалывали нос: сейчас в нем красовалось кольцо. ",
+        background: "assets\images\backgrounds\mirror.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_3_2" }
+        ]
+    },
+    choicegl1_3_1_3_2: {
+        text: "Дочь, как мама: с поднятой головой встречала любые невзгоды.",
+        background: "assets\images\backgrounds\mirror.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_1_3_3" }
+        ]
+    },
+    choicegl1_3_1_3_3: {
+        text: "Всегда повторяла про себя слова с записки, оставленной мамой перед исчезновением, а теперь украшавшей зеркало.",
         background: "assets\images\backgrounds\mirror.png",
         characters: [],
         choices: [
@@ -689,8 +740,7 @@ const scenes = {
         ]
     },
     choicegl1_3_1_5: {
-        text: "В окно снова прилетел камень.",
-        text: "Лейла, торопясь, расчесала вьющиеся волосы…",
+        text: "В окно снова прилетел камень.\nЛейла, торопясь, расчесала вьющиеся волосы…",
         background: "assets\images\backgrounds\mirror.png",
         characters: [],
         audio: "assets\images\SOUNDS\hair_comb.mp3",
@@ -699,7 +749,7 @@ const scenes = {
         ]
     },
     choicegl1_3_2: {
-        text: "Пока бабушка Лейлы не пускала хоуле и на порог семейного кафе, ее мама с открытым сердцем слушала рассказы о Большой Земле.",
+        text: "Пока бабушка Лейлы не пускала хоуле и на порог семейного кафе, ее мама с открытым сердцем слушала рассказы о Большой Земле. ПОДСКАЗКА: Хоуле - чужеземцы.",
         background: "assets\images\backgrounds\mirror.png",
         characters: [],
         choices: [
@@ -761,11 +811,35 @@ const scenes = {
         ]
     },
     choicegl1_3_2_7: {
-        text: "Натянутая улыбка собственному отражению: растрепанные волосы, раскрасневшиеся щеки, рассеченные тонкими шрамами от ожогов.\nИ тут же испуг в глазах: в окно снова ударился камень.",
+        text: "Растрепанные волосы, раскрасневшиеся щеки, рассеченные тонкими шрамами от ожогов.",
         background: "assets\images\backgrounds\mirror.png",
         characters: [],
         choices: [
-            { text: "Дальше", nextScene: "choicegl1_3_2_8" }
+            { text: "Дальше", nextScene: "choicegl1_3_2_7_1" }
+        ]
+    },
+    choicegl1_3_2_7_1: {
+        text: "Попытка что-то почувствовать - кольцо в носу. ",
+        background: "assets\images\backgrounds\mirror.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_7_2" }
+        ]
+    },
+    choicegl1_3_2_7_2: {
+        text: "Попытка что-то почувствовать - кольцо в носу. ",
+        background: "assets\images\backgrounds\mirror.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "choicegl1_3_2_7_3" }
+        ]
+    },
+    choicegl1_3_2_7_3: {
+        text: "Лейла натянуто улыбнулась собственному отражению.\nИ тут же вздрогнула: в окно снова ударился камень.",
+        background: "assets\images\backgrounds\mirror.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_31" }
         ]
     },
     gl1_31: {
