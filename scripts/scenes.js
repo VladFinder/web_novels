@@ -5111,9 +5111,9 @@ const scenes = {
         ]
     },
     gl1_165choice1_13: {
-        text: "Воин 1: Что-то нашли?",
+        text: "Что-то нашли?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice1_14" }
         ]
@@ -5121,15 +5121,15 @@ const scenes = {
     gl1_165choice1_14: {
         text: "Дома пусто. Родители переживают. Не видели девчонку уже сутки.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [{ name: "Воин", image: "assets\images\characters\warrior2.PNG", position: "left" }],
+        characters: [{ name: "Воин Коа", image: "assets\images\characters\warrior2.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice1_15" }
         ]
     },
     gl1_165choice1_15: {
-        text: "Воин 1: Кекоа ночью патрулировал улицы. Говорит, слышал странные звуки, но на месте нашел только браслет из ракушек.",
+        text: "Кекоа ночью патрулировал улицы. Говорит, слышал странные звуки, но на месте нашел только браслет из ракушек.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice1_16" }
         ]
@@ -5159,9 +5159,9 @@ const scenes = {
         ]
     },
     gl1_165choice1_19: {
-        text: "Воин 1: Этого нельзя исключать.",
+        text: "Не исключено.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice1_20" }
         ]
@@ -5239,9 +5239,9 @@ const scenes = {
         ]
     },
     gl1_165choice1_28: {
-        text: "Воин 1: Продолжаем поиски. Кахуна-Нуи не намерен омрачать праздник плохими новостями.",
+        text: "Продолжаем поиски. Кахуна-Нуи не намерен омрачать праздник плохими новостями.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice1_29" }
         ]
@@ -5479,7 +5479,7 @@ const scenes = {
         ]
     },
     gl1_165choice1_48nobruise6: {
-        text: " Ага, Лейла - мой босс. Или, вернее сказать, напарник?",
+        text: "Ага, Лейла - мой босс. Или, вернее сказать, напарник?",
         background: "assets\images\backgrounds\trees.png",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
@@ -5511,9 +5511,9 @@ const scenes = {
         ]
     },
     gl1_165choice1_50: {
-        text: "Воин 1:...",
+        text: "...",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice1_51" }
         ]
@@ -5840,9 +5840,9 @@ const scenes = {
         ]
     },
     gl1_165choice2_17: {
-        text: "Воин 1: Назовись.",
+        text: "Назовись.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice2_18" }
         ]
@@ -5888,9 +5888,9 @@ const scenes = {
         ]
     },
     gl1_165choice2_23: {
-        text: "Воин 1: Назовись.",
+        text: "Назовись.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice2_24" }
         ]
@@ -5929,9 +5929,9 @@ const scenes = {
         ]
     },
     gl1_165choice2_25_shell3: {
-        text: "Воин 1: Что ж, вахини Лейланни...",
+        text: "Что ж, вахини Лейланни...",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice2_26" }
         ]
@@ -5977,9 +5977,9 @@ const scenes = {
         ]
     },
     gl1_165choice2_26: {
-        text: "Воин 1: Где вы были этой ночью?",
+        text: "Где вы были этой ночью?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice2_27" }
         ]
@@ -6465,9 +6465,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_13: {
-        text: "Воин 1: Что-то нашли?",
+        text: "Что-то нашли?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_14" }
         ]
@@ -6475,23 +6475,23 @@ const scenes = {
     gl1_165choice3_14: {
         text: "Дома пусто. Родители переживают. Не видели девчонку уже сутки.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [{ name: "Воин", image: "assets\images\characters\warrior2.PNG", position: "left" }],
+        characters: [{ name: "Воин Коа", image: "assets\images\characters\warrior2.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_15" }
         ]
     },
     gl1_165choice3_15: {
-        text: "Воин 1: Кекоа ночью патрулировал улицы. Говорит, слышал странные звуки, но на месте нашел только браслет из ракушек.",
+        text: "Кекоа ночью патрулировал улицы. Говорит, слышал странные звуки, но на месте нашел только браслет из ракушек.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_16" }
         ]
     },
     gl1_165choice3_16: {
-        text: "Воин 3(Кекоа): Вот он.",
+        text: "Вот он.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [{ name: "Воин", image: "assets\images\characters\kekoa.PNG", position: "left" }],
+        characters: [{ name: "Воин Коа", image: "assets\images\characters\kekoa.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_17" }
         ]
@@ -6529,9 +6529,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_21: {
-        text: "В1: Назовись.",
+        text: "Назовись.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_22" }
         ]
@@ -6561,9 +6561,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_25: {
-        text: "Воин 1: Вопросы запрещены.",
+        text: "Вопросы запрещены.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_26" }
         ]
@@ -6577,9 +6577,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_27: {
-        text: "Воин 1: Вахини О-Лин, где вы были этой ночью?",
+        text: "Вахини О-Лин, где вы были этой ночью?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_28" }
         ]
@@ -6665,9 +6665,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_38: {
-        text: "Воин 1: Вахини О-Лин, я задал вопрос.",
+        text: "Вахини О-Лин, я задал вопрос.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_39" }
         ]
@@ -6689,9 +6689,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_41: {
-        text: "Воин 1: Молчать. Вахини, последний раз повторяю: где вы были?",
+        text: "Молчать. Вахини, последний раз повторяю: где вы были?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_42" }
         ]
@@ -6770,9 +6770,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell4: {
-        text: "Воин 1: Назовись.",
+        text: "Назовись.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell5" }
         ]
@@ -6802,9 +6802,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell8: {
-        text: "Воин 1: Вахини Лейланни, где вы были этой ночью?",
+        text: "Вахини Лейланни, где вы были этой ночью?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell9" }
         ]
@@ -6826,9 +6826,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell10: {
-        text: "Воин 1: Вопросы запрещены.",
+        text: "Вопросы запрещены.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell11" }
         ]
@@ -6850,9 +6850,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell13: {
-        text: "Воин 1: Кто еще был с вами?",
+        text: "Кто еще был с вами?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell14" }
         ]
@@ -6874,9 +6874,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell16: {
-        text: "Воин 1: Чем вы занимались?",
+        text: "Чем вы занимались?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell17" }
         ]
@@ -6890,7 +6890,7 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell18: {
-        text: "Вахини О-Лин, сохраняйте спокойствие, вы отвлекаете нас от ответов.",
+        text: "Вахини О-Лин, сохраняйте спокойствие, вы отвлекаете нас.",
         background: "assets\images\backgrounds\trees.png",
         characters: [{ name: "Воин", image: "assets\images\characters\kekoa.PNG", position: "left" }],
         choices: [
@@ -6914,15 +6914,15 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell21: {
-        text: "Воин 1: Что за дар?",
+        text: "Что за дар?",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell22" }
         ]
     },
     gl1_165choice3_46_shell22: {
-        text: "Умею заставить любого замолчать.",
+        text: "Привлекать внимание.",
         background: "assets\images\backgrounds\trees.png",
         characters: [{ name: "О-Лин", image: "assets\images\characters\olin.PNG", position: "left" }],
         choices: [
@@ -6930,9 +6930,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell23: {
-        text: "Воин 1: Вахини О-Лин, вы отвлекаете нас от ответов.",
+        text: "Вахини О-Лин, вы отвлекаете нас от ответов.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell24" }
         ]
@@ -6954,9 +6954,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell26: {
-        text: "Воин 1: Служительница Лаки, значит.",
+        text: "Служительница Лаки, значит.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell27" }
         ]
@@ -6970,9 +6970,9 @@ const scenes = {
         ]
     },
     gl1_165choice3_46_shell28: {
-        text: "Воин 1: Молитесь усердно и будьте осторожны.",
+        text: "Молитесь усердно и будьте осторожны.",
         background: "assets\images\backgrounds\trees.png",
-        characters: [],
+        characters: [{ name: "Воин Коа", image:"assets\images\characters\warrior1.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice3_46_shell29" }
         ]
@@ -7414,6 +7414,14 @@ const scenes = {
         background: "assets\images\backgrounds\fishhouse.png",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
+            { text: "Дальше", nextScene: "gl1_170_1" }
+        ]
+    },
+    gl1_170_1: {
+        text: "...",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
+        choices: [
             { text: "Сделать работу, а потом развлекаться.", nextScene: "gl1_171_shell" },
             { text: "Пойти к О-Лин?", nextScene: "gl1_171_flower" }
         ]
@@ -7435,7 +7443,7 @@ const scenes = {
         ]
     },
     gl1_171_shell2: {
-        text: "Ни разу.",
+        text: "Ни разу...",
         background: "assets\images\backgrounds\fishhouse.png",
         characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
         choices: [
@@ -7452,7 +7460,47 @@ const scenes = {
     },
     gl1_171_shell4: {
         text: "И в этот раз не уйдет!",
-        background: "assets\images\backgrounds\beach.png",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_171_shell5" }
+        ]
+    },
+    gl1_171_shell5: {
+        text: "Просто уйти Лейла уже не могла: казалось, вот-вот Макан вернется с рыбалки.",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_171_shell6" }
+        ]
+    },
+    gl1_171_shell6: {
+        text: "Она несколько раз оборачивалась, пытаясь выпутаться из объятий друга. \nВытягивала шею, вглядываясь в темные волны.",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_171_shell7" }
+        ]
+    },
+    gl1_171_shell7: {
+        text: "Хани привык к выкрутасам подруги: всякий раз ловко разворачивал обратно.",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_171_shell8" }
+        ]
+    },
+    gl1_171_shell8: {
+        text: "Шли, точно танцевали, оставляя запутанные следы на песке.",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_171_shell9" }
+        ]
+    },
+    gl1_171_shell9: {
+        text: "Расслабься. Смотри.",
+        background: "assets\images\backgrounds\fishhouse.png",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_172" }
@@ -7460,7 +7508,7 @@ const scenes = {
     },
     gl1_171_flower: {
         text: "Узнаю мою бунтарку. Видишь, мы отлично сработаемся.",
-        background: "assets\images\backgrounds\beach.png",
+        background: "assets\images\backgrounds\fishhouse.png",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower1" }
@@ -7468,7 +7516,7 @@ const scenes = {
     },
     gl1_171_flower1: {
         text: "Просто я хороший начальник.",
-        background: "assets\images\backgrounds\beach.png",
+        background: "assets\images\backgrounds\fishhouse.png",
         characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower2" }
@@ -7476,7 +7524,7 @@ const scenes = {
     },
     gl1_171_flower2: {
         text: "Без вопросов! Я-то знаю, у меня их было много...",
-        background: "assets\images\backgrounds\beach.png",
+        background: "assets\images\backgrounds\fishhouse.png",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower3" }
@@ -7484,7 +7532,7 @@ const scenes = {
     },
     gl1_171_flower3: {
         text: "Скинув ведра у входа в хижину, друзья направились к валуну.",
-        background: "assets\images\backgrounds\beach.png",
+        background: "assets\images\backgrounds\fishhouse.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower4" }
@@ -7492,7 +7540,7 @@ const scenes = {
     },
     gl1_171_flower4: {
         text: "Кажется, не так уж сложно будет работать на тебя.",
-        background: "assets\images\backgrounds\beach.png",
+        background: "assets\images\backgrounds\fishhouse.png",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower5" }
@@ -7500,7 +7548,7 @@ const scenes = {
     },
     gl1_171_flower5: {
         text: "Лейла недоверчиво покосилась:",
-        background: "assets\images\backgrounds\beach.png",
+        background: "assets\images\backgrounds\fishhouse.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_171_flower6" }
@@ -7508,8 +7556,32 @@ const scenes = {
     },
     gl1_171_flower5: {
         text: "Забыл про желание?",
-        background: "assets\images\backgrounds\beach.png",
+        background: "assets\images\backgrounds\fishhouse.png",
         characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_171_flower6" }
+        ]
+    },
+    gl1_171_flower6: {
+        text: "Да нет, помню. Уже фантазирую, что загадаю.",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_171_flower7" }
+        ]
+    },
+    gl1_171_flower7: {
+        text: "Зная тебя, фантазии останутся фантазиями.",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_171_flower8" }
+        ]
+    },
+    gl1_171_flower8: {
+        text: "Справедливо.",
+        background: "assets\images\backgrounds\fishhouse.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_172" }
         ]
@@ -7519,11 +7591,332 @@ const scenes = {
         background: "assets\images\backgrounds\beach.png",
         characters: [],
         choices: [
+            { text: "Дальше", nextScene: "gl1_172_1" }
+        ]
+    },
+    gl1_172_1: {
+        text: "Неподалеку они бросили доски для катания по волнам.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_2" }
+        ]
+    },
+    gl1_172_2: {
+        text: "Лейла устроилась на камне, обняв колени.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_3" }
+        ]
+    },
+    gl1_172_3: {
+        text: "Взглядом лениво следила за плавностью и естественностью движений.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4iolana" }
+        ]
+    },
+    gl1_172_4iolana: {
+        text: "Пока не заметила: Иоланы среди девушек не было.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4iolana1" }
+        ]
+    },
+    gl1_172_4iolana1: {
+        text: "О-Лин сказала, она должна была прийти на репетицию…",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\innerleila.png", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4iolana2" }
+        ]
+    },
+    gl1_172_4iolana2: {
+        text: "По телу пробежала крупная дрожь: точно страх выбирал, за что ухватиться.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4iolana3" }
+        ]
+    },
+    gl1_172_4iolana3: {
+        text: "Лейла сжала кулаки. Ногти больно впились в кожу.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4iolana4" }
+        ]
+    },
+    gl1_172_4iolana4: {
+        text: "Плохие мысли. Плохая энергия.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\innerleila.png", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4iolana5" }
+        ]
+    },
+    gl1_172_4iolana5: {
+        text: "Пытаясь спрятаться от самой себя, Лейла скрестила руки на груди: \nбудто, если не оградиться от мира, глубинный страх мог вырваться наружу.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan" }
+        ]
+    },
+    gl1_172_4makan: {
+        text: "Увидев это, Хани мягко шепнул на ухо:",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan1" }
+        ]
+    },
+    gl1_172_4makan1: {
+        text: "Макан никуда не денется. Правда, можешь расслабиться. Забудь о времени, побудь здесь.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan2" }
+        ]
+    },
+    gl1_172_4makan2: {
+        text: "Лейла натянуто улыбнулась.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan3" }
+        ]
+    },
+    gl1_172_4makan3: {
+        text: "Да не притворяйся, вижу, не прониклась. Может, потанцуешь с девочками?\nЗажимаешься, а тело просит выражения. ",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan4" }
+        ]
+    },
+    gl1_172_4makan4: {
+        text: "От одного упоминания танцев на языке завертелось много слов. \nНо Лейла ответила коротким, стальным:",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan5" }
+        ]
+    },
+    gl1_172_4makan5: {
+        text: "Нет.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan6" }
+        ]
+    },
+    gl1_172_4makan6: {
+        text: "Она не отрывала взгляда от хулы, но чувствовала: Хани все еще молча на нее смотрел.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan7" }
+        ]
+    },
+    gl1_172_4makan7: {
+        text: "Резко повернулась к нему:  растерялся. Улыбнулся. ",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan8" }
+        ]
+    },
+    gl1_172_4makan8: {
+        text: "Только Лейла успела заметить тень печали на его лице.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan9" }
+        ]
+    },
+    gl1_172_4makan9: {
+        text: "Переживает.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\innerleila.png", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan10" }
+        ]
+    },
+    gl1_172_4makan10: {
+        text: "Не танцую.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan11" }
+        ]
+    },
+    gl1_172_4makan11: {
+        text: "Я заметил… Только это ты так решила? Или Окелани?",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan12" }
+        ]
+    },
+    gl1_172_4makan12: {
+        text: "Я. Мой танец - в океане, на доске. Или на кухне, в запаре.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan13" }
+        ]
+    },
+    gl1_172_4makan13: {
+        text: "Большая ладонь легла Лейле на голову. Потрепала по волосам.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_172_4makan14" }
+        ]
+    },
+    gl1_172_4makan14: {
+        text: "Как знаешь.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani.PNG", position: "left" }],
+        choices: [
             { text: "Дальше", nextScene: "gl1_173" }
         ]
     },
     gl1_173: {
-        text: "Хани раскинулся на горячем камне, подставляя свою блестящую кожу солнцу. Поко, мальчишка, неумело перебирал струны укулеле. Краем глаза он поглядывал на Лейлу. Когда она ему улыбалась, смущенно отводил взгляд.",
+        text: "Зевнув, Хани раскинулся на горячем камне, подставляя свою черную кожу солнцу.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_1" }
+        ]
+    },
+    gl1_173_1: {
+        text: "Поко, мальчишка, неумело перебирал струны укулеле.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_2" }
+        ]
+    },
+    gl1_173_2: {
+        text: "Краем глаза он посматривал на Лейлу. Когда она ему улыбалась, смущенно отводил взгляд.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_3" }
+        ]
+    },
+    gl1_173_3: {
+        text: "Девушки то и дело отвлекались: впервые за долгое время им было, что обсудить. ",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_4" }
+        ]
+    },
+    gl1_173_4: {
+        text: "В порту Хоуле уже долгое время стоял военный корабль - сегодня от него к подножью вулкана отправилась колонна вездеходов.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_5" }
+        ]
+    },
+    gl1_173_5: {
+        text: "По Пууваи быстро разлетелась молва о молодом капитане и белой, с кожей цвета молока, девушке. ",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_6" }
+        ]
+    },
+    gl1_173_6: {
+        text: "Лейла слушала сплетни…",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "С интересом.", nextScene: "gl1_173_houle" }
+            { text: "С опаской.", nextScene: "gl1_173_mana" }
+        ]
+    },
+    gl1_173_houle: {
+        text: "Не так часто на острове появлялись новые лица.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_houle1" }
+        ]
+    },
+    gl1_173_houle1: {
+        text: "Сколько технологий и знаний могли принести с собой люди с Большой Земли…",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_houle2" }
+        ]
+    },
+    gl1_173_houle2: {
+        text: "Может, то и была “Рука Хаоса”, но Лейла помнила: \nмама называла изменения, шедшие рука об руку с Хоуле, “прогрессом”.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_houle3" }
+        ]
+    },
+    gl1_173_houle3: {
+        text: "Ноелани учила дочь, что важно лишь то, кто им управляет.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_7" }
+        ]
+    },
+    gl1_173_mana: {
+        text: "Чем больше чужаков становилось на родной земле, тем сильнее менялся облик острова.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_mana1" }
+        ]
+    },
+    gl1_173_mana1: {
+        text: "Родные корни, прячась от размалывающих землю машин, уходили все глубже в почву.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_mana2" }
+        ]
+    },
+    gl1_173_mana2: {
+        text: "Жизнь с каждым годом все больше подвергалась влиянию Хаоса, царившего за линией горизонта.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_mana3" }
+        ]
+    },
+    gl1_173_mana3: {
+        text: "Он словно медленно поглощал все хорошее: \nсвободу, открытость, искренность, и оставлял лишь пронизывающую тоску по прошлому.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_mana4" }
+        ]
+    },
+    gl1_173_mana4: {
+        text: "Прошлому, в котором все было хорошо. Даже солнце грело иначе: ласково щекотало, а не обжигало.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_173_7" }
+        ]
+    },
+    gl1_173_7: {
+        text: "Из рассуждений Лейлу вырвал командный голос О-Лин:",
         background: "assets\images\backgrounds\beach.png",
         characters: [],
         choices: [
@@ -7531,7 +7924,7 @@ const scenes = {
         ]
     },
     gl1_174: {
-        text: "Ну же, девочки, хоть кто-то из вас хочет попасть на Священные земли? Или вы уже смирились, что это буду я? Постарайтесь, почувствуйте ритм ветра... Пять лей на дороге не валяется.",
+        text: "Хватит! Ну же, девочки, хоть кто-то из вас хочет попасть на Священные земли? Или вы уже смирились, что это буду я? Постарайтесь, почувствуйте ритм ветра... Пять лей на дороге не валяется.",
         background: "assets\images\backgrounds\beach.png",
         characters: [{ name: "О-Лин", image: "assets\images\characters\olin.PNG", position: "left" }],
         choices: [
@@ -7563,7 +7956,7 @@ const scenes = {
         ]
     },
     gl1_178: {
-        text: "Он не слушал: почти уснул. Впервые за утро почувствовал себя на своем месте. Потерянно огляделся по сторонам, потер слипающиеся глаза.",
+        text: "Он не слушал: почти уснул. Впервые за утро почувствовал себя на своем месте. Потерянно огляделся по сторонам, протер слипающиеся глаза.",
         background: "assets\images\backgrounds\beach.png",
         characters: [],
         choices: [
@@ -7596,7 +7989,7 @@ const scenes = {
         ]
     },
     gl1_180_shell1: {
-        text: "Все-таки, он Кахуна-Нуи. Ему дано знать больше.",
+        text: "Все-таки, он Кахуна-Нуи. Ему дано знать больше.\nПОДСКАЗКА: Кахуна-Нуи - главный жрец.",
         background: "assets\images\backgrounds\beach.png",
         characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
         choices: [
@@ -7620,7 +8013,7 @@ const scenes = {
         ]
     },
     gl1_180_shell4: {
-        text: "Так говорит Окелани. И маму тянуло вернуться.",
+        text: "Так говорит Окелани. И маму не просто так тянуло вернуться.",
         background: "assets\images\backgrounds\beach.png",
         characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
         choices: [
@@ -7633,6 +8026,14 @@ const scenes = {
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_180_shell6" }
+        ]
+    },
+    gl1_180_shell6: {
+        text: "Постарался перевести тему:",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_181" }
         ]
     },
     gl1_180_flower: {
@@ -7660,7 +8061,23 @@ const scenes = {
         ]
     },
     gl1_180_flower3: {
-        text: "Говорить Лейле было тяжело. Она оглянулась: словно кто-то мог слушать. Только шелестела листва пальм на ветру. Смеялись девушки, танцуя под игру Поко. Лейла зашептала. Быстро, точно убегая от собственной тревоги.",
+        text: "Говорить Лейле было тяжело. Она оглянулась: словно кто-то мог слушать. ",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower3_1" }
+        ]
+    },
+    gl1_180_flower3_1: {
+        text: "Только шелестела листва пальм на ветру. Смеялись девушки, танцуя под игру Поко.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower3_2" }
+        ]
+    },
+    gl1_180_flower3_2: {
+        text: "Лейла зашептала. Быстро, точно убегая от собственной тревоги.",
         background: "assets\images\backgrounds\beach.png",
         characters: [],
         choices: [
@@ -7668,7 +8085,7 @@ const scenes = {
         ]
     },
     gl1_180_flower4: {
-        text: "Наверное, и ее боялись. Туту говорит, она любила лезть не в свое дело. И, когда она вновь оказалась на wahi pana...",
+        text: "Наверное, и ее боялись. Туту говорит, она любила лезть не в свое дело. И, когда она вновь оказалась на wahi pana...\nПодсказка: wahi pana - священная земля (гавайск.)",
         background: "assets\images\backgrounds\beach.png",
         characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
         choices: [
@@ -7684,7 +8101,63 @@ const scenes = {
         ]
     },
     gl1_180_flower6: {
-        text: "Лейла кивнула. Хани лег обратно, устроил голову на ладонях.",
+        text: "Лейла кивнула.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower7" }
+        ]
+    },
+    gl1_180_flower7: {
+        text: "Правды уже не узнаем.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower8" }
+        ]
+    },
+    gl1_180_flower8: {
+        text: "Хани с трудом подбирал слова. Так что он просто взял Лейлу за руку.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower9" }
+        ]
+    },
+    gl1_180_flower9: {
+        text: "Он всегда был ей мягкой опорой. Как мог, делился душевным спокойствием.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower10" }
+        ]
+    },
+    gl1_180_flower10: {
+        text: "Не стоит убиваться из-за прошлого…",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower11" }
+        ]
+    },
+    gl1_180_flower11: {
+        text: "Лейла отдернула руку. ",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower12" }
+        ]
+    },
+    gl1_180_flower12: {
+        text: "Я не убиваюсь, я рассуждаю.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower13" }
+        ]
+    },
+    gl1_180_flower13: {
+        text: "Хани терпеливо кивнул. Отодвинулся и лег обратно, устроив голову на ладонях.",
         background: "assets\images\backgrounds\beach.png",
         characters: [],
         choices: [
@@ -7708,7 +8181,7 @@ const scenes = {
         ]
     },
     gl1_183: {
-        text: "Если у тебя действительно хорошая смекалка, то ты знаешь, что на священной земле делать нечего. И чего О-Лин туда тянет, неужели не помнит, как ты...",
+        text: "Если у тебя действительно хорошая смекалка, то ты знаешь, что на священной земле делать нечего. Жаль, до О-Лин никак не дойдет. Будто не видела, как мы искали…",
         background: "assets\images\backgrounds\beach.png",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
         choices: [
@@ -7724,25 +8197,9 @@ const scenes = {
         ]
     },
     gl1_185: {
-        text: "Все в порядке?",
-        background: "assets\images\backgrounds\beach.png",
-        characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
-        choices: [
-            { text: "Дальше", nextScene: "gl1_186" }
-        ]
-    },
-    gl1_186: {
         text: "Hauna. прости.",
         background: "assets\images\backgrounds\beach.png",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
-        choices: [
-            { text: "Дальше", nextScene: "gl1_187" }
-        ]
-    },
-    gl1_187: {
-        text: "Ничего.",
-        background: "assets\images\backgrounds\beach.png",
-        characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_188" }
         ]
@@ -7812,7 +8269,7 @@ const scenes = {
         ]
     },
     gl1_196: {
-        text: "Хани тепло улыбнулся.",
+        text: "Блестящее от испарины лицо Хани украсила мягкая улыбка.",
         background: "assets\images\backgrounds\beach.png",
         characters: [],
         choices: [
@@ -7964,9 +8421,9 @@ const scenes = {
         ]
     },
     gl1_215: {
-        text: "ОЛ: Тебе что-то надо?",
+        text: "Тебе что-то надо?",
         background: "assets\images\backgrounds\beach.png",
-        characters: [],
+        characters: [{ name: "О-Лин", image: "assets\images\characters\olin.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_216" }
         ]
@@ -7996,9 +8453,9 @@ const scenes = {
         ]
     },
     gl1_219: {
-        text: "ОЛ:Ладно, берите. Лишь бы девочки перестали отвлекаться... Иолана вообще не пришла.",
+        text: "Ладно, берите. Лишь бы девочки перестали отвлекаться... Иолана вообще не пришла.",
         background: "assets\images\backgrounds\beach.png",
-        characters: [],
+        characters: [{ name: "О-Лин", image: "assets\images\characters\olin.PNG", position: "left" }],
         choices: [
             { text: "Дальше", nextScene: "gl1_220" }
         ]
