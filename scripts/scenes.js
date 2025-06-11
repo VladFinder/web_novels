@@ -1152,7 +1152,7 @@ const scenes = {
         text: "ЛЕЙЛАННИ?",
         background: "assets\images\backgrounds\room_window.png",
         characters: [
-            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+            { name: "Пилипо", image: "assets\images\characters\piliponew.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_45" }
@@ -1198,7 +1198,7 @@ const scenes = {
         text: "Конечно, Лейланни, я по делу.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [
-            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+            { name: "Пилипо", image: "assets\images\characters\piliponew.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_50" }
@@ -1238,7 +1238,7 @@ const scenes = {
         text: "Слушай, Лейланни. Ты же дружишь с Хани? Не видела его?",
         background: "assets\images\backgrounds\room_window.png",
         characters: [
-            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+            { name: "Пилипо", image: "assets\images\characters\piliponew.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_54" }
@@ -1276,7 +1276,7 @@ const scenes = {
         text: "Да...",
         background: "assets\images\backgrounds\room_window.png",
         characters: [
-            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+            { name: "Пилипо", image: "assets\images\characters\piliponew.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_58" }
@@ -1294,7 +1294,7 @@ const scenes = {
         text: "Он уволен. Пусть зайдет за расплатой.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [
-            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+            { name: "Пилипо", image: "assets\images\characters\piliponew.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_60" }
@@ -1330,7 +1330,7 @@ const scenes = {
         text: "Что ж, надеюсь, я найду его раньше. Счастливого Макахики тебе и бабушке! ПОДСКАЗКА: Макахики - гавайский праздник урожая.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [
-            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+            { name: "Пилипо", image: "assets\images\characters\piliponew.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_64" }
@@ -1352,7 +1352,7 @@ const scenes = {
         text: "Спасибо, Лейланни.",
         background: "assets\images\backgrounds\room_window.png",
         characters: [
-            { name: "Пилипо", image: "assets\images\characters\pilipo.png", position: "center" }
+            { name: "Пилипо", image: "assets\images\characters\piliponew.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "l1_66" }
