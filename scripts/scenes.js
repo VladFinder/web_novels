@@ -2703,7 +2703,7 @@ const scenes = {
         ]
     },
     gl1_7nobruise: {
-        text: "Он подошел вплотную - чтобы точно поймать взгляд Лейлы.\nТа, рассмеявшись, продолжила игру: отвернулась и, виляя бедрами, улизнула к зеркалу."
+        text: "Он подошел вплотную - чтобы точно поймать взгляд Лейлы.\nТа, рассмеявшись, продолжила игру: отвернулась и, виляя бедрами, улизнула к зеркалу.",
         background: "assets\images\backgrounds\room_morning.png", 
         characters: [],
         choices: [
@@ -4951,7 +4951,7 @@ const scenes = {
     },
     gl1_165choice1_2: {
         text: "Хани едва слышно прошептал:",
-        background: "assets\images\backgrounds\trees.png,
+        background: "assets\images\backgrounds\trees.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_165choice1_3" }
@@ -7839,7 +7839,7 @@ const scenes = {
         background: "assets\images\backgrounds\beach.png",
         characters: [],
         choices: [
-            { text: "С интересом.", nextScene: "gl1_173_houle" }
+            { text: "С интересом.", nextScene: "gl1_173_houle" },
             { text: "С опаской.", nextScene: "gl1_173_mana" }
         ]
     },
