@@ -8793,19 +8793,11 @@ const scenes = {
         background: "assets\images\backgrounds\ocean.mp4",
         characters: [],
         choices: [
-            { text: "Дальше", nextScene: "gl1_238" }
-        ]
-    },
-    gl1_238: {
-        text: "Я не могу позволить себе думать о том, что я не могу...",
-        background: "assets\images\backgrounds\ocean.mp4",
-        characters: [{ name: "Лейла", image: "assets\images\characters\innerleila.png", position: "center" }],
-        choices: [
             { text: "Дальше", nextScene: "gl1_239" }
         ]
     },
     gl1_239: {
-        text: "Быстрее и быстрее... Лейла поднялась на ноги. Ветер свистел в ушах.",
+        text: "Быстрее и быстрее... Лейла поднялась на ноги.",
         background: "assets\images\backgrounds\ocean.mp4",
         characters: [],
         choices: [
@@ -8816,6 +8808,14 @@ const scenes = {
         text: "Поймал!",
         background: "assets\images\backgrounds\ocean.mp4",
         characters: [{ name: "Хани", image:"assets\images\characters\Hani_topless.png", position: "left" }],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_240_1" }
+        ]
+    },
+    gl1_240_1: {
+        text: "Теперь, почувствовав под собой опору, Лейла оглянулась на друга через плечо.",
+        background: "assets\images\backgrounds\ocean.mp4",
+        characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_241" }
         ]
