@@ -13,8 +13,17 @@ const scenes = {
         audio: "",
         audio: "",
         choices: [
-            { text: "Начать игру", nextScene: "dis" },
+            { text: "Начать игру", nextScene: "dis0" },
             { text: "Выход", nextScene: "end" }
+        ]
+    },
+    dis0: {
+        text: "Глава 1. Богиня просыпается.",
+        background: "assets\images\backgrounds\cutscenes\dis1.MP4",
+        characters: [],
+        audio: "assets\images\SOUNDS\music\ritual_music.mp3",
+        choices: [
+            { text: "Дальше", nextScene: "dis" }
         ]
     },
     dis: {
