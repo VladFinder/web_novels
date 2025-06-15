@@ -618,6 +618,14 @@ const scenes = {
         background: "assets\images\backgrounds\room_morning.png",
         characters: [],
         choices: [
+            { text: "Дальше", nextScene: "gl1_24_1" }
+        ]
+    },
+    gl1_24_1: {
+        text: "ИНСТРУКЦИЯ.\nСейчас ты увидишь Внутренний голос Лейлы. Он озвучивает все ее рассуждения.",
+        background: "assets\images\backgrounds\room_morning.png",
+        characters: [],
+        choices: [
             { text: "Дальше", nextScene: "gl1_25" }
         ]
     },
@@ -625,7 +633,7 @@ const scenes = {
         text: "Разбудил в такую рань!? Как сам умудрился проснуться после такой попойки...",
         background: "assets\images\backgrounds\room_morning.png",
         characters: [
-            { name: "Лейла", image: "assets\images\characters\leilasleep.PNG", position: "center" }
+            { name: "Внутренний голос", image: "assets\images\characters\innerleila.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_26" }
@@ -643,7 +651,7 @@ const scenes = {
         text: "Оставила мамин браслет у Хани?... И как я попала домой?",
         background: "assets\images\backgrounds\room_morning.png",
         characters: [
-            { name: "Лейла", image: "assets\images\characters\leilasleep.PNG", position: "center" }
+            { name: "Лейла", image: "assets\images\characters\innerleila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_27_1" }
@@ -799,7 +807,7 @@ const scenes = {
         text: "“Она так редко бывала дома.”",
         background: "assets\images\backgrounds\mirror.png",
         characters: [
-            { name: "Лейла", image: "assets\images\characters\leilasleep.PNG", position: "center" }
+            { name: "Лейла", image: "assets\images\characters\innerleila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "choicegl1_3_2_3" }
@@ -817,14 +825,14 @@ const scenes = {
         text: "Чернила почти выцвели. Как давно это было...",
         background: "assets\images\backgrounds\mirror.png",
         characters: [
-            { name: "Лейла", image: "assets\images\characters\leilasleep.PNG", position: "center" }
+            { name: "Лейла", image: "assets\images\characters\innerleila.PNG", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "choicegl1_3_2_5" }
         ]
     },
     choicegl1_3_2_5: {
-        text: "“Почти десять лет назад.”",
+        text: "Почти десять лет назад.",
         background: "assets\images\backgrounds\mirror.png",
         characters:[
             { name: "Лейла", image: "assets\images\characters\leilasleep.PNG", position: "center" }
@@ -850,7 +858,7 @@ const scenes = {
         ]
     },
     choicegl1_3_2_7_1: {
-        text: "Попытка что-то почувствовать - кольцо в носу. ",
+        text: "Попытка что-то почувствовать - кольцо в носу.",
         background: "assets\images\backgrounds\mirror.png",
         characters: [],
         choices: [
@@ -858,7 +866,7 @@ const scenes = {
         ]
     },
     choicegl1_3_2_7_2: {
-        text: "Попытка что-то почувствовать - кольцо в носу. ",
+        text: "Лейла натянуто улыбнулась собственному отражению.",
         background: "assets\images\backgrounds\mirror.png",
         characters: [],
         choices: [
@@ -866,7 +874,7 @@ const scenes = {
         ]
     },
     choicegl1_3_2_7_3: {
-        text: "Лейла натянуто улыбнулась собственному отражению.\nИ тут же вздрогнула: в окно снова ударился камень.",
+        text: "И тут же вздрогнула: в окно снова ударился камень.",
         background: "assets\images\backgrounds\mirror.png",
         characters: [],
         choices: [
@@ -914,7 +922,7 @@ const scenes = {
     choicegl1_4: {
         text: "...",
         background: "assets\images\backgrounds\room_window.png",
-        characters: [],
+        characters: [{ name: "Лейла", image: "assets\images\characters\leilasleep.PNG", position: "center" }],
         choices: [
             { text: "Попала прямо в глаз Хани.", nextScene: "choicegl1_4_1" },
             { text: "Чуть не попала прямо в Хани.", nextScene: "choicegl1_4_2" }
@@ -8044,7 +8052,7 @@ const scenes = {
         ]
     },
     gl1_180_shell4: {
-        text: "Так говорит Окелани. И маму не просто так тянуло вернуться.",
+        text: "Так говорит Окелани. И маму не просто так туда тянуло. Мы мечтали вернуться.",
         background: "assets\images\backgrounds\beach.png",
         characters: [{ name: "Лейла", image: "assets\images\characters\Leila_shadow.PNG", position: "center" }],
         choices: [
@@ -8133,6 +8141,14 @@ const scenes = {
     },
     gl1_180_flower6: {
         text: "Лейла кивнула.",
+        background: "assets\images\backgrounds\beach.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_180_flower6_1" }
+        ]
+    },
+    gl1_180_flower6_1: {
+        text: "Мы мечтали вернуться вместе, но она ушла без меня...",
         background: "assets\images\backgrounds\beach.png",
         characters: [],
         choices: [
