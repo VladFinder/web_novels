@@ -9,9 +9,6 @@ const scenes = {
         background: "assets/images/backgrounds/start.jpg",
         characters: [],
         audio: "",
-        audio: "",
-        audio: "",
-        audio: "",
         choices: [
             { text: "Начать игру", nextScene: "dis0" },
             { text: "Выход", nextScene: "end" }
