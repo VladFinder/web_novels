@@ -7,8 +7,6 @@ import MoodCalendar from '../components/MoodCalendar.vue';
 const routes = [
   { path: '/', component: SplashScreen },
   { path: '/mood', component: MoodSelection },
-  { path: '/main', component: MainScreen },
-  { path: '/calendar', component: MoodCalendar },
   {
     path: '/stories',
     component: () => import('../components/StoriesScreen.vue') // лениво грузим истории
