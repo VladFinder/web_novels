@@ -5,30 +5,33 @@
       v-else-if="currentScreen === 'emotion'"
       @emotion-selected="handleEmotionSelect"
     />
-    <div v-else class="content">
-      <p>Выбранная эмоция: {{ selectedEmotion }}</p>
-    </div>
+    <MainScreen
+      v-else-if="currentScreen === 'main'"
+      @open-settings="openSettings"
+    />
+    <!-- ...можно добавить модалку настроек по флагу showSettings... -->
   </div>
 </template>
 
 <script>
 import LoadingScreen from './components/LoadingScreen.vue'
 import EmotionSelect from './components/EmotionSelect.vue'
-import { emotionsService } from './services/emotionsService'
+import MainScreen from './components/MainScreen.vue'
 import { isTelegram, initTelegram } from './utils/telegram'
 
 export default {
   name: 'App',
   components: {
     LoadingScreen,
-    EmotionSelect
+    EmotionSelect,
+    MainScreen
   },
   data() {
     return {
       currentScreen: 'loading',
       selectedEmotion: null,
-      emotions: [],
-      isTelegramWebApp: false
+      isTelegramWebApp: false,
+      showSettings: false
     }
   },
   mounted() {
@@ -45,16 +48,8 @@ export default {
       this.selectedEmotion = emotionId;
       this.currentScreen = 'main';
     },
-    
-    async loadEmotions() {
-      try {
-        const startDate = new Date();
-        startDate.setMonth(startDate.getMonth() - 1); // Загружаем эмоции за последний месяц
-        const emotions = await emotionsService.getEmotions(startDate, new Date());
-        this.emotions = emotions;
-      } catch (error) {
-        console.error('Failed to load emotions:', error);
-      }
+    openSettings() {
+      this.showSettings = true;
     }
   }
 }
