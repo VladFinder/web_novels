@@ -1,15 +1,21 @@
+import os
+
 import pymysql
 import logging
+
+from dotenv import load_dotenv
 
 from crypto_utils import encrypt_value
 
 # Setup logging — write debug info to console
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 
-DB_HOST = 'localhost'
-DB_USER = 'u3076779_default'
-DB_PASSWORD = 'lL7EVHIe5j18Q1ga'
-DB_NAME = 'u3076779_default'
+load_dotenv()
+
+DB_HOST = os.getenv("DB_HOST")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_NAME = os.getenv("DB_NAME")
 
 def get_connection():
     logging.debug("Creating DB connection to %s@%s/%s", DB_USER, DB_HOST, DB_NAME)
