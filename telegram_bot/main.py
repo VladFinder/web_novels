@@ -35,7 +35,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if is_authorized:
         decrypted_id_from_db = get_telegram_id_by_username(username)
-        await update.message.reply_text(f"✅ {username}, вы авторизованы. ID из БД: {decrypted_id_from_db}")
+        await update.message.reply_text(f"✅ {username}, вы авторизованы. Ваш id: {decrypted_id_from_db}")
     else:
         await update.message.reply_text("⚠️ Вы не авторизованы. Приносим извинения за неудобства.")
 
