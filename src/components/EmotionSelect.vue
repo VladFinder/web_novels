@@ -120,7 +120,6 @@ export default {
   height: 25vw;
   max-height: 140px;
   min-height: 64px;
-  -o-object-fit: cover;
   object-fit: cover;
   border-radius: 16px;
   overflow: visible;

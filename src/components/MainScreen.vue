@@ -114,6 +114,7 @@ export default {
 
 .calendar {
   background: #FF7DBB;
+  color: black;
   /* border: none!important;
   border-radius: 20px; */
 }
