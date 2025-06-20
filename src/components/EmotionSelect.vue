@@ -25,12 +25,12 @@ export default {
     return {
       telegramId: null,
       emotions: [
-        { id: 1, name: 'Радостно', icon: require('../assets/emotions/happy.svg') },
-        { id: 2, name: 'Грустно', icon: require('../assets/emotions/sad.svg') },
-        { id: 3, name: 'Спокойно', icon: require('../assets/emotions/calm.svg') },
-        { id: 4, name: 'Тревожно', icon: require('../assets/emotions/anxious.svg') },
-        { id: 5, name: 'Раздражённо', icon: require('../assets/emotions/angry.svg') },
-        { id: 6, name: 'Мечтательно', icon: require('../assets/emotions/tired.svg') }
+        { id: 1, name: 'Радостно', icon: require('../assets/emotions/Радость.png') },
+        { id: 2, name: 'Грустно', icon: require('../assets/emotions/Грусть.png') },
+        { id: 3, name: 'Спокойно', icon: require('../assets/emotions/Спокойно.png') },
+        { id: 4, name: 'Тревожно', icon: require('../assets/emotions/Тревога.png') },
+        { id: 5, name: 'Раздражённо', icon: require('../assets/emotions/Раздражение.png') },
+        { id: 6, name: 'Мечтательно', icon: require('../assets/emotions/Мечтательность.png') }
       ]
     }
   },
@@ -63,12 +63,16 @@ export default {
 
 <style scoped>
 .emotion-select {
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   background: radial-gradient(48.34% 48.34% at 50% 51.66%, #DAF8FF 29.33%, #F2C0FF 75%, #FB8DFF 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .title {
@@ -76,6 +80,7 @@ export default {
   font-size: 40px;
   color: #333;
   margin-bottom: 40px;
+  font-weight: 100;
 }
 
 .glass-container {
@@ -84,14 +89,14 @@ export default {
   border-radius: 24px;
   padding: 40px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  width: 90%;
+  width: 75%;
   max-width: 800px;
 }
 
 .emotions-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 6fr));
+  gap: 5vw;
   place-items: center;
 }
 
@@ -109,8 +114,16 @@ export default {
 }
 
 .emotion-item img {
-  width: 80px;
-  height: 80px;
+  width: 35vw;
+  max-width: 170px;
+  min-width: 80px;
+  height: 25vw;
+  max-height: 140px;
+  min-height: 64px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 16px;
+  overflow: visible;
 }
 
 .emotion-name {
