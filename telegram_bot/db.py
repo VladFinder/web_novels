@@ -1,13 +1,10 @@
 import os
-
-import pymysql
 import logging
-
+import pymysql
 from dotenv import load_dotenv
+from crypto_utils import encrypt_value, decrypt_value
 
-from crypto_utils import encrypt_value
-
-# Setup logging — write debug info to console
+# Setup logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 
 load_dotenv()
@@ -37,16 +34,18 @@ def get_connection():
 def save_or_verify_user(user_data):
     logging.debug("save_or_verify_user called with user_data: %s", user_data)
     try:
+        if not user_data.get('username'):
+            user_data['username'] = "unknown"
+
+        id_encoded = encrypt_value(user_data['id'])
+        username_encoded = encrypt_value(user_data['username'])
+
         with get_connection() as conn:
             with conn.cursor() as cursor:
                 insert_sql = """
                     INSERT IGNORE INTO users (telegram_id, username)
                     VALUES (%s, %s)
                 """
-
-                id_encoded = encrypt_value(user_data['id'])
-                username_encoded = encrypt_value(user_data['username'])
-
                 cursor.execute(insert_sql, (id_encoded, username_encoded))
                 conn.commit()
 
@@ -67,15 +66,14 @@ def save_or_verify_user(user_data):
 def get_telegram_id_by_username(username):
     logging.debug("get_telegram_id_by_username called with username: %s", username)
     try:
+        username_encoded = encrypt_value(username)
         with get_connection() as conn:
             with conn.cursor() as cursor:
                 sql = "SELECT telegram_id FROM users WHERE username = %s"
-                logging.debug("Executing SQL: %s with value (%s)", sql, username)
-                cursor.execute(sql, (username,))
+                cursor.execute(sql, (username_encoded,))
                 result = cursor.fetchone()
-                logging.debug("SQL query result: %s", result)
                 if result:
-                    return result['telegram_id']
+                    return decrypt_value(result['telegram_id'])  # optional
                 else:
                     return None
     except Exception as e:
