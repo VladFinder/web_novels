@@ -1,0 +1,4 @@
+python-telegram-bot==20.6
+PyMySQL==1.1.1
+pycryptodome
+python-dotenv
