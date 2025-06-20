@@ -21,6 +21,16 @@ app.post('/api/users', async (req, res) => {
   }
 });
 
+app.post('/api/user/validate', async (req, res) => {
+  try {
+    const { decrypted_tg_id } = req.body;
+    console.log(decrypted_tg_id);
+    res.json({ success: true, receivedId: decrypted_tg_id });
+  } catch (error) {
+    console.error('Error validating user:', error);
+  }
+})
+
 // Сохранение эмоции
 app.post('/api/emotions', async (req, res) => {
   try {

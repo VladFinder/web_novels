@@ -1,7 +1,9 @@
-import os
 import logging
+import os
+
 import pymysql
 from dotenv import load_dotenv
+
 from crypto_utils import encrypt_value, decrypt_value
 
 # Setup logging
