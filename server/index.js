@@ -29,10 +29,10 @@ app.post('/api/users/validate', async (req, res) => {
 // Сохранение эмоции
 app.post('/api/emotions', async (req, res) => {
   try {
-    const { telegramId, emotion, timestamp } = req.body;
+    const { telegramId, emotion, note, timestamp } = req.body;
     await pool.execute(
-      'INSERT INTO emotions (telegram_id, emotion, created_at) VALUES (?, ?, ?)',
-      [telegramId, emotion, new Date(timestamp)]
+      'INSERT INTO emotions (telegram_id, emotion, note, created_at) VALUES (?, ?, ?, ?)',
+      [telegramId, emotion, note, new Date(timestamp)]
     );
     res.json({ success: true });
   } catch (error) {

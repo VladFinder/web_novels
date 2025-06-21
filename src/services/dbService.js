@@ -22,37 +22,23 @@ export const dbService = {
   },
 
   // Сохранение эмоции
-  async saveEmotion(telegramId, emotionData) {
-    try {
-      const response = await fetch(`${API_URL}/emotions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          telegramId,
-          emotion: emotionData.emotion,
-          timestamp: emotionData.timestamp
-        })
-      });
-      return response.json();
-    } catch (error) {
-      console.error('Error saving emotion:', error);
-      throw error;
-    }
+  async saveEmotion(telegramId, { emotion, note, timestamp }) {
+    return fetch(`${API_URL}/emotions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegramId, emotion, note, timestamp })
+    })
   },
 
   // Получение эмоций пользователя
   async getUserEmotions(telegramId, startDate, endDate) {
-    try {
-      const response = await fetch(
-        `${API_URL}/emotions?telegramId=${telegramId}&startDate=${startDate}&endDate=${endDate}`
-      );
-      return response.json();
-    } catch (error) {
-      console.error('Error getting emotions:', error);
-      throw error;
-    }
+    const params = new URLSearchParams({
+      telegramId,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString()
+    })
+    const response = await fetch(`${API_URL}/emotions?${params}`)
+    return await response.json()
   },
 
   // Получение пользователя

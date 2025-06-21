@@ -59,6 +59,19 @@ export default {
         new Date(),
         this.dailyNote
       )
+    },
+    async selectEmotion(id) {
+      try {
+        const note = this.note || ''; // если есть поле note в data
+        await dbService.saveEmotion(this.telegramId, {
+          emotion: id,
+          note,
+          timestamp: new Date()
+        });
+        this.$emit('emotion-selected', id)
+      } catch (error) {
+        console.error('Failed to save emotion:', error)
+      }
     }
   }
 }

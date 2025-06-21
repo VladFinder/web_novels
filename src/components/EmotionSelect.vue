@@ -43,15 +43,16 @@ export default {
   methods: {
     async selectEmotion(id) {
       try {
-        // if (!this.telegramId) {
-        //   throw new Error('Telegram ID is required')
-        // }
-        // await dbService.saveUser(this.telegramId)
-        // await dbService.saveEmotion(this.telegramId, {
-        //   emotion: id,
-        //   timestamp: new Date()
-        // })
-        // Просто переключаем экран
+        if (!this.telegramId) {
+          throw new Error('Telegram ID is required')
+        }
+        // Сохраняем эмоцию в базу
+        await dbService.saveEmotion(this.telegramId, {
+          emotion: id,
+          note: '', // если заметка не нужна, иначе передай заметку
+          timestamp: new Date()
+        })
+        // Переключаем экран
         this.$emit('emotion-selected', id)
       } catch (error) {
         console.error('Failed to save emotion:', error)
