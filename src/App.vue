@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <LoadingScreen v-if="currentScreen === 'loading'" />
-    <EmotionSelect v-else-if="currentScreen === 'emotion'" @emotion-selected="handleEmotionSelect" />
+    <EmotionSelect v-else-if="currentScreen === 'emotion'" @emotion-selected="handleEmotionSelect" @navigate="handleNavigate" />
     <MainScreen
       v-else-if="currentScreen === 'main'"
       @open-settings="openSettings"
@@ -36,6 +36,9 @@ export default {
     handleEmotionSelect(emotionId) {
       this.selectedEmotion = emotionId;
       this.currentScreen = 'main';
+    },
+    handleNavigate(screen) {
+      this.currentScreen = screen;
     },
     openSettings() {
       this.showSettings = true;

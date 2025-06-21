@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест API эмоций</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5a6fd8;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Тест API эмоций</h1>
+        
+        <div class="form-group">
+            <label for="telegramId">Telegram ID:</label>
+            <input type="text" id="telegramId" value="test123" placeholder="Введите Telegram ID">
+        </div>
+        
+        <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" value="TestUser" placeholder="Введите имя пользователя">
+        </div>
+        
+        <div class="form-group">
+            <label for="emotion">Эмоция:</label>
+            <select id="emotion">
+                <option value="1">Радость</option>
+                <option value="2">Грусть</option>
+                <option value="3">Спокойствие</option>
+                <option value="4">Тревога</option>
+                <option value="5">Раздражение</option>
+                <option value="6">Мечтательность</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="note">Заметка:</label>
+            <textarea id="note" rows="3" placeholder="Введите заметку к эмоции"></textarea>
+        </div>
+        
+        <div class="actions">
+            <button onclick="saveEmotion()">💾 Сохранить эмоцию</button>
+            <button onclick="checkToday()">📅 Проверить сегодня</button>
+            <button onclick="getEmotions()">📊 Получить эмоции</button>
+            <button onclick="clearResult()">🧹 Очистить результат</button>
+        </div>
+        
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://37.140.192.181:3001/api';
+        
+        function showResult(data, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = `result ${type}`;
+            resultDiv.textContent = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+        }
+        
+        function clearResult() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'none';
+        }
+        
+        async function saveEmotion() {
+            const telegramId = document.getElementById('telegramId').value;
+            const username = document.getElementById('username').value;
+            const emotion = parseInt(document.getElementById('emotion').value);
+            const note = document.getElementById('note').value;
+            
+            if (!telegramId) {
+                showResult('Ошибка: Введите Telegram ID', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/emotions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        telegramId,
+                        emotion,
+                        note,
+                        timestamp: new Date().toISOString(),
+                        username
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(data, 'success');
+                } else {
+                    showResult(data, 'error');
+                }
+            } catch (error) {
+                showResult(`Ошибка подключения: ${error.message}`, 'error');
+            }
+        }
+        
+        async function checkToday() {
+            const telegramId = document.getElementById('telegramId').value;
+            
+            if (!telegramId) {
+                showResult('Ошибка: Введите Telegram ID', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/emotions/today/${telegramId}`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(data, 'info');
+                } else {
+                    showResult(data, 'error');
+                }
+            } catch (error) {
+                showResult(`Ошибка подключения: ${error.message}`, 'error');
+            }
+        }
+        
+        async function getEmotions() {
+            const telegramId = document.getElementById('telegramId').value;
+            
+            if (!telegramId) {
+                showResult('Ошибка: Введите Telegram ID', 'error');
+                return;
+            }
+            
+            try {
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() - 30); // Последние 30 дней
+                const endDate = new Date();
+                
+                const params = new URLSearchParams({
+                    telegramId: String(telegramId),
+                    startDate: startDate.toISOString(),
+                    endDate: endDate.toISOString()
+                });
+                
+                const response = await fetch(`${API_URL}/emotions?${params}`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(data, 'info');
+                } else {
+                    showResult(data, 'error');
+                }
+            } catch (error) {
+                showResult(`Ошибка подключения: ${error.message}`, 'error');
+            }
+        }
+        
+        // Автоматически проверяем статус API при загрузке
+        window.onload = async function() {
+            try {
+                const response = await fetch(`${API_URL}/emotions/today/test`);
+                if (response.ok) {
+                    showResult('✅ API сервер работает корректно', 'success');
+                } else {
+                    showResult('❌ API сервер недоступен', 'error');
+                }
+            } catch (error) {
+                showResult('❌ Не удается подключиться к API серверу', 'error');
+            }
+        };
+    </script>
+</body>
+</html> 
