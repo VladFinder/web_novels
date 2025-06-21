@@ -1,5 +1,4 @@
-// import { collection, addDoc, getDocs, query, where, doc, setDoc } from 'firebase/firestore';
-// import { db } from '../firebase/config';
+import { db } from  './firebase'; // Предполагается, что вы используете Firebase для хранения данных
 
 const API_URL =  'https://ikiteam.ru/api';
 
@@ -46,5 +45,13 @@ export const dbService = {
     const response = await fetch(`${API_URL}/users/${telegramId}`);
     if (!response.ok) throw new Error('User not found');
     return await response.json();
+  },
+
+  async saveEmotion(telegramId, data) {
+    // Сохраняем эмоцию в подколлекцию "emotions" пользователя
+    await db.collection('users')
+      .doc(String(telegramId))
+      .collection('emotions')
+      .add(data)
   }
 };
