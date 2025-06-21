@@ -1,5 +1,8 @@
 <template>
   <div class="main-screen">
+    <div class="user-login" v-if="username">
+      Привет, @{{ username }}!
+    </div>
     <button class="settings-btn" @click="$emit('open-settings')">
       <!-- <img src="../assets/settings.svg" alt="Настройки" /> -->
     </button>
@@ -23,8 +26,29 @@
 </template>
 
 <script>
+import { dbService } from '../services/dbService'
+import { getTelegramUserId } from '../utils/telegram'
+
 export default {
-  name: 'MainScreen'
+  name: 'MainScreen',
+  data() {
+    return {
+      username: null
+    }
+  },
+  async mounted() {
+    const telegramId = getTelegramUserId()
+    if (telegramId) {
+      try {
+        const user = await dbService.getUser(telegramId)
+        if (user && user.login) {
+          this.username = user.login
+        }
+      } catch (e) {
+        console.error('Ошибка получения логина:', e)
+      }
+    }
+  }
 }
 </script>
 
@@ -122,6 +146,14 @@ export default {
 .btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.user-login {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #333;
+  font-family: 'Mulish', sans-serif;
+  font-weight: 500;
 }
 
 @media (max-width: 600px) {

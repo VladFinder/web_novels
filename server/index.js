@@ -21,14 +21,9 @@ app.post('/api/users', async (req, res) => {
   }
 });
 
-app.post('/api/user/validate', async (req, res) => {
-  try {
-    const { decrypted_tg_id } = req.body;
-    console.log(decrypted_tg_id);
-    res.json({ success: true, receivedId: decrypted_tg_id });
-  } catch (error) {
-    console.error('Error validating user:', error);
-  }
+app.post('/api/users/validate', async (req, res) => {
+  const { decrypted_tg_id } = req.body;
+  res.json({ success: true, receivedId: decrypted_tg_id });
 })
 
 // Сохранение эмоции
@@ -61,9 +56,28 @@ app.get('/api/emotions', async (req, res) => {
   }
 });
 
+app.get('/api/users/:telegramId', async (req, res) => {
+  try {
+    const { telegramId } = req.params;
+    const [rows] = await pool.execute(
+      'SELECT * FROM users WHERE telegram_id = ?',
+      [telegramId]
+    );
+    if (rows.length > 0) {
+      res.json(rows[0]);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error getting user:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log('=== THIS IS MY SERVER ===');
 }).on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
     console.error(`Port ${PORT} is already in use`);
