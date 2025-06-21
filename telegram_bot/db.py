@@ -34,35 +34,39 @@ def get_connection():
         raise
 
 def save_or_verify_user(user_data):
-    logging.debug("save_or_verify_user called with user_data: %s", user_data)
+    import logging
+    id_encoded = encrypt_value(user_data['id'])
+    username_encoded = encrypt_value(user_data['username'])
+
     try:
-        if not user_data.get('username'):
-            user_data['username'] = "unknown"
-
-        id_encoded = encrypt_value(user_data['id'])
-        username_encoded = encrypt_value(user_data['username'])
-
         with get_connection() as conn:
             with conn.cursor() as cursor:
-                insert_sql = """
-                    INSERT IGNORE INTO users (telegram_id, username)
-                    VALUES (%s, %s)
-                """
-                cursor.execute(insert_sql, (id_encoded, username_encoded))
+                logging.debug(f"Добавляю пользователя: {id_encoded}, {username_encoded}")
+                cursor.execute(
+                    "INSERT IGNORE INTO users (telegram_id, username) VALUES (%s, %s)",
+                    (id_encoded, username_encoded)
+                )
                 conn.commit()
+    except Exception as e:
+        logging.error(f"Ошибка при добавлении пользователя: {e}")
+        return False
 
-                check_sql = "SELECT username FROM users WHERE telegram_id = %s"
-                cursor.execute(check_sql, (id_encoded,))
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    "SELECT username FROM users WHERE telegram_id = %s",
+                    (id_encoded,)
+                )
                 result = cursor.fetchone()
-
                 if result:
-                    logging.debug("User authorized")
+                    logging.debug("User найден и авторизован")
                     return True
                 else:
-                    logging.debug("User not authorized")
+                    logging.debug("User не найден")
                     return False
     except Exception as e:
-        logging.error("Error in save_or_verify_user: %s", e)
+        logging.error(f"Ошибка при поиске пользователя: {e}")
         return False
 
 def get_telegram_id_by_username(username):
