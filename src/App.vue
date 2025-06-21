@@ -67,6 +67,7 @@ html, body, #app {
   position: static;
   overscroll-behavior: auto;
   touch-action: auto;
+  margin: 0;
 }
 
 #app {
