@@ -1,7 +1,7 @@
 // import { collection, addDoc, getDocs, query, where, doc, setDoc } from 'firebase/firestore';
 // import { db } from '../firebase/config';
 
-const API_URL = 'https://ikiteam.ru/api';
+const API_URL =  'https://ikiteam.ru/api';
 
 export const dbService = {
   // Создание или обновление пользователя
@@ -27,7 +27,7 @@ export const dbService = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ telegramId, emotion, note, timestamp })
-    })
+    });
   },
 
   // Получение эмоций пользователя

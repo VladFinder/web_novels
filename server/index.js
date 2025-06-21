@@ -30,6 +30,7 @@ app.post('/api/users/validate', async (req, res) => {
 app.post('/api/emotions', async (req, res) => {
   try {
     const { telegramId, emotion, note, timestamp } = req.body;
+    console.log(req.body)
     await pool.execute(
       'INSERT INTO emotions (telegram_id, emotion, note, created_at) VALUES (?, ?, ?, ?)',
       [telegramId, emotion, note, new Date(timestamp)]
@@ -75,7 +76,7 @@ app.get('/api/users/:telegramId', async (req, res) => {
 });
 
 const PORT = 3001;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
   console.log('=== THIS IS MY SERVER ===');
 }).on('error', (err) => {

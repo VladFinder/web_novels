@@ -34,7 +34,7 @@ export default {
 }
 
 .logo {
-  width: 120px;
+  width: 360px;
   height: auto;
 }
 
