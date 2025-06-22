@@ -28,8 +28,6 @@
             @click="showEmotionDetails(day)"
           >
             <span class="date">{{ day.dayNumber }}</span>
-            <!-- Отладочная информация -->
-            <div v-if="day.emotion" style="font-size: 8px; color: red; position: absolute; top: 0; left: 0;">{{ day.emotion }}</div>
             <img 
               v-if="day.emotion" 
               :src="getMiniEmotionIcon(day.emotion)" 
@@ -78,12 +76,6 @@
                 <p class="thought-time">{{ formatTime(thought.timestamp) }}</p>
               </div>
             </div>
-            <!-- Добавить заметку -->
-            <!-- <div class="modal-thought-input">
-              <textarea v-model="modalThought" placeholder="Добавить заметку..." rows="2"></textarea>
-              <button @click="addModalThought" :disabled="isSavingModalThought">{{ isSavingModalThought ? 'Сохранение...' : 'Добавить заметку' }}</button>
-            </div> -->
-            <!-- <p v-if="modalThoughtSaved" class="thought-saved">Заметка добавлена!</p> -->
           </div>
           <button @click="closeModal" class="close-btn">Закрыть</button>
         </div>
@@ -161,7 +153,13 @@ export default {
       for (let i = 0; i < 42; i++) {
         const date = new Date(startDate)
         date.setDate(startDate.getDate() + i)
-        const dateStr = date.toISOString().split('T')[0]
+        
+        // Создаем дату в локальном времени, чтобы избежать проблем с часовыми поясами
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        const dateStr = `${year}-${month}-${day}`
+        
         const emotionObj = this.getEmotionForDate(dateStr)
         
         console.log('🔍 Проверяем дату:', dateStr, 'эмоция:', emotionObj ? emotionObj.emotion : 'нет')
@@ -178,7 +176,7 @@ export default {
         }
         
         // Отладочная информация для конкретных дат
-        if (date.getDate() === 21 || date.getDate() === 22) {
+        if (date.getDate() === 21 || date.getDate() === 22 || date.getDate() === 23) {
           console.log('🔍 День', date.getDate(), 'дата:', dateStr, 'эмоция:', emotionObj ? emotionObj.emotion : 'нет')
         }
         
@@ -306,13 +304,17 @@ export default {
           console.log('🔍 Эмоция загружена:', day.emotion, 'Заметка:', day.note)
         }
         
-        this.selectedDay = day
+        // Создаем копию объекта дня, чтобы избежать мутации исходного объекта
+        this.selectedDay = {
+          ...day,
+          date: day.date // Убеждаемся, что дата передается правильно
+        }
         console.log('🔍 Модальное окно открыто для дня:', this.selectedDay)
         
       } catch (error) {
         console.error('❌ Ошибка загрузки данных для модального окна:', error)
         // Все равно показываем модальное окно
-        this.selectedDay = day
+        this.selectedDay = { ...day }
       }
     },
     
@@ -321,7 +323,10 @@ export default {
     },
     
     formatDate(dateStr) {
-      const date = new Date(dateStr)
+      // Создаем дату в локальном времени, чтобы избежать проблем с часовыми поясами
+      const [year, month, day] = dateStr.split('-').map(Number)
+      const date = new Date(year, month - 1, day) // month - 1 потому что месяцы в JS начинаются с 0
+      
       const options = { 
         year: 'numeric', 
         month: 'long', 
@@ -368,8 +373,15 @@ export default {
           return
         }
         
-        // Проверяем, есть ли эмоция на сегодня
-        const today = new Date().toISOString().split('T')[0]
+        // Проверяем, есть ли эмоция на сегодня (используем локальное время)
+        const now = new Date()
+        const year = now.getFullYear()
+        const month = String(now.getMonth() + 1).padStart(2, '0')
+        const day = String(now.getDate()).padStart(2, '0')
+        const today = `${year}-${month}-${day}`
+        
+        console.log('🔍 Сегодняшняя дата:', today)
+        
         const todayEmotion = await jsonStorageService.getEmotionByDate(telegramId, today)
         
         if (!todayEmotion) {
@@ -607,7 +619,7 @@ export default {
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 1);
   min-height: 40px;
   min-width: 40px;
 }
@@ -618,7 +630,7 @@ export default {
 }
 
 .calendar-day.other-month {
-  opacity: 0.3;
+  opacity: 0.6;
 }
 
 .calendar-day.today {
@@ -627,8 +639,8 @@ export default {
 }
 
 .calendar-day.has-emotion {
-  background: rgba(76, 175, 80, 0.2);
-  border: 2px solid #4caf50;
+  /* background: rgba(76, 175, 80, 0.2); */
+  /* border: 2px solid #4caf50; */
 }
 
 .calendar-day .date {
@@ -722,7 +734,7 @@ export default {
 }
 
 .close-btn {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  background: linear-gradient(135deg, #667eea, #764ba2);  
   color: white;
   border: none;
   padding: 12px 30px;
@@ -771,9 +783,12 @@ export default {
   border-radius: 10px;
   margin-bottom: 10px;
 }
+.note-textarea::placeholder {
+  font-size: 18px;
+}
 
 .save-note-btn {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  background: linear-gradient(135deg, #667eea, #764ba2);  
   color: white;
   border: none;
   padding: 12px 30px;
