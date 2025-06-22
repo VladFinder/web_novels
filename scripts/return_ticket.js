@@ -175,7 +175,7 @@ const scenes = {
         text: "«Кажется, весна не торопится в этот город. Может быть, ей здесь просто не нравится?»",
         background: "",
         characters: [
-            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral", position: "center" }
+            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral.png", position: "center" }
         ],
         choices: [
             { text: "Собрать силы в кулак. «Я знала, на что шла.»", nextScene: "gl1_sc1_17_choice1_1" }, // + Реалист
@@ -430,8 +430,8 @@ const scenes = {
         background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
-            { text: "Проигнорировать»", nextScene: "gl1_sc1_34_choice1_1" }, // + Размеренность
-            { text: "Ответить: «Скоро выхожу", nextScene: "gl1_sc1_34_choice2_1" } // + Целеустремлённость
+            { text: "«Проигнорировать»", nextScene: "gl1_sc1_34_choice1_1" }, // + Размеренность
+            { text: "Ответить: «Скоро выхожу»", nextScene: "gl1_sc1_34_choice2_1" } // + Целеустремлённость
         ]
     },
     // Персонаж: ГГ в ночнушке нейтральная
@@ -439,7 +439,7 @@ const scenes = {
         text: "Закатывая глаза, ты вслух проговариваешь, словно пытаясь убедить саму себя: «Мой рабочий день начинается в 9:00, я не обязана ему отвечать в своё свободное время.",
         background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [
-            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral", position: "center" }
+            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_34_choice1_2" }
@@ -545,7 +545,7 @@ const scenes = {
         text: "Именно так ты и выживаешь в столице – идя всегда чуть быстрее, чем хотелось бы.",
         background: "",
         characters: [
-            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral", position: "center" }
+            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral.png", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_34_choice2_5" }
@@ -816,7 +816,7 @@ const scenes = {
         background: "",
         characters: [],
         choices: [
-            { text: "Дальше", nextScene: "gl1_sc2_18" }
+            { text: "Дальше", nextScene: "gl1_sc3_1" }
         ]
     },
     // Сцена 3: В офисе
