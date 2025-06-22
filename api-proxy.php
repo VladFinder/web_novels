@@ -41,6 +41,11 @@ foreach (getallheaders() as $name => $value) {
 // Получаем тело запроса
 $body = file_get_contents('php://input');
 
+// Логирование для отладки
+error_log("API Proxy: $method $api_url");
+error_log("API Proxy: Headers: " . json_encode($headers));
+error_log("API Proxy: Body: " . $body);
+
 // Инициализируем cURL
 $ch = curl_init();
 
@@ -49,6 +54,8 @@ curl_setopt($ch, CURLOPT_URL, $api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
 
 // Добавляем тело запроса для POST/PUT
 if ($method === 'POST' || $method === 'PUT') {
@@ -66,10 +73,16 @@ $response = curl_exec($ch);
 $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
+// Логирование ответа
+error_log("API Proxy: Response code: $http_code");
+error_log("API Proxy: Response: " . substr($response, 0, 500));
+
 // Проверяем ошибки
 if (curl_errno($ch)) {
+    $error = curl_error($ch);
+    error_log("API Proxy: cURL Error: $error");
     http_response_code(500);
-    echo json_encode(['error' => 'API server error: ' . curl_error($ch)]);
+    echo json_encode(['error' => 'API server error: ' . $error]);
     curl_close($ch);
     exit();
 }
@@ -82,6 +95,8 @@ http_response_code($http_code);
 // Устанавливаем Content-Type
 if ($content_type) {
     header('Content-Type: ' . $content_type);
+} else {
+    header('Content-Type: application/json');
 }
 
 // Возвращаем ответ

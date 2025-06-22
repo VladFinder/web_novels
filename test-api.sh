@@ -2,28 +2,18 @@
 
 # Скрипт для тестирования API
 
-echo "🧪 Тестирование API..."
+echo "Тестируем API сервер..."
 
-API_URL="http://94.103.13.116:3001/api"
+# Тест основного API
+echo "1. Тест основного API:"
+curl -k https://ikiteam.ru/api/emotions/debug_user_1750544735820/2025-06-21
 
-echo "1. Проверка доступности сервера..."
-curl -I ${API_URL}/emotions/today/test
+echo -e "\n\n2. Тест мыслей:"
+curl -k https://ikiteam.ru/api/thoughts/debug_user_1750544735820/2025-06-21
 
-echo ""
-echo "2. Тест сохранения эмоции..."
-curl -X POST ${API_URL}/emotions \
+echo -e "\n\n3. Тест сохранения мысли:"
+curl -k -X POST https://ikiteam.ru/api/thoughts \
   -H "Content-Type: application/json" \
-  -d '{
-    "telegramId": "test123",
-    "emotion": 1,
-    "note": "Тестовая заметка",
-    "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%S.000Z)'",
-    "username": "test_user"
-  }'
+  -d '{"telegramId": "debug_user_1750544735820", "thought": "Тестовая заметка", "date": "2025-06-21"}'
 
-echo ""
-echo "3. Тест получения эмоций..."
-curl "${API_URL}/emotions?telegramId=test123&startDate=2024-01-01&endDate=2024-12-31"
-
-echo ""
-echo "✅ Тестирование завершено!" 
+echo -e "\n\nТест завершен!" 

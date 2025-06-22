@@ -4,10 +4,15 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://37.140.192.181:3001',
+        target: 'http://localhost:3001',
         changeOrigin: true,
         secure: false
       }
+    },
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
     }
   },
   publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',

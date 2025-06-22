@@ -58,16 +58,22 @@ app.post('/api/emotions', async (req, res) => {
   try {
     const { telegramId, emotion, note, timestamp, username } = req.body;
     
-    if (!telegramId || !emotion) {
+    console.log('Получен запрос на сохранение эмоции:', { telegramId, emotion, note, timestamp, username });
+    
+    if (!telegramId || emotion === undefined || emotion === null) {
+      console.error('Отсутствуют обязательные поля:', { telegramId, emotion });
       return res.status(400).json({ error: 'Необходимы telegramId и emotion' });
     }
 
     const data = await loadData();
     const userId = String(telegramId);
-    const date = new Date(timestamp).toISOString().split('T')[0];
+    const date = timestamp ? new Date(timestamp).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+
+    console.log('Обработанные данные:', { userId, date, emotion });
 
     // Проверяем, не была ли уже сохранена эмоция на сегодня
     if (data.user_emotions[userId] && data.user_emotions[userId][date]) {
+      console.log('Эмоция на сегодня уже сохранена:', { userId, date });
       return res.status(400).json({ error: 'Эмоция на сегодня уже сохранена' });
     }
 
@@ -78,9 +84,9 @@ app.post('/api/emotions', async (req, res) => {
 
     // Сохраняем эмоцию
     data.user_emotions[userId][date] = {
-      emotion,
+      emotion: Number(emotion),
       note: note || '',
-      timestamp,
+      timestamp: timestamp || new Date().toISOString(),
       username: username || 'Пользователь',
       createdAt: new Date().toISOString()
     };
@@ -270,13 +276,18 @@ app.post('/api/thoughts', async (req, res) => {
   try {
     const { telegramId, date, thought, timestamp } = req.body;
     
+    console.log('Получен запрос на сохранение мысли:', { telegramId, date, thought, timestamp });
+    
     if (!telegramId || !thought) {
+      console.error('Отсутствуют обязательные поля:', { telegramId, thought });
       return res.status(400).json({ error: 'Необходимы telegramId и thought' });
     }
 
     const data = await loadData();
     const userId = String(telegramId);
     const dateStr = date || new Date().toISOString().split('T')[0];
+    
+    console.log('Обработанные данные мысли:', { userId, dateStr, thought });
     
     // Инициализируем структуру для мыслей если её нет
     if (!data.user_thoughts) {
@@ -292,7 +303,7 @@ app.post('/api/thoughts', async (req, res) => {
     // Добавляем новую мысль
     const newThought = {
       id: `${userId}_${dateStr}_${Date.now()}`,
-      text: thought,
+      text: String(thought),
       timestamp: timestamp || new Date().toISOString(),
       createdAt: new Date().toISOString()
     };
@@ -320,7 +331,7 @@ app.get('/api/thoughts', async (req, res) => {
 
     const data = await loadData();
     const userId = String(telegramId);
-    const userThoughts = data.user_thoughts?.[userId] || {};
+    const userThoughts = (data.user_thoughts && data.user_thoughts[userId]) || {};
     
     const thoughts = [];
     const start = new Date(startDate);
@@ -353,7 +364,7 @@ app.get('/api/thoughts/:telegramId/:date', async (req, res) => {
     const userId = String(telegramId);
     const dateStr = new Date(date).toISOString().split('T')[0];
     
-    const thoughts = data.user_thoughts?.[userId]?.[dateStr] || [];
+    const thoughts = (data.user_thoughts && data.user_thoughts[userId] && data.user_thoughts[userId][dateStr]) || [];
     res.json(thoughts);
     
   } catch (error) {

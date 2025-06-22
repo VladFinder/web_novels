@@ -1,7 +1,7 @@
 RewriteEngine On
 
 # Перенаправляем все API запросы на PHP прокси
-RewriteRule ^api/(.*)$ api.php [QSA,L]
+RewriteRule ^api/(.*)$ api-proxy.php [QSA,L]
 
 # Для Vue Router - если файл не существует, возвращаем index.html
 RewriteCond %{REQUEST_FILENAME} !-f

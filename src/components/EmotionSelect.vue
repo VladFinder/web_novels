@@ -48,12 +48,12 @@ export default {
       emotionAlreadySelected: false,
       selectedEmotion: null,
       emotions: [
-        { id: 1, name: 'Радостно', icon: require('../assets/emotions/Радость.png') },
-        { id: 2, name: 'Грустно', icon: require('../assets/emotions/Грусть.png') },
-        { id: 3, name: 'Спокойно', icon: require('../assets/emotions/Спокойно.png') },
-        { id: 4, name: 'Тревожно', icon: require('../assets/emotions/Тревога.png') },
-        { id: 5, name: 'Раздражённо', icon: require('../assets/emotions/Раздражение.png') },
-        { id: 6, name: 'Мечтательно', icon: require('../assets/emotions/Мечтательность.png') }
+        { id: 1, name: 'Радостно', icon: require('../assets/emotions/joy.png') },
+        { id: 2, name: 'Грустно', icon: require('../assets/emotions/sadness.png') },
+        { id: 3, name: 'Спокойно', icon: require('../assets/emotions/calm.png') },
+        { id: 4, name: 'Тревожно', icon: require('../assets/emotions/anxiety.png') },
+        { id: 5, name: 'Раздражённо', icon: require('../assets/emotions/irritation.png') },
+        { id: 6, name: 'Мечтательно', icon: require('../assets/emotions/dreaminess.png') }
       ]
     }
   },

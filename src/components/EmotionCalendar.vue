@@ -1,5 +1,8 @@
 <template>
   <div class="calendar-container">
+    <!-- Кнопка назад -->
+    <button class="back-btn" @click="$emit('back')">Назад</button>
+    
     <div class="calendar">
       <div class="calendar-header">
         <button @click="previousMonth" class="nav-btn">&lt;</button>
@@ -29,13 +32,17 @@
             :src="getMiniEmotionIcon(day.emotion)" 
             :alt="getEmotionName(day.emotion)"
             class="emotion-icon-mini"
+            @error="handleImageError"
+            @load="handleImageLoad"
           >
+          <!-- Отладочная информация для мини-иконок -->
+          <div v-if="day.emotion" style="font-size: 8px; color: blue;">{{ day.emotion }}</div>
         </div>
       </div>
     </div>
     
     <!-- Секция записи мыслей -->
-    <div class="thoughts-section">
+    <!-- <div class="thoughts-section">
       <h3>Записать мысли</h3>
       <div class="thought-input-container">
         <textarea 
@@ -49,15 +56,15 @@
         </button>
       </div>
       <p v-if="thoughtSaved" class="thought-saved">Мысли записаны!</p>
-    </div>
+    </div> -->
     
     <!-- Секция заметок -->
     <div class="notes-section">
-      <h3>Заметки за день</h3>
+      <h3></h3>
       <div class="note-input-container">
       <textarea 
         v-model="dailyNote"
-        placeholder="Напишите о своём дне..."
+        placeholder="Напишешь пару слов о сегодняшнем дне?"
           class="note-textarea"
           rows="4"
       ></textarea>
@@ -65,7 +72,7 @@
           {{ isSavingNote ? 'Сохранение...' : 'Сохранить заметку' }}
         </button>
       </div>
-      <p v-if="noteSaved" class="note-saved">Заметка сохранена!</p>
+      <p v-if="noteSaved" class="note-saved">Ваши мысли сохранены!</p>
     </div>
     
     <!-- Модальное окно с деталями эмоции -->
@@ -81,18 +88,18 @@
             <p class="emotion-note">{{ selectedDay.note }}</p>
           </div>
           <div v-if="selectedDay.thoughts && selectedDay.thoughts.length > 0" class="thoughts-display">
-            <h4>Мысли за день:</h4>
+            <h4>Заметки за день:</h4>
             <div v-for="thought in selectedDay.thoughts" :key="thought.id" class="thought-item">
               <p class="thought-text">{{ thought.text }}</p>
               <p class="thought-time">{{ formatTime(thought.timestamp) }}</p>
             </div>
           </div>
-          <!-- Добавить мысль -->
+          <!-- Добавить заметку -->
           <div class="modal-thought-input">
-            <textarea v-model="modalThought" placeholder="Добавить мысль..." rows="2"></textarea>
-            <button @click="addModalThought" :disabled="isSavingModalThought">{{ isSavingModalThought ? 'Сохранение...' : 'Добавить мысль' }}</button>
+            <textarea v-model="modalThought" placeholder="Добавить заметку..." rows="2"></textarea>
+            <button @click="addModalThought" :disabled="isSavingModalThought">{{ isSavingModalThought ? 'Сохранение...' : 'Добавить заметку' }}</button>
           </div>
-          <p v-if="modalThoughtSaved" class="thought-saved">Мысль добавлена!</p>
+          <p v-if="modalThoughtSaved" class="thought-saved">Заметка добавлена!</p>
         </div>
         <button @click="closeModal" class="close-btn">Закрыть</button>
       </div>
@@ -146,6 +153,9 @@ export default {
       const year = this.currentDate.getFullYear()
       const month = this.currentDate.getMonth()
       
+      console.log('🔍 Генерируем календарь для:', year, month)
+      console.log('🔍 Текущие эмоции:', this.emotions)
+      
       // Первый день месяца
       const firstDay = new Date(year, month, 1)
       // Последний день месяца
@@ -169,7 +179,7 @@ export default {
         const dateStr = date.toISOString().split('T')[0]
         const emotion = this.getEmotionForDate(dateStr)
         
-        days.push({
+        const dayData = {
           date: dateStr,
           dayNumber: date.getDate(),
           isCurrentMonth: date.getMonth() === month,
@@ -177,14 +187,28 @@ export default {
           emotion: emotion ? emotion.emotion : null,
           note: emotion ? emotion.note : null,
           timestamp: emotion ? emotion.timestamp : null
-        })
+        }
+        
+        // Отладочная информация для конкретных дат
+        if (date.getDate() === 21 || date.getDate() === 22) {
+          console.log('🔍 День', date.getDate(), 'дата:', dateStr, 'эмоция:', emotion ? emotion.emotion : 'нет')
+        }
+        
+        days.push(dayData)
       }
+      
+      console.log('🔍 Сгенерировано дней:', days.length)
+      const daysWithEmotions = days.filter(day => day.emotion)
+      console.log('🔍 Дней с эмоциями:', daysWithEmotions.length)
       
       return days
     }
   },
   async mounted() {
+    console.log('🔍 EmotionCalendar mounted')
+    console.log('🔍 Компонент загружен, начинаем загрузку эмоций')
     await this.loadEmotions()
+    console.log('🔍 Эмоции загружены, компонент готов')
   },
   methods: {
     async loadEmotions() {
@@ -196,29 +220,42 @@ export default {
           telegramId = 'debug_user_1750544735820'
         }
         
+        console.log('🔍 Загружаем эмоции для ID:', telegramId)
+        
         // Загружаем эмоции за текущий месяц
         const startDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
         const endDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0)
         
+        console.log('🔍 Период загрузки:', startDate.toISOString(), 'до', endDate.toISOString())
+        
         this.emotions = await jsonStorageService.getUserEmotions(telegramId, startDate, endDate)
-        console.log('Загружены эмоции:', this.emotions)
+        console.log('🔍 Загружены эмоции:', this.emotions)
+        console.log('🔍 Количество эмоций:', this.emotions.length)
+        
+        // Проверяем, есть ли эмоции на конкретные даты
+        this.emotions.forEach(emotion => {
+          console.log('🔍 Эмоция на', emotion.date, ':', emotion.emotion)
+        })
+        
       } catch (error) {
-        console.error('Ошибка загрузки эмоций:', error)
+        console.error('❌ Ошибка загрузки эмоций:', error)
       }
     },
     
     getEmotionForDate(dateStr) {
-      return this.emotions.find(emotion => emotion.date === dateStr)
+      const emotion = this.emotions.find(emotion => emotion.date === dateStr)
+      console.log('🔍 Поиск эмоции для даты', dateStr, ':', emotion)
+      return emotion
     },
     
     getEmotionIcon(emotionId) {
       const iconMap = {
-        1: require('../assets/emotions/Радость.png'),
-        2: require('../assets/emotions/Грусть.png'),
-        3: require('../assets/emotions/Спокойно.png'),
-        4: require('../assets/emotions/Тревога.png'),
-        5: require('../assets/emotions/Раздражение.png'),
-        6: require('../assets/emotions/Мечтательность.png')
+        1: require('../assets/emotions/joy.png'),
+        2: require('../assets/emotions/sadness.png'),
+        3: require('../assets/emotions/calm.png'),
+        4: require('../assets/emotions/anxiety.png'),
+        5: require('../assets/emotions/irritation.png'),
+        6: require('../assets/emotions/dreaminess.png')
       }
       return iconMap[emotionId] || ''
     },
@@ -228,18 +265,37 @@ export default {
     },
     
     async showEmotionDetails(day) {
-      if (day.emotion) {
-        // Загружаем мысли для этой даты
-        try {
-          let telegramId = getTelegramUserId()
-          if (!telegramId) {
-            telegramId = 'debug_user_1750544735820'
-          }
-          day.thoughts = await jsonStorageService.getThoughtsByDate(telegramId, day.date)
-        } catch (error) {
-          console.error('Ошибка загрузки мыслей:', error)
-          day.thoughts = []
+      console.log('🔍 showEmotionDetails вызван для дня:', day)
+      console.log('🔍 День месяца:', day.dayNumber, 'Дата:', day.date)
+      
+      // Загружаем мысли для этой даты
+      try {
+        let telegramId = getTelegramUserId()
+        if (!telegramId) {
+          telegramId = 'debug_user_1750544735820'
         }
+        
+        console.log('🔍 Загружаем мысли для даты:', day.date)
+        day.thoughts = await jsonStorageService.getThoughtsByDate(telegramId, day.date)
+        console.log('🔍 Загружены мысли:', day.thoughts)
+        
+        // Загружаем эмоцию для этой даты
+        const emotionData = await jsonStorageService.getEmotionByDate(telegramId, day.date)
+        console.log('🔍 Найденные данные эмоции:', emotionData)
+        
+        if (emotionData) {
+          day.emotion = emotionData.emotion
+          day.username = emotionData.username
+          day.note = emotionData.note
+          console.log('🔍 Эмоция загружена:', day.emotion, 'Заметка:', day.note)
+        }
+        
+        this.selectedDay = day
+        console.log('🔍 Модальное окно открыто для дня:', this.selectedDay)
+        
+      } catch (error) {
+        console.error('❌ Ошибка загрузки данных для модального окна:', error)
+        // Все равно показываем модальное окно
         this.selectedDay = day
       }
     },
@@ -288,6 +344,14 @@ export default {
           telegramId = 'debug_user_1750544735820'
         }
         
+        console.log('🔍 saveNote вызван')
+        console.log('🔍 dailyNote:', this.dailyNote)
+        
+        if (!this.dailyNote.trim()) {
+          console.log('🔍 Пустая заметка, не сохраняем')
+          return
+        }
+        
         // Проверяем, есть ли эмоция на сегодня
         const today = new Date().toISOString().split('T')[0]
         const todayEmotion = await jsonStorageService.getEmotionByDate(telegramId, today)
@@ -296,8 +360,9 @@ export default {
           throw new Error('Сначала выберите эмоцию на сегодня')
         }
         
-        // Сохраняем заметку
-        await jsonStorageService.updateNote(telegramId, today, this.dailyNote)
+        // Сохраняем заметку как мысль (чтобы не перезаписывалась)
+        const result = await jsonStorageService.saveThought(telegramId, this.dailyNote, today)
+        console.log('🔍 Результат сохранения заметки:', result)
         
         // Обновляем данные
         await this.loadEmotions()
@@ -305,13 +370,15 @@ export default {
         this.dailyNote = ''
         this.noteSaved = true
         
+        console.log('🔍 Заметка успешно сохранена')
+        
         // Скрываем сообщение через 3 секунды
         setTimeout(() => {
           this.noteSaved = false
         }, 3000)
         
       } catch (error) {
-        console.error('Ошибка сохранения заметки:', error)
+        console.error('❌ Ошибка сохранения заметки:', error)
         alert(`Ошибка сохранения заметки: ${error.message}`)
       } finally {
         this.isSavingNote = false
@@ -319,6 +386,14 @@ export default {
     },
     
     async saveThought() {
+      console.log('🔍 saveThought вызван')
+      console.log('🔍 dailyThought:', this.dailyThought)
+      
+      if (!this.dailyThought.trim()) {
+        console.log('🔍 Пустая мысль, не сохраняем')
+        return
+      }
+      
       this.isSavingThought = true
       this.thoughtSaved = false
       
@@ -328,8 +403,12 @@ export default {
           telegramId = 'debug_user_1750544735820'
         }
         
+        console.log('🔍 Сохраняем мысль для ID:', telegramId)
+        console.log('🔍 Текст мысли:', this.dailyThought)
+        
         // Сохраняем мысли
-        await jsonStorageService.saveThought(telegramId, this.dailyThought)
+        const result = await jsonStorageService.saveThought(telegramId, this.dailyThought)
+        console.log('🔍 Результат сохранения:', result)
         
         // Обновляем данные
         await this.loadEmotions()
@@ -337,13 +416,15 @@ export default {
         this.dailyThought = ''
         this.thoughtSaved = true
         
+        console.log('🔍 Мысль успешно сохранена')
+        
         // Скрываем сообщение через 3 секунды
         setTimeout(() => {
           this.thoughtSaved = false
         }, 3000)
         
       } catch (error) {
-        console.error('Ошибка сохранения мыслей:', error)
+        console.error('❌ Ошибка сохранения мыслей:', error)
         alert(`Ошибка сохранения мыслей: ${error.message}`)
       } finally {
         this.isSavingThought = false
@@ -352,12 +433,12 @@ export default {
     
     getMiniEmotionIcon(emotionId) {
       const miniIconMap = {
-        1: require('../assets/emotions/radost.png'),
-        2: require('../assets/emotions/grust.png'),
-        3: require('../assets/emotions/spokoino.png'),
-        4: require('../assets/emotions/trevoga.png'),
-        5: require('../assets/emotions/razdrazhenie.png'),
-        6: require('../assets/emotions/mechta.png')
+        1: require('../assets/emotions/mini_joy.png'),
+        2: require('../assets/emotions/mini_sadness.png'),
+        3: require('../assets/emotions/mini_calm.png'),
+        4: require('../assets/emotions/mini_anxiety.png'),
+        5: require('../assets/emotions/mini_irritation.png'),
+        6: require('../assets/emotions/mini_dreaminess.png')
       }
       return miniIconMap[emotionId] || ''
     },
@@ -377,20 +458,48 @@ export default {
         this.modalThoughtSaved = true;
         setTimeout(() => { this.modalThoughtSaved = false; }, 2000);
       } catch (e) {
-        alert('Ошибка сохранения мысли: ' + e.message);
+        alert('Ошибка сохранения заметки: ' + e.message);
       } finally {
         this.isSavingModalThought = false;
       }
+    },
+    
+    handleImageError(event) {
+      console.error('❌ Ошибка загрузки изображения:', event.target.src)
+    },
+    
+    handleImageLoad(event) {
+      console.log('🔍 Изображение загружено:', event.target.src)
     }
   }
 }
 </script>
 
 <style scoped>
+.back-btn {
+  align-self: flex-start;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(10px);
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
 .calendar-container {
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .calendar {
@@ -399,6 +508,7 @@ export default {
   border-radius: 24px;
   padding: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .calendar-header {
@@ -528,6 +638,8 @@ export default {
   width: 90%;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .modal-content h3 {
@@ -591,10 +703,18 @@ export default {
 .notes-section {
   margin-top: 20px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
+  background: rgba(0, 255, 0, 0.1);
+  border: 2px solid green;
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.notes-section h3 {
+  color: green;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 .note-input-container {
@@ -652,10 +772,18 @@ export default {
 .thoughts-section {
   margin-top: 20px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 0, 0, 0.1);
+  border: 2px solid red;
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.thoughts-section h3 {
+  color: red;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 .thought-input-container {

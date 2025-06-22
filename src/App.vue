@@ -7,7 +7,7 @@
       @open-settings="openSettings"
       @open-calendar="openCalendar"
     />
-    <CalendarScreen v-else-if="currentScreen === 'calendar'" @back="backToMain" />
+    <EmotionCalendar v-else-if="currentScreen === 'calendar'" @back="backToMain" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@
 import LoadingScreen from './components/LoadingScreen.vue'
 import EmotionSelect from './components/EmotionSelect.vue'
 import MainScreen from './components/MainScreen.vue'
-import CalendarScreen from './components/CalendarScreen.vue'
+import EmotionCalendar from './components/EmotionCalendar.vue'
 
 export default {
   name: 'App',
@@ -23,7 +23,7 @@ export default {
     LoadingScreen,
     EmotionSelect,
     MainScreen,
-    CalendarScreen
+    EmotionCalendar
   },
   data() {
     return {

@@ -4,7 +4,7 @@ class JsonStorageService {
     // Используем localhost для разработки, сервер для продакшена
     this.apiUrl = process.env.NODE_ENV === 'development' 
       ? 'http://localhost:3001/api' 
-      : 'https://ikiteam.ru/api';
+      : '/api';
     this.userId = null;
   }
 
