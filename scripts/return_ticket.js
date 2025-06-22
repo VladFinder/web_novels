@@ -124,7 +124,7 @@ const scenes = {
     // Локация: вид из окна
     gl1_sc1_11: {
         text: "Подойдя к окну, ты распахиваешь серые шторы. Несмотря на это, в комнате светлее не становится.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_12" }
@@ -132,7 +132,7 @@ const scenes = {
     },
     gl1_sc1_12: {
         text: "Над бесконечно огромным городом, конца и края которого не видать даже с твоего 24 этажа, нависло небо стального цвета, в котором нет ни одного просветления, ни намека на солнце.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_13" }
@@ -140,7 +140,7 @@ const scenes = {
     },
     gl1_sc1_13: {
         text: "Весь город словно накрыт металлической крышкой.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_14" }
@@ -148,7 +148,7 @@ const scenes = {
     },
     gl1_sc1_14: {
         text: "Дождь моросит. Его едва видно, но отчетливо слышно – он барабанит по подоконнику, задавая ритм сегодняшнему утру.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_15" }
@@ -156,7 +156,7 @@ const scenes = {
     },
     gl1_sc1_15: {
         text: "Несмотря на то, что на часах всего лишь 6 утра, на улице уже суета: куда-то торопятся люди с зонтами, спешат и машины с беспрестанно работающими дворниками, едут автобусы, которые никогда никого не ждут и безжалостно захлопывают двери прямо перед носом вечно опаздывающих пассажиров.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_16" }
@@ -164,7 +164,7 @@ const scenes = {
     },
     gl1_sc1_16: {
         text: "Май в столице – не весна, а ожидание весны. Но почему-то это ожидание затянулось.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17" }
@@ -173,7 +173,7 @@ const scenes = {
     // Персонаж: ГГ в ночнушке
     gl1_sc1_17: {
         text: "«Кажется, весна не торопится в этот город. Может быть, ей здесь просто не нравится?»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [
             { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral.png", position: "center" }
         ],
@@ -184,7 +184,7 @@ const scenes = {
     },
     gl1_sc1_17_choice1_1: {
         text: "Ты вспоминаешь, как приехала в столицу. Огромный вокзал. Чемодан на трёх колёсах. И точно такой же мелкий, промозглый дождь.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17_choice1_2" }
@@ -192,7 +192,7 @@ const scenes = {
     },
     gl1_sc1_17_choice1_2: {
         text: "– Я справлюсь, – тогда ты сказала это вслух, как мантру.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17_choice1_3" }
@@ -200,7 +200,7 @@ const scenes = {
     },
     gl1_sc1_17_choice1_3: {
         text: "И справилась. Жильё, работа, учёба, связи – всё сама.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17_choice1_4" }
@@ -208,7 +208,7 @@ const scenes = {
     },
     gl1_sc1_17_choice1_4: {
         text: "Ты выдыхаешь. Всё ещё держишься. Всё ещё идёшь по курсу.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17_choice1_5" }
@@ -216,7 +216,7 @@ const scenes = {
     },
     gl1_sc1_17_choice1_5: {
         text: "«Я знала, на что шла. Я ехала сюда пахать, строить жизнь мечты, становиться лучшей версией себя. А отдыхать, ловить момент и наслаждаться размеренной жизнью я могла бы и дома.»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_18" }
@@ -224,7 +224,7 @@ const scenes = {
     },
     gl1_sc1_17_choice2_1: {
         text: "По подоконнику стучит дождь. Ты смотришь, как капля стекает по стеклу – медленно, нерешительно, периодически останавливаясь, будто делает передышку.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17_choice2_2" }
@@ -232,7 +232,7 @@ const scenes = {
     },
     gl1_sc1_17_choice2_2: {
         text: "В голове вдруг всплывает забытый запах: мокрая черемуха, запах прибитой к асфальту пыли и сырых досок старого крыльца.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17_choice2_3" }
@@ -240,7 +240,7 @@ const scenes = {
     },
     gl1_sc1_17_choice2_3: {
         text: "Ты даже не помнишь, откуда это. Просто… было. Как будто и вовсе в другой жизни.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17_choice2_4" }
@@ -248,7 +248,7 @@ const scenes = {
     },
     gl1_sc1_17_choice2_4: {
         text: "Как будто что-то внутри говорит: «Вернись». Не навсегда. Хотя бы на чуть-чуть. Просто – к себе, к родным.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_17_choice2_5" }
@@ -256,7 +256,7 @@ const scenes = {
     },
     gl1_sc1_17_choice2_5: {
         text: "«Интересно, как там дома?»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/window_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_18" }
@@ -388,7 +388,9 @@ const scenes = {
     gl1_sc1_29: {
         text: "«Боже мой, как давно они у меня? Они появились сегодня, или я просто не обращала на них внимания раньше? Кажется, мне нужно хорошо отоспаться на выходных. А может быть, мне вообще пора в отпуск?»",
         background: "assets/images/backgrounds/return_ticket/room_dark.png",
-        characters: [],
+        characters: [
+            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral.png", position: "center" }
+        ],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_30" }
         ]
@@ -396,7 +398,9 @@ const scenes = {
     gl1_sc1_30: {
         text: "«Нет, а как же мой проект?... Я ведь не могу уйти в отпуск, не сдав его. Но такими темпами я вообще никогда не отдохну…»",
         background: "assets/images/backgrounds/return_ticket/room_dark.png",
-        characters: [],
+        characters: [
+            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral.png", position: "center" }
+        ],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_31" }
         ]
@@ -488,7 +492,7 @@ const scenes = {
     // Персонаж: ГГ в платье нейтральная
     gl1_sc1_34_choice1_7: {
         text: "На автомате могла бы выбрать беспроигрышное комбо – водолазку и бежевый жакет, но сегодня рука тянется к другому –\nчерное платье, нежное, почти невесомое, но строгое по крою. В нём ты чувствуешь себя особенно уверенно.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [
             { name: "", image: "assets/images/characters/return_ticket/main_character/office_dress_neutral.png", position: "center" }
         ],
@@ -498,7 +502,7 @@ const scenes = {
     },
     gl1_sc1_34_choice1_8: {
         text: "Смотришь в зеркало:\nвсё на месте.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [
             { name: "", image: "assets/images/characters/return_ticket/main_character/office_dress_neutral.png", position: "center" }
         ],
@@ -508,7 +512,7 @@ const scenes = {
     },
     gl1_sc1_34_choice1_9: {
         text: "Ты готова – не к бою, а к дню. И между этими вещами огромная разница.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [
             { name: "", image: "assets/images/characters/return_ticket/main_character/office_dress_neutral.png", position: "center" }
         ],
@@ -543,17 +547,17 @@ const scenes = {
     // Персонаж: ГГ в брюках нейтральная
     gl1_sc1_34_choice2_4: {
         text: "Именно так ты и выживаешь в столице – идя всегда чуть быстрее, чем хотелось бы.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [
-            { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral.png", position: "center" }
+            { name: "", image: "", position: "center" }
         ],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_34_choice2_5" }
         ]
     },
     gl1_sc1_34_choice2_5: {
-        text: "Босс: \n– Поторопись, жду тебя в офисе.",
-        background: "",
+        text: "Босс:\n– Поторопись, жду тебя в офисе.",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_35" }
@@ -562,7 +566,7 @@ const scenes = {
     // ГГ должна быть одета в то, что выбрала в предыдущем варианте - платье/штаны
     gl1_sc1_35: {
         text: "Пора выходить, иначе опоздаешь!\nПеред самым выходом ты замечаешь в шкатулке кольцо.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_36" }
@@ -570,7 +574,7 @@ const scenes = {
     },
     gl1_sc1_36: {
         text: "Мамино. Старое. С потертой оправой. Когда-то ты считала, что оно приносит удачу. В школе надевала его на каждую контрольную и уж тем более на экзамен.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Вернуться и надеть мамино кольцо. Немного удачи не навредит.", nextScene: "gl1_sc1_36_choice1_1" }, // + Мечтатель
@@ -579,7 +583,7 @@ const scenes = {
     },
     gl1_sc1_36_choice1_1: {
         text: "Ты берёшь кольцо и надеваешь его на средний палец. Оно чуть велико, но сидит надёжно.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_36_choice1_2" }
@@ -587,7 +591,7 @@ const scenes = {
     },
     gl1_sc1_36_choice1_2: {
         text: "«Пусть будет со мной. Чуточки магии и удачи мне совсем не помешают.»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_36_choice1_3" }
@@ -595,7 +599,7 @@ const scenes = {
     },
     gl1_sc1_36_choice1_3: {
         text: "Это почти как поцелуй в лоб перед выходом. Только от себя самой.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_37" }
@@ -603,7 +607,7 @@ const scenes = {
     },
     gl1_sc1_36_choice2_1: {
         text: "Некогда возвращаться за кольцом. Вместо этого ты открываешь сумку и быстро пробегаешь по чек-листу в голове.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_36_choice2_2" }
@@ -611,7 +615,7 @@ const scenes = {
     },
     gl1_sc1_36_choice2_2: {
         text: "Каждая вещь – якорь, элемент твоего контроля над этим днём.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_37" }
@@ -619,7 +623,7 @@ const scenes = {
     },
     gl1_sc1_37: {
         text: "Ты бросаешь последний взгляд на комнату. Свет выключен. Дверь захлопнулась с глухим «щелк». Лифт уже на твоём этаже. Город – за дверью. Ждёт.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_38" }
@@ -627,7 +631,7 @@ const scenes = {
     },
     gl1_sc1_38: {
         text: "7:50.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_1" }
@@ -638,7 +642,7 @@ const scenes = {
     // Персонаж: ГГ в пальто
     gl1_sc2_1: {
         text: "Подземка. Люди идут – плотной массой, как лосось на нересте. Кто-то пьёт кофе из бумажного стакана, кто-то читает новости, кто-то просто… засыпает на ходу.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_2" }
@@ -646,7 +650,7 @@ const scenes = {
     },
     gl1_sc2_2: {
         text: "На платформе – духота. Кажется, вот-вот, и кислород здесь закончится. Но наконец из тоннеля выныривает поезд, обдавая толпу мощными потоками воздуха. Люди толпятся у входа в вагон.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_3" }
@@ -654,16 +658,24 @@ const scenes = {
     },
     gl1_sc2_3: {
         text: "«Вот бы успеть занять сидячее место.»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_4" }
         ]
     },
     // Локация: вагон метро
+    gl1_sc2_3_cutscene: {
+        text: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_sc2_4" }
+        ]
+    },
     gl1_sc2_4: {
         text: "Увы, не сегодня.",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_5" }
@@ -671,7 +683,7 @@ const scenes = {
     },
     gl1_sc2_5: {
         text: "«Ну ничего. Совсем скоро меня повысят, и я себе обещаю – я обязательно буду ездить на работу на такси. Я заслуживаю большего!»",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_6" }
@@ -679,7 +691,7 @@ const scenes = {
     },
     gl1_sc2_6: {
         text: "Станции летят одна за другой.",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_7" }
@@ -687,7 +699,7 @@ const scenes = {
     },
     gl1_sc2_7: {
         text: "«Такое ощущение, что я полжизни провожу в метро.»",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_8" }
@@ -695,7 +707,7 @@ const scenes = {
     },
     gl1_sc2_8: {
         text: "За стеклом – чёрный туннель, мигающий огоньками.",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_9" }
@@ -703,7 +715,7 @@ const scenes = {
     },
     gl1_sc2_9: {
         text: "«Тоннель метро – это словно наша жизнь. Кажется такой длинной, а на самом деле только успевай оглядываться и замечать, как она пролетает. Огоньки – это люди, встречающиеся на нашем пути. Их помощь и поддержка позволяет нам двигаться вперёд. ",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_10" }
@@ -711,7 +723,7 @@ const scenes = {
     },
     gl1_sc2_10: {
         text: "А станции – это наши цели. Кто-то едет в Успехово, кто-то в Семейное, а кто-то просто катается на поездах и получает удовольствие от процесса. А куда вообще еду я?»",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_11" }
@@ -719,7 +731,7 @@ const scenes = {
     },
     gl1_sc2_11: {
         text: "Вдруг в наушниках заиграла песня. Особенная песня. От нее все твое тело покрылось мурашками, а мир вокруг перестал существовать.  Перед глазами уже не вагон, не толпа, не станция…",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_12" }
@@ -728,7 +740,7 @@ const scenes = {
     // Локация: серые хрущевки + цветущая сирень (возможно, в блюре, поскольку это воспоминания)
     gl1_sc2_12: {
         text: "А майские вечера в родном городе. Свежий воздух, ароматная сирень, легкое волнение от экзаменов.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/buildings_and_lilac_evening.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_13" }
@@ -736,7 +748,7 @@ const scenes = {
     },
     gl1_sc2_13: {
         text: "Его руки. Его голос. Его прикосновения. Первый поцелуй. Первые планы. Конечно же, совместные.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/buildings_and_lilac_evening.png",
         characters: [],
         choices: [
             { text: "Позволить себе улыбнуться. Тепло прошлого всё ещё во мне.", nextScene: "gl1_sc2_13_choice1_1" }, // + Мечтатель
@@ -745,7 +757,7 @@ const scenes = {
     },
     gl1_sc2_13_choice1_1: {
         text: "Ты закрываешь глаза и на секунду позволяешь себе поверить: «Тогда казалось, что нет ничего невозможного. Скучаю по этому ощущению.»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/buildings_and_lilac_evening.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_13_choice1_2" }
@@ -754,7 +766,7 @@ const scenes = {
     // Локация: вагон метро
     gl1_sc2_13_choice1_2: {
         text: "Звонкий голос диктора, озвучивающий станции, вернул тебя в текущую действительность. Большой город, карьера в компании мечты, амбиции – всё, как ты мечтала.",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_14" }
@@ -762,7 +774,7 @@ const scenes = {
     },
     gl1_sc2_13_choice2_1: {
         text: "Ты резко переключаешь трек. Звук меняется – и с ним внутренний темп.",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_13_choice2_2" }
@@ -770,7 +782,7 @@ const scenes = {
     },
     gl1_sc2_13_choice2_2: {
         text: "«Это уже было. Сейчас другое. Главное – не отвлекаться и помнить о своей цели.»",
-        background: "",
+        background: "assets/images/cut_scenes/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_13_choice2_3" }
@@ -779,7 +791,7 @@ const scenes = {
     // Локация: вагон метро
     gl1_sc2_13_choice2_3: {
         text: "Звонкий голос диктора, озвучивающий станции, словно подтвердил твою мысль. Большой город, карьера в компании мечты, амбиции – всё, как ты мечтала.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_14" }
@@ -787,7 +799,7 @@ const scenes = {
     },
     gl1_sc2_14: {
         text: "Ты ведь об этом мечтала, да?",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_15" }
@@ -796,7 +808,7 @@ const scenes = {
     // Локация: метро
     gl1_sc2_15: {
         text: "Поднимаешься на эскалаторе.\n«Интересно, а что же тогда символизирует эскалатор в нашей жизни?...»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/subway.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_16" }
@@ -805,7 +817,7 @@ const scenes = {
     // Локация: улица у офиса
     gl1_sc2_16: {
         text: "Город по-прежнему накрыт металлической крышкой. Воздух в этом городе пахнет бензином и кофе. Вокруг люди, которые бесконечно куда-то спешат. Интересно, а счастливы ли они?",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/city_1.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_17" }
@@ -813,7 +825,7 @@ const scenes = {
     },
     gl1_sc2_17: {
         text: "8:57.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/city_1.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_1" }
@@ -823,7 +835,7 @@ const scenes = {
     // Локация: офис
     gl1_sc3_1: {
         text: "Серое здание с зеркальными окнами. Бейдж той самой компании, о которой ты так долго мечтала. Работа по профессии.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_2" }
@@ -831,7 +843,7 @@ const scenes = {
     },
     gl1_sc3_2: {
         text: "18-летняя ты была бы в восторге от всего происходящего. Лифт до 24 этажа. Open space.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_3" }
@@ -839,7 +851,7 @@ const scenes = {
     },
     gl1_sc3_3: {
         text: "Чек-лист по утренним сборам меняется на рабочий чек-лист: сходить за кофе, открыть ноутбук, проверить почту.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_4" }
@@ -847,7 +859,7 @@ const scenes = {
     },
     gl1_sc3_4: {
         text: "Едва успев настроиться на рабочую волну, ты видишь, как твоя коллега направляется к тебе.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_5" }
@@ -855,8 +867,10 @@ const scenes = {
     },
     gl1_sc3_5: {
         text: "Аня:\n– Привет! Скинь, пожалуйста, финальную версию презентации для сегодняшней встречи. Ты же вчера делала? Надо согласовать с руководителем.",
-        background: "",
-        characters: [],
+        background: "assets/images/backgrounds/return_ticket/office.png",
+        characters: [
+            { name: "", image: "assets/images/characters/return_ticket/anna/anna.png", position: "center" }
+        ],
         choices: [
             { text: "«Да, уже в папке „готово“»", nextScene: "gl1_sc3_5_choice1_1" }, // + Целеустремлённость
             { text: "«Сейчас-сейчас, почти доделала.»", nextScene: "gl1_sc3_5_choice2_1" } // + Размеренность
@@ -865,7 +879,7 @@ const scenes = {
     // Персонаж: ГГ улыбака (в соответствующей одежде!!)
     gl1_sc3_5_choice1_1: {
         text: "Ты не задумываясь отвечаешь. Всё действительно готово. Ты справилась ещё вчера. Правда, пришлось задержаться на час на работе.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_5_choice1_2" }
@@ -873,7 +887,7 @@ const scenes = {
     },
     gl1_sc3_5_choice1_2: {
         text: "Аня кивает и уходит, а ты ловишь в себе ту самую смесь: лёгкую усталость и гордость. Ты держишь план – даже когда никто не просит.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_6" }
@@ -882,7 +896,7 @@ const scenes = {
     // Персонаж: ГГ нейтральная (в соответствующей одежде!!)
     gl1_sc3_5_choice2_1: {
         text: "Ты не извиняешься. Не оправдываешься. Просто честно говоришь, что не закончила.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_5_choice2_2" }
@@ -890,7 +904,7 @@ const scenes = {
     },
     gl1_sc3_5_choice2_2: {
         text: "Сегодня будет время – и ты точно доведёшь до ума. Но не в режиме «сдохни или умри».",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_5_choice2_3" }
@@ -898,7 +912,7 @@ const scenes = {
     },
     gl1_sc3_5_choice2_3: {
         text: "Аня выглядит немного раздражённой. Пусть. Твоё спокойствие – важнее.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_6" }
@@ -906,7 +920,7 @@ const scenes = {
     },
     gl1_sc3_6: {
         text: "Начальник проходит мимо. Не здоровается – значит, сегодня на стрессе.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_7" }
@@ -915,7 +929,7 @@ const scenes = {
     // Персонаж: ГГ нейтральная
     gl1_sc3_7: {
     text: "Рабочий день плывёт сквозь таск-трекер, бескрайние таблицы, правки, правки правок, созвоны, голосовые от клиента:\n– «Слушай, тут чуть-чуть поправить, только цвет другой, и со шрифтами поиграться, и картинки заменить, и вообще всё заменить, но чтобы завтра было.»",
-    background: "",
+    background: "assets/images/backgrounds/return_ticket/office.png",
     characters: [],
     choices: [
             { text: "Дальше", nextScene: "gl1_sc3_8" }
@@ -923,7 +937,7 @@ const scenes = {
     },
     gl1_sc3_8: {
         text: "Вот на часах заветные 13:00.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_9" }
@@ -931,7 +945,7 @@ const scenes = {
     },
     gl1_sc3_9: {
         text: "Целый час тишины, покоя, наконец-то еды и отдыха.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_10" }
@@ -939,7 +953,7 @@ const scenes = {
     },
     gl1_sc3_10: {
         text: "Этот час – как оазис в знойной пустыне. Как глоток воды после тяжёлой тренировки.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_11" }
@@ -947,7 +961,7 @@ const scenes = {
     },
     gl1_sc3_11: {
         text: "Ты смотришь в окно. Внизу – город, движение, стройка. Рядом – чай, надкусанный сэндвич и тетрадь с задачами на день. Внутри – тишина.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_12" }
@@ -955,7 +969,7 @@ const scenes = {
     },
     gl1_sc3_12: {
         text: "А потом – почти случайная мысль:\n«Интересно, а я всё ещё хочу этого?»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "«Не знаю. Может быть, я просто делаю то, что умею. Без огня.»", nextScene: "gl1_sc3_12_choice1_1" }, // + Размеренность
@@ -964,7 +978,7 @@ const scenes = {
     },
     gl1_sc3_12_choice1_1: {
         text: "Ты не ощущаешь ни боли, ни грусти. Просто… тишину. Работа – как привычка. Одежда, которую давно не чувствуешь на теле.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_12_choice1_2" }
@@ -972,7 +986,7 @@ const scenes = {
     },
     gl1_sc3_12_choice1_2: {
         text: "«Может, так и должно быть? Или… нет?",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_12_choice1_3" }
@@ -980,7 +994,7 @@ const scenes = {
     },
     gl1_sc3_12_choice1_3: {
         text: "Я ведь буквально продаю часы своей жизни по тарифу. А когда-то я этого хотела: офис, карьера, рост. А теперь… чего я хочу теперь?»",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_13" }
@@ -988,7 +1002,7 @@ const scenes = {
     },
     gl1_sc3_12_choice2_1: {
         text: "Ты ловишь себя на том, что даже в моменты усталости всё ещё веришь в то, зачем пришла сюда.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_choice2_2" }
@@ -996,7 +1010,7 @@ const scenes = {
     },
     gl1_sc3_choice2_2: {
         text: "Пусть не каждый день праздник, но каждый шаг – вперёд. Твоя мотивация живёт глубже усталости.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_13" }
@@ -1004,7 +1018,7 @@ const scenes = {
     },
     gl1_sc3_13: {
         text: "В 16:00 – совещание. В 17:00 – ежедневная планёрка. В 20:15 – ты одна в офисе. Только ты и незаконченная презентация к завтрашней встрече по итогам недели.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/office.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc3_14" }
@@ -1014,7 +1028,7 @@ const scenes = {
     // Локация: бар
     gl1_sc4_1: {
         text: "21:58.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_2" }
@@ -1022,7 +1036,7 @@ const scenes = {
     },
     gl1_sc4_2: {
         text: "Поздний вечер. Свидание.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_3" }
@@ -1030,7 +1044,7 @@ const scenes = {
     },
     gl1_sc4_3: {
         text: "Бар неподалёку от работы. На стенах – картины, на столах – бокалы, на твоём лице – усталость, которую ты стараешься замаскировать под улыбкой.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_4" }
@@ -1038,7 +1052,7 @@ const scenes = {
     },
     gl1_sc4_4: {
         text: "Ему тридцать один.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_5" }
@@ -1046,7 +1060,7 @@ const scenes = {
     },
     gl1_sc4_5: {
         text: "Безупречно одет: пиджак, сдержанные запонки, часы, которые не кричат о цене, но всё равно заставляют переспросить марку.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_6" }
@@ -1054,7 +1068,7 @@ const scenes = {
     },
     gl1_sc4_6: {
         text: "Гладко выбрит, с лёгким ароматом дорогого парфюма — не резкого, а тонкого, как остаточное послевкусие у вина.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_7" }
@@ -1062,7 +1076,7 @@ const scenes = {
     },
     gl1_sc4_7: {
         text: "Говорит он редко и почти всегда по делу. Каждое слово будто заранее обдумано, прежде чем покинуть уста. ",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_8" }
@@ -1070,7 +1084,7 @@ const scenes = {
     },
     gl1_sc4_8: {
         text: "Даже в мелочах он выглядит собранным, будто внутренне никогда не расслабляется до конца.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_9" }
@@ -1078,7 +1092,7 @@ const scenes = {
     },
     gl1_sc4_9: {
         text: "Он настоящий джентльмен. Откроет дверь — не из вежливости, а потому что иначе просто не может. Подаст руку, если ты спускаешься по лестнице. Придвинет стул в ресторане, дождётся, пока ты сделаешь заказ первой.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_10" }
@@ -1086,7 +1100,7 @@ const scenes = {
     },
     gl1_sc4_10: {
         text: "Всегда платит, не обсуждая, но никогда не выставляет это как жест. Просто так принято. Вы вместе уже третий месяц.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_11" }
@@ -1094,7 +1108,7 @@ const scenes = {
     },
     gl1_sc4_11: {
         text: "И всё это время он остаётся немного… собранным? Не закрытым, нет. ",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_12" }
@@ -1102,7 +1116,7 @@ const scenes = {
     },
     gl1_sc4_12: {
         text: "Скорее  аккуратным. Как человек, который уже привык, что к нему тянутся из-за его возможностей, а не из-за него самого.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_13" }
@@ -1110,7 +1124,7 @@ const scenes = {
     },
     gl1_sc4_13: {
         text: "Ты не замечала за ним грубости или холодности. Но и настоящей открытости – тоже. Как будто между вами стекло: прозрачное, но отчётливо ощущаемое.",
-        background: "",
+        background: "assets/images/backgrounds/return_ticket/bar.png",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc4_14" }
@@ -1119,8 +1133,10 @@ const scenes = {
     // Персонаж: чел в костюме
     gl1_sc4_14: {
         text: "Александр:\n– Что-то у тебя серьёзные синяки под глазами. На работе запара?",
-        background: "",
-        characters: [],
+        background: "assets/images/backgrounds/return_ticket/bar.png",
+        characters: [
+            { name: "", image: "assets/images/characters/return_ticket/alex/alex.png", position: "center" }
+        ],
         choices: [
             { text: "«Да, но я сама в это ввязалась.»", nextScene: "gl1_sc4_14_choice1_1" }, // + Целеустремлённость
             { text: "«Иногда кажется, что я делаю недостаточно.»", nextScene: "gl1_sc4_14_choice2_1" } // + Размеренность
