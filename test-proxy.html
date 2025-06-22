@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест PHP Прокси</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест PHP Прокси API</h1>
+    
+    <div class="test-section">
+        <h3>Тест 1: Проверка доступности API</h3>
+        <button onclick="testApiHealth()">Проверить API</button>
+        <div id="health-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Тест 2: Сохранение эмоции</h3>
+        <button onclick="testSaveEmotion()">Сохранить тестовую эмоцию</button>
+        <div id="save-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Тест 3: Получение эмоций</h3>
+        <button onclick="testGetEmotions()">Получить эмоции</button>
+        <div id="get-result" class="result"></div>
+    </div>
+
+    <script>
+        const testUserId = 'test_user_123';
+
+        async function testApiHealth() {
+            const resultDiv = document.getElementById('health-result');
+            resultDiv.textContent = 'Проверяем...';
+            resultDiv.className = 'result';
+
+            try {
+                const response = await fetch('/api/emotions/today/' + testUserId);
+                const data = await response.json();
+                
+                resultDiv.textContent = `Статус: ${response.status}\nОтвет: ${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = `Ошибка: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testSaveEmotion() {
+            const resultDiv = document.getElementById('save-result');
+            resultDiv.textContent = 'Сохраняем...';
+            resultDiv.className = 'result';
+
+            try {
+                const emotionData = {
+                    telegramId: testUserId,
+                    emotion: 'радость',
+                    note: 'Тестовая заметка',
+                    timestamp: new Date().toISOString(),
+                    username: 'Тестовый пользователь'
+                };
+
+                const response = await fetch('/api/emotions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(emotionData)
+                });
+
+                const data = await response.json();
+                
+                resultDiv.textContent = `Статус: ${response.status}\nОтвет: ${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = `Ошибка: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testGetEmotions() {
+            const resultDiv = document.getElementById('get-result');
+            resultDiv.textContent = 'Получаем...';
+            resultDiv.className = 'result';
+
+            try {
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() - 7);
+                const endDate = new Date();
+
+                const params = new URLSearchParams({
+                    telegramId: testUserId,
+                    startDate: startDate.toISOString(),
+                    endDate: endDate.toISOString()
+                });
+
+                const response = await fetch(`/api/emotions?${params}`);
+                const data = await response.json();
+                
+                resultDiv.textContent = `Статус: ${response.status}\nОтвет: ${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = `Ошибка: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html> 

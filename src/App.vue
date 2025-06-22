@@ -1,15 +1,13 @@
 <template>
-  <div id="app" :class="{ 'telegram-app': isTelegramWebApp }">
-    <LoadingScreen v-if="currentScreen === 'loading'"/>
-    <EmotionSelect 
-      v-else-if="currentScreen === 'emotion'"
-      @emotion-selected="handleEmotionSelect"
-    />
+  <div id="app">
+    <LoadingScreen v-if="currentScreen === 'loading'" />
+    <EmotionSelect v-else-if="currentScreen === 'emotion'" @emotion-selected="handleEmotionSelect" @navigate="handleNavigate" />
     <MainScreen
       v-else-if="currentScreen === 'main'"
       @open-settings="openSettings"
+      @open-calendar="openCalendar"
     />
-    <!-- ...можно добавить модалку настроек по флагу showSettings... -->
+    <EmotionCalendar v-else-if="currentScreen === 'calendar'" @back="backToMain" />
   </div>
 </template>
 
@@ -17,40 +15,45 @@
 import LoadingScreen from './components/LoadingScreen.vue'
 import EmotionSelect from './components/EmotionSelect.vue'
 import MainScreen from './components/MainScreen.vue'
-import { isTelegram, initTelegram } from './utils/telegram'
+import EmotionCalendar from './components/EmotionCalendar.vue'
 
 export default {
   name: 'App',
   components: {
     LoadingScreen,
     EmotionSelect,
-    MainScreen
+    MainScreen,
+    EmotionCalendar
   },
   data() {
     return {
       currentScreen: 'loading',
       selectedEmotion: null,
-      isTelegramWebApp: false,
       showSettings: false
     }
   },
-  mounted() {
-    this.isTelegramWebApp = isTelegram();
-    if (this.isTelegramWebApp) {
-      initTelegram();
-    }
-    setTimeout(() => {
-      this.currentScreen = 'emotion'
-    }, 2000)
-  },
   methods: {
-    async handleEmotionSelect(emotionId) {
+    handleEmotionSelect(emotionId) {
       this.selectedEmotion = emotionId;
       this.currentScreen = 'main';
     },
+    handleNavigate(screen) {
+      this.currentScreen = screen;
+    },
     openSettings() {
       this.showSettings = true;
+    },
+    openCalendar() {
+      this.currentScreen = 'calendar';
+    },
+    backToMain() {
+      this.currentScreen = 'main';
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.currentScreen = 'emotion'
+    }, 2000)
   }
 }
 </script>
@@ -60,9 +63,18 @@ export default {
   font-family: 'Mulish', sans-serif;
 }
 
+html, body, #app {
+  /* width: 100%; */
+  height: 100%;
+  overflow-x: hidden; /* только горизонтальный скролл запрещён */
+  position: static;
+  overscroll-behavior: auto;
+  touch-action: auto;
+  margin: 0;
+}
+
 #app {
   text-align: center;
-  margin-top: 60px;
 }
 
 .content {
@@ -74,7 +86,7 @@ export default {
 h1 {
   margin: 20px;
   padding: 20px;
-  border: 2px solid #42b983;
+  /* border: 2px solid #42b983; */
   color: #2c3e50;
   margin-top: 60px;
 }

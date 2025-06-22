@@ -1,0 +1,15 @@
+anyio
+certifi
+charset-normalizer
+h11
+httpcore
+httpx
+idna
+pycryptodome
+PyMySQL
+python-dotenv
+python-telegram-bot
+requests
+sniffio
+typing_extensions
+urllib3
