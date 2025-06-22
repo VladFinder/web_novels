@@ -1,11 +1,11 @@
 <template>
   <div class="calendar-screen">
-    <div class="calendar-container">
+  <div class="calendar-container">
       <!-- Кнопка назад -->
       <button class="back-btn" @click="$emit('back')">Назад</button>
       
-      <div class="calendar">
-        <div class="calendar-header">
+    <div class="calendar">
+      <div class="calendar-header">
           <button @click="previousMonth" class="nav-btn">&lt;</button>
           <h2>{{ currentMonthName }} {{ currentYear }}</h2>
           <button @click="nextMonth" class="nav-btn">&gt;</button>
@@ -13,9 +13,9 @@
         
         <div class="weekdays">
           <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
-        </div>
+      </div>
         
-        <div class="calendar-grid">
+      <div class="calendar-grid">
           <div 
             v-for="day in calendarDays" 
             :key="day.date" 
@@ -23,11 +23,12 @@
             :class="{ 
               'other-month': !day.isCurrentMonth,
               'today': day.isToday,
-              'has-emotion': day.emotion
+              'has-emotion': day.emotion,
+              'future-date': day.isFutureDate
             }"
             @click="showEmotionDetails(day)"
           >
-            <span class="date">{{ day.dayNumber }}</span>
+          <span class="date">{{ day.dayNumber }}</span>
             <img 
               v-if="day.emotion" 
               :src="getMiniEmotionIcon(day.emotion)" 
@@ -44,12 +45,12 @@
       <div class="notes-section">
         <h3></h3>
         <div class="note-input-container">
-        <textarea 
-          v-model="dailyNote"
+      <textarea 
+        v-model="dailyNote"
           placeholder="Напишешь пару слов о сегодняшнем дне?"
             class="note-textarea"
             rows="4"
-        ></textarea>
+      ></textarea>
           <button @click="saveNote" class="save-note-btn" :disabled="isSavingNote">
             {{ isSavingNote ? 'Сохранение...' : 'Сохранить заметку' }}
           </button>
@@ -61,21 +62,30 @@
       <div v-if="selectedDay" class="emotion-modal" @click="closeModal">
         <div class="modal-content" @click.stop>
           <h3>{{ formatDate(selectedDay.date) }}</h3>
+          
+          <!-- Предупреждение для будущих дат -->
+          <div v-if="selectedDay.isFutureDate" class="future-warning">
+            <p class="warning-text">Живи настоящим, не забегай в будущее</p>
+          </div>
+          
           <div class="emotion-details">
-            <img :src="getEmotionIcon(selectedDay.emotion)" :alt="getEmotionName(selectedDay.emotion)" class="emotion-icon-large">
-            <p class="emotion-name">{{ getEmotionName(selectedDay.emotion) }}</p>
-            <p v-if="selectedDay.username" class="username">@{{ selectedDay.username }}</p>
-            <div v-if="selectedDay.note" class="note-display">
-              <h4>Заметка:</h4>
-              <p class="emotion-note">{{ selectedDay.note }}</p>
-            </div>
-            <div v-if="selectedDay.thoughts && selectedDay.thoughts.length > 0" class="thoughts-display">
-              <h4>Заметки за день:</h4>
-              <div v-for="thought in selectedDay.thoughts" :key="thought.id" class="thought-item">
-                <p class="thought-text">{{ thought.text }}</p>
-                <p class="thought-time">{{ formatTime(thought.timestamp) }}</p>
+            <!-- Показываем эмоцию только для прошедших и текущих дат -->
+            <template v-if="!selectedDay.isFutureDate">
+              <img :src="getEmotionIcon(selectedDay.emotion)" :alt="getEmotionName(selectedDay.emotion)" class="emotion-icon-large">
+              <p class="emotion-name">{{ getEmotionName(selectedDay.emotion) }}</p>
+              <p v-if="selectedDay.username" class="username">@{{ selectedDay.username }}</p>
+              <div v-if="selectedDay.note" class="note-display">
+                <h4>Заметка:</h4>
+                <p class="emotion-note">{{ selectedDay.note }}</p>
               </div>
-            </div>
+              <div v-if="selectedDay.thoughts && selectedDay.thoughts.length > 0" class="thoughts-display">
+                <h4>Заметки за день:</h4>
+                <div v-for="thought in selectedDay.thoughts" :key="thought.id" class="thought-item">
+                  <p class="thought-text">{{ thought.text }}</p>
+                  <p class="thought-time">{{ formatTime(thought.timestamp) }}</p>
+                </div>
+              </div>
+            </template>
           </div>
           <button @click="closeModal" class="close-btn">Закрыть</button>
         </div>
@@ -167,8 +177,9 @@ export default {
         const dayData = {
           date: dateStr,
           dayNumber: date.getDate(),
-          isCurrentMonth: date.getMonth() === month,
+          isCurrentMonth: date.getMonth() === this.currentDate.getMonth(),
           isToday: date.getTime() === today.getTime(),
+          isFutureDate: date > today,
           emotion: emotionObj ? emotionObj.emotion : null,
           note: emotionObj ? emotionObj.note : null,
           username: emotionObj ? emotionObj.username : null,
@@ -630,12 +641,23 @@ export default {
 }
 
 .calendar-day.other-month {
-  opacity: 0.6;
+  opacity: 0.2;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
-.calendar-day.today {
-  background: rgba(255, 193, 7, 0.3);
-  border: 2px solid #ffc107;
+.calendar-day.other-month:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: none;
+}
+
+/* .calendar-day.future-date {
+  opacity: 0.8;
+  cursor: pointer;
+} */
+
+.calendar-day.future-date:hover {
+  background: rgba(255, 193, 7, 0.2);
 }
 
 .calendar-day.has-emotion {
@@ -699,6 +721,24 @@ export default {
   font-family: 'Mulish', sans-serif;
   color: #333;
   font-size: 20px;
+}
+
+/* Предупреждение для будущих дат */
+.future-warning {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.warning-text {
+  margin: 0;
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .emotion-details {

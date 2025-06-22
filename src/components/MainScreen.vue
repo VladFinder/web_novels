@@ -68,7 +68,7 @@ export default {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  padding: 40px;
+  padding: 20px 40px;
   position: absolute;
   top: 60px;
 }
@@ -139,8 +139,7 @@ export default {
 .calendar {
   background: #FF7DBB;
   color: black;
-  /* border: none!important;
-  border-radius: 20px; */
+  box-shadow: 0px 4px 4px 0px rgba(82, 82, 82, 0.25);
 }
 
 .btn:disabled {
