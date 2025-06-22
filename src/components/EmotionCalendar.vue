@@ -1,107 +1,92 @@
 <template>
-  <div class="calendar-container">
-    <!-- Кнопка назад -->
-    <button class="back-btn" @click="$emit('back')">Назад</button>
-    
-    <div class="calendar">
-      <div class="calendar-header">
-        <button @click="previousMonth" class="nav-btn">&lt;</button>
-        <h2>{{ currentMonthName }} {{ currentYear }}</h2>
-        <button @click="nextMonth" class="nav-btn">&gt;</button>
-      </div>
+  <div class="calendar-screen">
+    <div class="calendar-container">
+      <!-- Кнопка назад -->
+      <button class="back-btn" @click="$emit('back')">Назад</button>
       
-      <div class="weekdays">
-        <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
-      </div>
-      
-      <div class="calendar-grid">
-        <div 
-          v-for="day in calendarDays" 
-          :key="day.date" 
-          class="calendar-day"
-          :class="{ 
-            'other-month': !day.isCurrentMonth,
-            'today': day.isToday,
-            'has-emotion': day.emotion
-          }"
-          @click="showEmotionDetails(day)"
-        >
-          <span class="date">{{ day.dayNumber }}</span>
-          <img 
-            v-if="day.emotion" 
-            :src="getMiniEmotionIcon(day.emotion)" 
-            :alt="getEmotionName(day.emotion)"
-            class="emotion-icon-mini"
-            @error="handleImageError"
-            @load="handleImageLoad"
+      <div class="calendar">
+        <div class="calendar-header">
+          <button @click="previousMonth" class="nav-btn">&lt;</button>
+          <h2>{{ currentMonthName }} {{ currentYear }}</h2>
+          <button @click="nextMonth" class="nav-btn">&gt;</button>
+        </div>
+        
+        <div class="weekdays">
+          <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
+        </div>
+        
+        <div class="calendar-grid">
+          <div 
+            v-for="day in calendarDays" 
+            :key="day.date" 
+            class="calendar-day"
+            :class="{ 
+              'other-month': !day.isCurrentMonth,
+              'today': day.isToday,
+              'has-emotion': day.emotion
+            }"
+            @click="showEmotionDetails(day)"
           >
-          <!-- Отладочная информация для мини-иконок -->
-          <div v-if="day.emotion" style="font-size: 8px; color: blue;">{{ day.emotion }}</div>
+            <span class="date">{{ day.dayNumber }}</span>
+            <!-- Отладочная информация -->
+            <div v-if="day.emotion" style="font-size: 8px; color: red; position: absolute; top: 0; left: 0;">{{ day.emotion }}</div>
+            <img 
+              v-if="day.emotion" 
+              :src="getMiniEmotionIcon(day.emotion)" 
+              :alt="getEmotionName(day.emotion)"
+              class="emotion-icon-mini"
+              @error="handleImageError"
+              @load="handleImageLoad"
+            >
+          </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Секция записи мыслей -->
-    <!-- <div class="thoughts-section">
-      <h3>Записать мысли</h3>
-      <div class="thought-input-container">
+      
+      <!-- Секция заметок -->
+      <div class="notes-section">
+        <h3></h3>
+        <div class="note-input-container">
         <textarea 
-          v-model="dailyThought"
-          placeholder="Напишите свои мысли о сегодняшнем дне..."
-          class="thought-textarea"
-          rows="4"
+          v-model="dailyNote"
+          placeholder="Напишешь пару слов о сегодняшнем дне?"
+            class="note-textarea"
+            rows="4"
         ></textarea>
-        <button @click="saveThought" class="save-thought-btn" :disabled="isSavingThought">
-          {{ isSavingThought ? 'Сохранение...' : 'Записать мысли' }}
-        </button>
-      </div>
-      <p v-if="thoughtSaved" class="thought-saved">Мысли записаны!</p>
-    </div> -->
-    
-    <!-- Секция заметок -->
-    <div class="notes-section">
-      <h3></h3>
-      <div class="note-input-container">
-      <textarea 
-        v-model="dailyNote"
-        placeholder="Напишешь пару слов о сегодняшнем дне?"
-          class="note-textarea"
-          rows="4"
-      ></textarea>
-        <button @click="saveNote" class="save-note-btn" :disabled="isSavingNote">
-          {{ isSavingNote ? 'Сохранение...' : 'Сохранить заметку' }}
-        </button>
-      </div>
-      <p v-if="noteSaved" class="note-saved">Ваши мысли сохранены!</p>
-    </div>
-    
-    <!-- Модальное окно с деталями эмоции -->
-    <div v-if="selectedDay" class="emotion-modal" @click="closeModal">
-      <div class="modal-content" @click.stop>
-        <h3>{{ formatDate(selectedDay.date) }}</h3>
-        <div class="emotion-details">
-          <img :src="getEmotionIcon(selectedDay.emotion)" :alt="getEmotionName(selectedDay.emotion)" class="emotion-icon-large">
-          <p class="emotion-name">{{ getEmotionName(selectedDay.emotion) }}</p>
-          <p v-if="selectedDay.username" class="username">@{{ selectedDay.username }}</p>
-          <div v-if="selectedDay.note" class="note-display">
-            <h4>Заметка:</h4>
-            <p class="emotion-note">{{ selectedDay.note }}</p>
-          </div>
-          <div v-if="selectedDay.thoughts && selectedDay.thoughts.length > 0" class="thoughts-display">
-            <h4>Заметки за день:</h4>
-            <div v-for="thought in selectedDay.thoughts" :key="thought.id" class="thought-item">
-              <p class="thought-text">{{ thought.text }}</p>
-              <p class="thought-time">{{ formatTime(thought.timestamp) }}</p>
-            </div>
-          </div>
-          <!-- Добавить заметку -->
-          <div class="modal-thought-input">
-            <textarea v-model="modalThought" placeholder="Добавить заметку..." rows="2"></textarea>
-            <button @click="addModalThought" :disabled="isSavingModalThought">{{ isSavingModalThought ? 'Сохранение...' : 'Добавить заметку' }}</button>
-          </div>
-          <p v-if="modalThoughtSaved" class="thought-saved">Заметка добавлена!</p>
+          <button @click="saveNote" class="save-note-btn" :disabled="isSavingNote">
+            {{ isSavingNote ? 'Сохранение...' : 'Сохранить заметку' }}
+          </button>
         </div>
-        <button @click="closeModal" class="close-btn">Закрыть</button>
+        <p v-if="noteSaved" class="note-saved">Ваши мысли сохранены!</p>
+      </div>
+      
+      <!-- Модальное окно с деталями эмоции -->
+      <div v-if="selectedDay" class="emotion-modal" @click="closeModal">
+        <div class="modal-content" @click.stop>
+          <h3>{{ formatDate(selectedDay.date) }}</h3>
+          <div class="emotion-details">
+            <img :src="getEmotionIcon(selectedDay.emotion)" :alt="getEmotionName(selectedDay.emotion)" class="emotion-icon-large">
+            <p class="emotion-name">{{ getEmotionName(selectedDay.emotion) }}</p>
+            <p v-if="selectedDay.username" class="username">@{{ selectedDay.username }}</p>
+            <div v-if="selectedDay.note" class="note-display">
+              <h4>Заметка:</h4>
+              <p class="emotion-note">{{ selectedDay.note }}</p>
+            </div>
+            <div v-if="selectedDay.thoughts && selectedDay.thoughts.length > 0" class="thoughts-display">
+              <h4>Заметки за день:</h4>
+              <div v-for="thought in selectedDay.thoughts" :key="thought.id" class="thought-item">
+                <p class="thought-text">{{ thought.text }}</p>
+                <p class="thought-time">{{ formatTime(thought.timestamp) }}</p>
+              </div>
+            </div>
+            <!-- Добавить заметку -->
+            <!-- <div class="modal-thought-input">
+              <textarea v-model="modalThought" placeholder="Добавить заметку..." rows="2"></textarea>
+              <button @click="addModalThought" :disabled="isSavingModalThought">{{ isSavingModalThought ? 'Сохранение...' : 'Добавить заметку' }}</button>
+            </div> -->
+            <!-- <p v-if="modalThoughtSaved" class="thought-saved">Заметка добавлена!</p> -->
+          </div>
+          <button @click="closeModal" class="close-btn">Закрыть</button>
+        </div>
       </div>
     </div>
   </div>
@@ -155,6 +140,7 @@ export default {
       
       console.log('🔍 Генерируем календарь для:', year, month)
       console.log('🔍 Текущие эмоции:', this.emotions)
+      console.log('🔍 Количество эмоций в массиве:', this.emotions.length)
       
       // Первый день месяца
       const firstDay = new Date(year, month, 1)
@@ -175,23 +161,25 @@ export default {
       for (let i = 0; i < 42; i++) {
         const date = new Date(startDate)
         date.setDate(startDate.getDate() + i)
-        
         const dateStr = date.toISOString().split('T')[0]
-        const emotion = this.getEmotionForDate(dateStr)
+        const emotionObj = this.getEmotionForDate(dateStr)
+        
+        console.log('🔍 Проверяем дату:', dateStr, 'эмоция:', emotionObj ? emotionObj.emotion : 'нет')
         
         const dayData = {
           date: dateStr,
           dayNumber: date.getDate(),
           isCurrentMonth: date.getMonth() === month,
           isToday: date.getTime() === today.getTime(),
-          emotion: emotion ? emotion.emotion : null,
-          note: emotion ? emotion.note : null,
-          timestamp: emotion ? emotion.timestamp : null
+          emotion: emotionObj ? emotionObj.emotion : null,
+          note: emotionObj ? emotionObj.note : null,
+          username: emotionObj ? emotionObj.username : null,
+          timestamp: emotionObj ? emotionObj.timestamp : null
         }
         
         // Отладочная информация для конкретных дат
         if (date.getDate() === 21 || date.getDate() === 22) {
-          console.log('🔍 День', date.getDate(), 'дата:', dateStr, 'эмоция:', emotion ? emotion.emotion : 'нет')
+          console.log('🔍 День', date.getDate(), 'дата:', dateStr, 'эмоция:', emotionObj ? emotionObj.emotion : 'нет')
         }
         
         days.push(dayData)
@@ -200,9 +188,10 @@ export default {
       console.log('🔍 Сгенерировано дней:', days.length)
       const daysWithEmotions = days.filter(day => day.emotion)
       console.log('🔍 Дней с эмоциями:', daysWithEmotions.length)
+      console.log('🔍 Дни с эмоциями:', daysWithEmotions.map(d => `${d.date}: ${d.emotion}`))
       
       return days
-    }
+    },
   },
   async mounted() {
     console.log('🔍 EmotionCalendar mounted')
@@ -211,6 +200,15 @@ export default {
     console.log('🔍 Эмоции загружены, компонент готов')
   },
   methods: {
+    getEmotionForDate(dateStr) {
+      // Возвращаем весь объект эмоции, если есть
+      const emotion = this.emotions.find(emotion => emotion.date === dateStr) || null
+      if (emotion) {
+        console.log('🔍 Найдена эмоция для даты', dateStr, ':', emotion)
+      }
+      return emotion
+    },
+    
     async loadEmotions() {
       try {
         let telegramId = getTelegramUserId()
@@ -221,31 +219,49 @@ export default {
         }
         
         console.log('🔍 Загружаем эмоции для ID:', telegramId)
+        console.log('🔍 Текущая дата календаря:', this.currentDate)
+        console.log('🔍 Месяц календаря:', this.currentDate.getMonth(), '(0-январь, 5-июнь)')
         
         // Загружаем эмоции за текущий месяц
         const startDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
         const endDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0)
         
         console.log('🔍 Период загрузки:', startDate.toISOString(), 'до', endDate.toISOString())
+        console.log('🔍 Период загрузки (локальное время):', startDate.toLocaleDateString(), 'до', endDate.toLocaleDateString())
         
-        this.emotions = await jsonStorageService.getUserEmotions(telegramId, startDate, endDate)
-        console.log('🔍 Загружены эмоции:', this.emotions)
-        console.log('🔍 Количество эмоций:', this.emotions.length)
+        const loadedEmotions = await jsonStorageService.getUserEmotions(telegramId, startDate, endDate)
+        console.log('🔍 Загружены эмоции:', loadedEmotions)
+        console.log('🔍 Количество эмоций:', loadedEmotions.length)
+        console.log('🔍 Тип данных:', typeof loadedEmotions)
+        console.log('🔍 Это массив?', Array.isArray(loadedEmotions))
         
         // Проверяем, есть ли эмоции на конкретные даты
-        this.emotions.forEach(emotion => {
-          console.log('🔍 Эмоция на', emotion.date, ':', emotion.emotion)
-        })
+        if (Array.isArray(loadedEmotions)) {
+          loadedEmotions.forEach(emotion => {
+            console.log('🔍 Эмоция на', emotion.date, ':', emotion.emotion, 'Заметка:', emotion.note)
+          })
+          this.emotions = loadedEmotions
+        } else {
+          console.warn('⚠️ Эмоции не являются массивом:', loadedEmotions)
+          this.emotions = []
+        }
+        
+        console.log('🔍 this.emotions после загрузки:', this.emotions)
+        console.log('🔍 Количество эмоций в this.emotions:', this.emotions.length)
+        
+        // Принудительно обновляем календарь
+        this.$forceUpdate()
+        
+        // Дополнительная проверка через setTimeout
+        setTimeout(() => {
+          console.log('🔍 Проверка через 1 секунду - this.emotions:', this.emotions)
+          console.log('🔍 Проверка через 1 секунду - количество:', this.emotions.length)
+        }, 1000)
         
       } catch (error) {
         console.error('❌ Ошибка загрузки эмоций:', error)
+        this.emotions = []
       }
-    },
-    
-    getEmotionForDate(dateStr) {
-      const emotion = this.emotions.find(emotion => emotion.date === dateStr)
-      console.log('🔍 Поиск эмоции для даты', dateStr, ':', emotion)
-      return emotion
     },
     
     getEmotionIcon(emotionId) {
@@ -432,6 +448,7 @@ export default {
     },
     
     getMiniEmotionIcon(emotionId) {
+      console.log('🔍 getMiniEmotionIcon вызван с ID:', emotionId)
       const miniIconMap = {
         1: require('../assets/emotions/mini_joy.png'),
         2: require('../assets/emotions/mini_sadness.png'),
@@ -440,7 +457,9 @@ export default {
         5: require('../assets/emotions/mini_irritation.png'),
         6: require('../assets/emotions/mini_dreaminess.png')
       }
-      return miniIconMap[emotionId] || ''
+      const iconPath = miniIconMap[emotionId] || ''
+      console.log('🔍 Путь к мини-иконке:', iconPath)
+      return iconPath
     },
     
     async addModalThought() {
@@ -476,6 +495,20 @@ export default {
 </script>
 
 <style scoped>
+.calendar-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: radial-gradient(48.34% 48.34% at 50% 51.66%, #DAF8FF 29.33%, #F2C0FF 75%, #FB8DFF 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
 .back-btn {
   align-self: flex-start;
   margin-bottom: 20px;
@@ -498,8 +531,9 @@ export default {
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   overflow-y: auto;
+  /* width: 100%; */
 }
 
 .calendar {
@@ -559,7 +593,7 @@ export default {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  gap: 4px;
 }
 
 .calendar-day {
@@ -568,12 +602,14 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 4px;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
   background: rgba(255, 255, 255, 0.1);
+  min-height: 40px;
+  min-width: 40px;
 }
 
 .calendar-day:hover {
@@ -596,19 +632,23 @@ export default {
 }
 
 .calendar-day .date {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: #333;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  line-height: 1;
 }
 
 .emotion-icon-mini {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   object-fit: cover;
-  margin-top: 2px;
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
   transition: transform 0.2s;
+  z-index: 2;
 }
 
 .calendar-day:hover .emotion-icon-mini {
@@ -703,14 +743,14 @@ export default {
 .notes-section {
   margin-top: 20px;
   padding: 20px;
-  background: rgba(0, 255, 0, 0.1);
-  border: 2px solid green;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .notes-section h3 {
-  color: green;
+  color: #333;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 15px;
@@ -848,36 +888,93 @@ export default {
 }
 
 .modal-thought-input {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  margin-top: 20px;
+  text-align: left;
 }
 
 .modal-thought-input textarea {
   width: 100%;
-  border-radius: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
-  padding: 6px;
-  resize: none;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  resize: vertical;
 }
 
 .modal-thought-input button {
-  align-self: flex-end;
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   border: none;
-  padding: 8px 18px;
-  border-radius: 16px;
+  padding: 10px 20px;
+  border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
-  font-family: 'Mulish', sans-serif;
   transition: all 0.2s;
 }
 
-.modal-thought-input button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.modal-thought-input button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.username {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+  margin: 0 0 15px 0;
+}
+
+/* Адаптивность для телефонов */
+@media (max-width: 480px) {
+  .calendar-container {
+    padding: 10px;
+  }
+  
+  .calendar {
+    padding: 15px;
+  }
+  
+  .calendar-header h2 {
+    font-size: 20px;
+  }
+  
+  .calendar-day {
+    min-height: 35px;
+    min-width: 35px;
+    padding: 2px;
+  }
+  
+  .calendar-day .date {
+    font-size: 12px;
+  }
+  
+  .emotion-icon-mini {
+    width: 14px;
+    height: 14px;
+    bottom: 1px;
+    right: 1px;
+  }
+  
+  .weekday {
+    font-size: 12px;
+    padding: 8px 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .calendar-day {
+    min-height: 30px;
+    min-width: 30px;
+  }
+  
+  .calendar-day .date {
+    font-size: 11px;
+  }
+  
+  .emotion-icon-mini {
+    width: 12px;
+    height: 12px;
+  }
 }
 </style>

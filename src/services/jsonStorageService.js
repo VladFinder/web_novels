@@ -58,16 +58,29 @@ class JsonStorageService {
         endDate: endDate.toISOString()
       });
 
-      const response = await fetch(`${apiUrl}/emotions?${params}`);
+      const url = `${apiUrl}/emotions?${params}`;
+      console.log('🔍 Отправляем запрос на:', url);
+      console.log('🔍 Параметры:', { telegramId, startDate: startDate.toISOString(), endDate: endDate.toISOString() });
+
+      const response = await fetch(url);
+      
+      console.log('🔍 Получен ответ:', response.status, response.statusText);
       
       if (!response.ok) {
         const error = await response.json();
+        console.error('❌ Ошибка сервера:', error);
         throw new Error(error.error || 'Ошибка получения эмоций');
       }
 
-      return await response.json();
+      const data = await response.json();
+      console.log('🔍 Получены данные от сервера:', data);
+      console.log('🔍 Количество эмоций:', data.length);
+      console.log('🔍 Тип данных:', typeof data);
+      console.log('🔍 Это массив?', Array.isArray(data));
+      
+      return data;
     } catch (error) {
-      console.error('Ошибка получения эмоций:', error);
+      console.error('❌ Ошибка получения эмоций:', error);
       throw error;
     }
   }

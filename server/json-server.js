@@ -107,22 +107,63 @@ app.get('/api/emotions', async (req, res) => {
   try {
     const { telegramId, startDate, endDate } = req.query;
     
-    if (!telegramId) {
+    // Исправляем парсинг параметров - берем первый элемент, если это массив
+    const cleanTelegramId = Array.isArray(telegramId) ? telegramId[0] : telegramId;
+    const cleanStartDate = Array.isArray(startDate) ? startDate[0] : startDate;
+    const cleanEndDate = Array.isArray(endDate) ? endDate[0] : endDate;
+    
+    console.log('🔍 Получен запрос на эмоции за период:', { 
+      telegramId: cleanTelegramId, 
+      startDate: cleanStartDate, 
+      endDate: cleanEndDate 
+    });
+    
+    if (!cleanTelegramId) {
       return res.status(400).json({ error: 'Необходим telegramId' });
     }
 
     const data = await loadData();
-    const userId = String(telegramId);
+    const userId = String(cleanTelegramId);
     const userEmotions = data.user_emotions[userId] || {};
     
+    console.log('🔍 Данные пользователя:', userId);
+    console.log('🔍 Эмоции пользователя:', userEmotions);
+    console.log('🔍 Ключи эмоций:', Object.keys(userEmotions));
+    
+    // Безопасный парсинг дат
+    function safeParseDate(str) {
+      if (!str) return null;
+      // Убираем лишние параметры из строки
+      const cleanStr = str.split('?')[0];
+      let d = new Date(cleanStr);
+      if (isNaN(d)) {
+        // Пробуем обрезать миллисекунды и Z
+        d = new Date(cleanStr.replace(/\..*$/, ''));
+      }
+      if (isNaN(d)) {
+        // Пробуем только дату
+        d = new Date(cleanStr.split('T')[0]);
+      }
+      return d;
+    }
+    
+    const start = safeParseDate(cleanStartDate);
+    const end = safeParseDate(cleanEndDate);
+    console.log('🔍 start:', start, 'end:', end);
+    if (!start || !end || isNaN(start) || isNaN(end)) {
+      return res.status(400).json({ error: 'Некорректные даты' });
+    }
+
+    console.log('🔍 Период поиска:', start.toISOString(), 'до', end.toISOString());
+
     const emotions = [];
-    const start = new Date(startDate);
-    const end = new Date(endDate);
 
     // Перебираем все даты в диапазоне
     for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
       const dateStr = date.toISOString().split('T')[0];
+      console.log('🔍 Проверяем дату:', dateStr, 'есть ли эмоция:', !!userEmotions[dateStr]);
       if (userEmotions[dateStr]) {
+        console.log('🔍 Найдена эмоция на', dateStr, ':', userEmotions[dateStr]);
         emotions.push({
           id: `${userId}_${dateStr}`,
           date: dateStr,
@@ -130,6 +171,9 @@ app.get('/api/emotions', async (req, res) => {
         });
       }
     }
+
+    console.log('🔍 Найдено эмоций:', emotions.length);
+    console.log('🔍 Возвращаем эмоции:', emotions);
 
     res.json(emotions.sort((a, b) => new Date(b.date) - new Date(a.date)));
     
