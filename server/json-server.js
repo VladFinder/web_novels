@@ -106,79 +106,36 @@ app.post('/api/emotions', async (req, res) => {
 app.get('/api/emotions', async (req, res) => {
   try {
     const { telegramId, startDate, endDate } = req.query;
-    
-    // Исправляем парсинг параметров - берем первый элемент, если это массив
     const cleanTelegramId = Array.isArray(telegramId) ? telegramId[0] : telegramId;
     const cleanStartDate = Array.isArray(startDate) ? startDate[0] : startDate;
     const cleanEndDate = Array.isArray(endDate) ? endDate[0] : endDate;
-    
-    console.log('🔍 Получен запрос на эмоции за период:', { 
-      telegramId: cleanTelegramId, 
-      startDate: cleanStartDate, 
-      endDate: cleanEndDate 
-    });
-    
     if (!cleanTelegramId) {
       return res.status(400).json({ error: 'Необходим telegramId' });
     }
-
     const data = await loadData();
     const userId = String(cleanTelegramId);
     const userEmotions = data.user_emotions[userId] || {};
-    
-    console.log('🔍 Данные пользователя:', userId);
-    console.log('🔍 Эмоции пользователя:', userEmotions);
-    console.log('🔍 Ключи эмоций:', Object.keys(userEmotions));
-    
-    // Безопасный парсинг дат
-    function safeParseDate(str) {
-      if (!str) return null;
-      // Убираем лишние параметры из строки
-      const cleanStr = str.split('?')[0];
-      let d = new Date(cleanStr);
-      if (isNaN(d)) {
-        // Пробуем обрезать миллисекунды и Z
-        d = new Date(cleanStr.replace(/\..*$/, ''));
-      }
-      if (isNaN(d)) {
-        // Пробуем только дату
-        d = new Date(cleanStr.split('T')[0]);
-      }
-      return d;
-    }
-    
-    const start = safeParseDate(cleanStartDate);
-    const end = safeParseDate(cleanEndDate);
-    console.log('🔍 start:', start, 'end:', end);
-    if (!start || !end || isNaN(start) || isNaN(end)) {
-      return res.status(400).json({ error: 'Некорректные даты' });
-    }
-
-    console.log('🔍 Период поиска:', start.toISOString(), 'до', end.toISOString());
-
+    // plain string сравнение дат
     const emotions = [];
-
-    // Перебираем все даты в диапазоне
-    for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
-      const dateStr = date.toISOString().split('T')[0];
-      console.log('🔍 Проверяем дату:', dateStr, 'есть ли эмоция:', !!userEmotions[dateStr]);
-      if (userEmotions[dateStr]) {
-        console.log('🔍 Найдена эмоция на', dateStr, ':', userEmotions[dateStr]);
+    let cur = cleanStartDate;
+    while (cur <= cleanEndDate) {
+      if (userEmotions[cur]) {
         emotions.push({
-          id: `${userId}_${dateStr}`,
-          date: dateStr,
-          ...userEmotions[dateStr]
+          id: `${userId}_${cur}`,
+          date: cur,
+          ...userEmotions[cur]
         });
       }
+      // увеличиваем дату на 1 день (plain string)
+      const d = new Date(cur);
+      d.setDate(d.getDate() + 1);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      cur = `${year}-${month}-${day}`;
     }
-
-    console.log('🔍 Найдено эмоций:', emotions.length);
-    console.log('🔍 Возвращаем эмоции:', emotions);
-
-    res.json(emotions.sort((a, b) => new Date(b.date) - new Date(a.date)));
-    
+    res.json(emotions.sort((a, b) => a.date.localeCompare(b.date)));
   } catch (error) {
-    console.error('Ошибка получения эмоций:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -187,30 +144,20 @@ app.get('/api/emotions', async (req, res) => {
 app.put('/api/emotions/note', async (req, res) => {
   try {
     const { telegramId, date, note } = req.body;
-    
     if (!telegramId || !date) {
       return res.status(400).json({ error: 'Необходимы telegramId и date' });
     }
-
     const data = await loadData();
     const userId = String(telegramId);
-    const dateStr = new Date(date).toISOString().split('T')[0];
-    
+    const dateStr = date; // plain string
     if (!data.user_emotions[userId] || !data.user_emotions[userId][dateStr]) {
       return res.status(404).json({ error: 'Эмоция на эту дату не найдена' });
     }
-
-    // Обновляем заметку
     data.user_emotions[userId][dateStr].note = note;
     data.user_emotions[userId][dateStr].updatedAt = new Date().toISOString();
-
     await saveData(data);
-    
-    console.log('Заметка обновлена:', { userId, date: dateStr, note });
     res.json({ success: true });
-    
   } catch (error) {
-    console.error('Ошибка обновления заметки:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -238,13 +185,10 @@ app.get('/api/emotions/:telegramId/:date', async (req, res) => {
     const { telegramId, date } = req.params;
     const data = await loadData();
     const userId = String(telegramId);
-    const dateStr = new Date(date).toISOString().split('T')[0];
-    
+    const dateStr = date; // plain string
     const emotion = data.user_emotions[userId] && data.user_emotions[userId][dateStr];
     res.json(emotion || null);
-    
   } catch (error) {
-    console.error('Ошибка получения эмоции по дате:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -254,27 +198,25 @@ app.get('/api/emotions/stats/:telegramId', async (req, res) => {
   try {
     const { telegramId } = req.params;
     const { startDate, endDate } = req.query;
-    
     const data = await loadData();
     const userId = String(telegramId);
     const userEmotions = data.user_emotions[userId] || {};
     const stats = {};
-    
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
-      const dateStr = date.toISOString().split('T')[0];
-      if (userEmotions[dateStr]) {
-        const emotion = userEmotions[dateStr].emotion;
+    let cur = startDate;
+    while (cur <= endDate) {
+      if (userEmotions[cur]) {
+        const emotion = userEmotions[cur].emotion;
         stats[emotion] = (stats[emotion] || 0) + 1;
       }
+      const d = new Date(cur);
+      d.setDate(d.getDate() + 1);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      cur = `${year}-${month}-${day}`;
     }
-
     res.json(stats);
-    
   } catch (error) {
-    console.error('Ошибка получения статистики:', error);
     res.status(500).json({ error: error.message });
   }
 });

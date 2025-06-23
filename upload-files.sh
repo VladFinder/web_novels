@@ -19,8 +19,8 @@ if ssh -o ConnectTimeout=5 u3076779@37.140.192.181 "echo 'test'" 2>/dev/null; th
     echo "✅ SSH подключение работает"
     echo "Загружаем файлы..."
     scp -r dist/* u3076779@37.140.192.181:/var/www/u3076779/data/www/ikiteam.ru/
-    scp server/json-server.js u3076779@37.140.192.181:/home/u3076779/
-    ssh u3076779@37.140.192.181 "cd /home/u3076779 && pm2 restart json-server || node json-server.js"
+    scp server/json-server.js u3076779@37.140.192.181:/home/u3076779/data/www/ikiteam.ru/server/
+    ssh u3076779@37.140.192.181 "cd /home/u3076779/data/www/ikiteam.ru/server && pm2 restart json-server || node json-server.js"
     echo "✅ Файлы загружены и сервер перезапущен"
     exit 0
 fi
@@ -31,8 +31,8 @@ if ssh -o ConnectTimeout=10 -o ServerAliveInterval=60 u3076779@37.140.192.181 "e
     echo "✅ SSH подключение работает с дополнительными опциями"
     echo "Загружаем файлы..."
     scp -r dist/* u3076779@37.140.192.181:/var/www/u3076779/data/www/ikiteam.ru/
-    scp server/json-server.js u3076779@37.140.192.181:/home/u3076779/
-    ssh u3076779@37.140.192.181 "cd /home/u3076779 && pm2 restart json-server || node json-server.js"
+    scp server/json-server.js u3076779@37.140.192.181:/home/u3076779/data/www/ikiteam.ru/server/
+    ssh u3076779@37.140.192.181 "cd /home/u3076779/data/www/ikiteam.ru/server && pm2 restart json-server || node json-server.js"
     echo "✅ Файлы загружены и сервер перезапущен"
     exit 0
 fi
@@ -40,5 +40,5 @@ fi
 echo "❌ Не удалось подключиться к серверу"
 echo "Попробуйте подключиться вручную и выполнить:"
 echo "1. scp -r dist/* u3076779@37.140.192.181:/var/www/u3076779/data/www/ikiteam.ru/"
-echo "2. scp server/json-server.js u3076779@37.140.192.181:/home/u3076779/"
-echo "3. ssh u3076779@37.140.192.181 'cd /home/u3076779 && pm2 restart json-server'" 
+echo "2. scp server/json-server.js u3076779@37.140.192.181:/home/u3076779/data/www/ikiteam.ru/server/"
+echo "3. ssh u3076779@37.140.192.181 'cd /home/u3076779/data/www/ikiteam.ru/server && pm2 restart json-server'" 

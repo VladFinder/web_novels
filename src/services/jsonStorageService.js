@@ -25,7 +25,7 @@ class JsonStorageService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ telegramId, emotion, note, timestamp, username })
+        body: JSON.stringify({ telegramId, emotion, note, date: timestamp, username })
       });
 
       console.log('Получен ответ от сервера:', response.status, response.statusText);
@@ -54,13 +54,13 @@ class JsonStorageService {
       const apiUrl = this.getApiUrl();
       const params = new URLSearchParams({
         telegramId: String(telegramId),
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString()
+        startDate,
+        endDate
       });
 
       const url = `${apiUrl}/emotions?${params}`;
       console.log('🔍 Отправляем запрос на:', url);
-      console.log('🔍 Параметры:', { telegramId, startDate: startDate.toISOString(), endDate: endDate.toISOString() });
+      console.log('🔍 Параметры:', { telegramId, startDate, endDate });
 
       const response = await fetch(url);
       
@@ -89,8 +89,7 @@ class JsonStorageService {
   async getEmotionByDate(telegramId, date) {
     try {
       const apiUrl = this.getApiUrl();
-      const dateStr = new Date(date).toISOString().split('T')[0];
-      const response = await fetch(`${apiUrl}/emotions/${telegramId}/${dateStr}`);
+      const response = await fetch(`${apiUrl}/emotions/${telegramId}/${date}`);
       
       if (!response.ok) {
         if (response.status === 404) {
@@ -111,17 +110,18 @@ class JsonStorageService {
   async hasEmotionToday(telegramId) {
     try {
       const apiUrl = this.getApiUrl();
-      const response = await fetch(`${apiUrl}/emotions/today/${telegramId}`);
-      
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const today = `${year}-${month}-${day}`;
+      const response = await fetch(`${apiUrl}/emotions/${telegramId}/${today}`);
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Ошибка проверки эмоции');
+        return false;
       }
-
       const result = await response.json();
-      return result.hasEmotion;
+      return !!result; // true если эмоция есть, false если null
     } catch (error) {
-      console.error('Ошибка проверки эмоции на сегодня:', error);
       return false;
     }
   }

@@ -82,7 +82,11 @@ export default {
     
     if (this.emotionAlreadySelected) {
       // Получаем выбранную эмоцию
-      const today = new Date().toISOString().split('T')[0]
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const today = `${year}-${month}-${day}`;
       this.selectedEmotion = await jsonStorageService.getEmotionByDate(this.telegramId, today)
       console.log('🔍 Selected emotion:', this.selectedEmotion);
     }
@@ -121,9 +125,14 @@ export default {
           console.log('🔍 Using Telegram ID from component:', telegramId);
         }
         
+        // Сохраняем эмоцию с plain string датой
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const today = `${year}-${month}-${day}`;
         const note = '';
-        const timestamp = new Date().toISOString();
-        
+        const timestamp = today;
         const emotionData = {
           telegramId,
           telegramUsername: this.telegramUsername,

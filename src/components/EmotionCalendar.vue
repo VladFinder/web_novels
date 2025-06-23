@@ -232,12 +232,16 @@ export default {
         console.log('🔍 Месяц календаря:', this.currentDate.getMonth(), '(0-январь, 5-июнь)')
         
         // Загружаем эмоции за текущий месяц
-        const startDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
-        const endDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0)
-        
-        console.log('🔍 Период загрузки:', startDate.toISOString(), 'до', endDate.toISOString())
-        console.log('🔍 Период загрузки (локальное время):', startDate.toLocaleDateString(), 'до', endDate.toLocaleDateString())
-        
+        const startDateObj = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
+        const endDateObj = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0)
+        const startYear = startDateObj.getFullYear();
+        const startMonth = String(startDateObj.getMonth() + 1).padStart(2, '0');
+        const startDay = String(startDateObj.getDate()).padStart(2, '0');
+        const startDate = `${startYear}-${startMonth}-${startDay}`;
+        const endYear = endDateObj.getFullYear();
+        const endMonth = String(endDateObj.getMonth() + 1).padStart(2, '0');
+        const endDay = String(endDateObj.getDate()).padStart(2, '0');
+        const endDate = `${endYear}-${endMonth}-${endDay}`;
         const loadedEmotions = await jsonStorageService.getUserEmotions(telegramId, startDate, endDate)
         console.log('🔍 Загружены эмоции:', loadedEmotions)
         console.log('🔍 Количество эмоций:', loadedEmotions.length)

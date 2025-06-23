@@ -8,7 +8,7 @@ echo "🔧 Настройка удаленного сервера для JSON AP
 REMOTE_SERVER="37.140.192.181"
 REMOTE_USER="u3076779"
 REMOTE_PASSWORD="T6YJqgT2R5cN9w3E"
-REMOTE_PATH="/home/u3076779/emotions-server"
+REMOTE_PATH="/home/u3076779/data/www/ikiteam.ru/server"
 
 echo "📁 Создаем папку на сервере..."
 sshpass -p "${REMOTE_PASSWORD}" ssh ${REMOTE_USER}@${REMOTE_SERVER} "mkdir -p ${REMOTE_PATH}"
