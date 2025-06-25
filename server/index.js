@@ -9,10 +9,10 @@ app.use(express.json());
 // Создание пользователя
 app.post('/api/users', async (req, res) => {
   try {
-    const { telegramId } = req.body;
+    const { telegramId, login } = req.body;
     await pool.execute(
-      'INSERT IGNORE INTO users (telegram_id) VALUES (?)',
-      [telegramId]
+      'INSERT IGNORE INTO users (telegram_id, login) VALUES (?, ?) ON DUPLICATE KEY UPDATE login = ?',
+      [telegramId, login || telegramId, login || telegramId]
     );
     res.json({ success: true });
   } catch (error) {

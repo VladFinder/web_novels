@@ -3,6 +3,7 @@ USE web_novels;
 
 CREATE TABLE users (
     telegram_id VARCHAR(50) PRIMARY KEY,
+    login VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

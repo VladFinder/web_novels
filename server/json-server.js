@@ -29,7 +29,7 @@ async function loadData() {
     return JSON.parse(data);
   } catch (error) {
     // Если файл не существует, создаем пустую структуру
-    return { user_emotions: {} };
+    return { user_emotions: {}, users: {} };
   }
 }
 
@@ -46,12 +46,65 @@ async function initializeServer() {
   try {
     await fs.access(DATA_FILE);
   } catch (error) {
-    await saveData({ user_emotions: {} });
+    await saveData({ user_emotions: {}, users: {} });
     console.log('Создан новый файл данных');
   }
 }
 
 // API Routes
+
+// Создание или обновление пользователя
+app.post('/api/users', async (req, res) => {
+  try {
+    const { telegramId, login } = req.body;
+    
+    console.log('Получен запрос на создание пользователя:', { telegramId, login });
+    
+    if (!telegramId) {
+      return res.status(400).json({ error: 'Необходим telegramId' });
+    }
+
+    const data = await loadData();
+    const userId = String(telegramId);
+    
+    // Сохраняем или обновляем пользователя
+    data.users[userId] = {
+      telegramId: userId,
+      login: login || userId,
+      createdAt: data.users[userId]?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    await saveData(data);
+    
+    console.log('Пользователь сохранен:', { userId, login: data.users[userId].login });
+    res.json({ success: true, user: data.users[userId] });
+    
+  } catch (error) {
+    console.error('Ошибка сохранения пользователя:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Получение пользователя
+app.get('/api/users/:telegramId', async (req, res) => {
+  try {
+    const { telegramId } = req.params;
+    const data = await loadData();
+    const userId = String(telegramId);
+    
+    const user = data.users[userId];
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'Пользователь не найден' });
+    }
+    
+  } catch (error) {
+    console.error('Ошибка получения пользователя:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // Сохранение эмоции
 app.post('/api/emotions', async (req, res) => {

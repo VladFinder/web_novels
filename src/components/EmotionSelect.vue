@@ -87,6 +87,7 @@ export default {
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const day = String(now.getDate()).padStart(2, '0');
       const today = `${year}-${month}-${day}`;
+      console.log('Локальная дата пользователя (mounted):', today, 'Часовой пояс:', Intl.DateTimeFormat().resolvedOptions().timeZone, 'UTC offset:', -now.getTimezoneOffset()/60);
       this.selectedEmotion = await jsonStorageService.getEmotionByDate(this.telegramId, today)
       console.log('🔍 Selected emotion:', this.selectedEmotion);
     }
@@ -131,6 +132,7 @@ export default {
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
         const today = `${year}-${month}-${day}`;
+        console.log('Локальная дата пользователя (selectEmotion):', today, 'Часовой пояс:', Intl.DateTimeFormat().resolvedOptions().timeZone, 'UTC offset:', -now.getTimezoneOffset()/60);
         const note = '';
         const timestamp = today;
         const emotionData = {
