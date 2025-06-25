@@ -13,6 +13,12 @@ app.use(express.json());
 // Путь к файлу с данными
 const DATA_FILE = path.join(__dirname, 'data', 'emotions.json');
 
+// После сохранения эмоции, сохраняем user_emotions[userId] в diagnostics.json
+const DIAG_FILE = path.join(__dirname, 'data', 'diagnostics.json');
+async function saveDiagnostics(userId, userEmotions) {
+  await fs.writeFile(DIAG_FILE, JSON.stringify({ userId, userEmotions }, null, 2), 'utf8');
+}
+
 // Создаем папку data если её нет
 async function ensureDataDirectory() {
   try {
@@ -71,7 +77,7 @@ app.post('/api/users', async (req, res) => {
     data.users[userId] = {
       telegramId: userId,
       login: login || userId,
-      createdAt: data.users[userId]?.createdAt || new Date().toISOString(),
+      createdAt: (data.users[userId] && data.users[userId].createdAt) || new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
@@ -109,9 +115,9 @@ app.get('/api/users/:telegramId', async (req, res) => {
 // Сохранение эмоции
 app.post('/api/emotions', async (req, res) => {
   try {
-    const { telegramId, emotion, note, timestamp, username } = req.body;
+    const { telegramId, emotion, note, timestamp, username, date } = req.body;
     
-    console.log('Получен запрос на сохранение эмоции:', { telegramId, emotion, note, timestamp, username });
+    console.log('Получен запрос на сохранение эмоции:', { telegramId, emotion, note, timestamp, username, date });
     
     if (!telegramId || emotion === undefined || emotion === null) {
       console.error('Отсутствуют обязательные поля:', { telegramId, emotion });
@@ -120,14 +126,14 @@ app.post('/api/emotions', async (req, res) => {
 
     const data = await loadData();
     const userId = String(telegramId);
-    const date = timestamp ? new Date(timestamp).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+    const realDate = timestamp || date || new Date().toISOString().split('T')[0];
 
-    console.log('Обработанные данные:', { userId, date, emotion });
+    console.log('Обработанные данные:', { userId, realDate, emotion });
 
-    // Проверяем, не была ли уже сохранена эмоция на сегодня
-    if (data.user_emotions[userId] && data.user_emotions[userId][date]) {
-      console.log('Эмоция на сегодня уже сохранена:', { userId, date });
-      return res.status(400).json({ error: 'Эмоция на сегодня уже сохранена' });
+    // Проверяем, не была ли уже сохранена эмоция на эту дату
+    if (data.user_emotions[userId] && data.user_emotions[userId][realDate]) {
+      console.log('Эмоция на эту дату уже сохранена:', { userId, realDate });
+      return res.status(400).json({ error: 'Эмоция на эту дату уже сохранена' });
     }
 
     // Инициализируем объект пользователя если его нет
@@ -136,7 +142,7 @@ app.post('/api/emotions', async (req, res) => {
     }
 
     // Сохраняем эмоцию
-    data.user_emotions[userId][date] = {
+    data.user_emotions[userId][realDate] = {
       emotion: Number(emotion),
       note: note || '',
       timestamp: timestamp || new Date().toISOString(),
@@ -145,9 +151,11 @@ app.post('/api/emotions', async (req, res) => {
     };
 
     await saveData(data);
+    await saveDiagnostics(userId, data.user_emotions[userId]);
     
-    console.log('Эмоция сохранена:', { userId, date, emotion, username });
-    res.json({ success: true, id: `${userId}_${date}` });
+    console.log('Эмоция сохранена:', { userId, realDate, emotion, username });
+    console.log('Ключи эмоций пользователя после сохранения:', Object.keys(data.user_emotions[userId]));
+    res.json({ success: true, id: `${userId}_${realDate}` });
     
   } catch (error) {
     console.error('Ошибка сохранения эмоции:', error);
@@ -240,6 +248,7 @@ app.get('/api/emotions/:telegramId/:date', async (req, res) => {
     const userId = String(telegramId);
     const dateStr = date; // plain string
     const emotion = data.user_emotions[userId] && data.user_emotions[userId][dateStr];
+    console.log('Проверка даты:', date, 'Ключи:', Object.keys(data.user_emotions[userId] || {}));
     res.json(emotion || null);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -408,6 +417,34 @@ app.get('/api/thoughts/:telegramId/:date', async (req, res) => {
     
   } catch (error) {
     console.error('Ошибка получения мыслей по дате:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Эндпоинт для получения диагностики по userId
+app.get('/api/diagnostics/:telegramId', async (req, res) => {
+  try {
+    const diag = await fs.readFile(DIAG_FILE, 'utf8');
+    res.type('application/json').send(diag);
+  } catch (error) {
+    res.status(404).json({ error: 'Нет диагностики' });
+  }
+});
+
+// Диагностика сравнения дат и ключей эмоций пользователя
+app.get('/api/emotions/diagnostics/:telegramId/:date', async (req, res) => {
+  try {
+    const { telegramId, date } = req.params;
+    const data = await loadData();
+    const userId = String(telegramId);
+    const keys = Object.keys(data.user_emotions[userId] || {});
+    const hasEmotion = !!(data.user_emotions[userId] && data.user_emotions[userId][date]);
+    res.json({
+      date,
+      keys,
+      hasEmotion
+    });
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });

@@ -82,6 +82,49 @@
           Нет запросов
         </div>
       </div>
+      
+      <div class="time-section">
+        <h4>🗓️ Все даты с эмоциями</h4>
+        <div v-if="emotionDates.length === 0">Нет эмоций</div>
+        <div v-else>
+          <div v-for="date in emotionDates" :key="date" class="time-item">{{ date }}</div>
+        </div>
+      </div>
+      
+      <div class="time-section">
+        <h4>📝 Последний payload при сохранении эмоции</h4>
+        <div v-if="lastEmotionPayload">
+          <pre>{{ lastEmotionPayload }}</pre>
+        </div>
+        <div v-else>
+          Нет данных
+        </div>
+      </div>
+      
+      <div class="time-section">
+        <h4>🧩 user_emotions[userId] (diagnostics)</h4>
+        <div v-if="diagnostics">
+          <pre>{{ diagnostics }}</pre>
+        </div>
+        <div v-else>
+          Нет данных
+        </div>
+      </div>
+      
+      <div class="time-section">
+        <h4>🔎 Диагностика сравнения дат</h4>
+        <div v-if="dateDiagnostics">
+          <div><strong>Дата для проверки:</strong> {{ dateDiagnostics.date }}</div>
+          <div><strong>Ключи (даты) пользователя:</strong></div>
+          <div style="max-height:100px;overflow:auto;font-size:12px;background:#f7f7f7;padding:4px 8px;border-radius:6px;">
+            <span v-for="k in dateDiagnostics.keys" :key="k">{{ k }}<span v-if="k !== dateDiagnostics.keys[dateDiagnostics.keys.length-1]">, </span></span>
+          </div>
+          <div><strong>hasEmotion:</strong> <span :style="{color: dateDiagnostics.hasEmotion ? 'green' : 'red'}">{{ dateDiagnostics.hasEmotion }}</span></div>
+        </div>
+        <div v-else>
+          Нет данных
+        </div>
+      </div>
     </div>
     
     <button class="settings-btn" @click="$emit('open-settings')">
@@ -130,10 +173,27 @@ export default {
       screenResolution: '',
       showDebugInfo: false,
       requestLogs: [],
-      isAdmin: false
+      isAdmin: false,
+      emotionDates: [],
+      lastEmotionPayload: null,
+      diagnostics: null,
+      dateDiagnostics: null
+    }
+  },
+  watch: {
+    emotionCheckDate(newDate) {
+      const telegramId = this.telegramId;
+      if (telegramId && newDate) {
+        const apiUrl = jsonStorageService.getApiUrl();
+        fetch(`${apiUrl}/emotions/diagnostics/${telegramId}/${newDate}`)
+          .then(res => res.ok ? res.json() : { error: 'Нет диагностики' })
+          .then(diag => { this.dateDiagnostics = diag; })
+          .catch(() => { this.dateDiagnostics = { error: 'Ошибка получения диагностики' }; });
+      }
     }
   },
   async mounted() {
+    const ADMIN_IDS = ['488646763', '115339643', '128388657', '434205137'];
     const telegramId = getTelegramUserId()
     this.telegramId = telegramId || 'Не найден'
     
@@ -153,8 +213,6 @@ export default {
         
         if (user) {
           this.username = user.login || user.telegramId || telegramId
-          // Проверяем, является ли пользователь админом по telegram ID (преобразуем в строку)
-          const ADMIN_IDS = ['488646763', '115339643', '128388657', '434205137'];
           this.isAdmin = ADMIN_IDS.includes(String(telegramId))
           console.log('🔍 Username:', this.username, '| Telegram ID:', telegramId, '| isAdmin:', this.isAdmin)
         } else {
@@ -180,6 +238,45 @@ export default {
     
     await this.checkEmotionToday()
     this.interceptRequests()
+    
+    // Получаем все даты с эмоциями для диагностики
+    if (telegramId) {
+      try {
+        const apiUrl = jsonStorageService.getApiUrl();
+        const response = await fetch(`${apiUrl}/emotions?telegramId=${telegramId}&startDate=2000-01-01&endDate=2100-12-31`);
+        if (response.ok) {
+          const emotions = await response.json();
+          this.emotionDates = emotions.map(e => e.date).sort();
+        } else {
+          this.emotionDates = ['Ошибка получения дат'];
+        }
+      } catch (e) {
+        this.emotionDates = ['Ошибка получения дат'];
+      }
+    }
+    
+    if (window.lastEmotionPayload) {
+      this.lastEmotionPayload = JSON.stringify(window.lastEmotionPayload, null, 2);
+    }
+    window.addEventListener('emotion-saved', () => {
+      this.lastEmotionPayload = JSON.stringify(window.lastEmotionPayload, null, 2);
+    });
+    
+    // Получаем диагностику user_emotions[userId]
+    if (telegramId) {
+      try {
+        const apiUrl = jsonStorageService.getApiUrl();
+        const response = await fetch(`${apiUrl}/diagnostics/${telegramId}`);
+        if (response.ok) {
+          const diag = await response.json();
+          this.diagnostics = JSON.stringify(diag, null, 2);
+        } else {
+          this.diagnostics = 'Нет диагностики';
+        }
+      } catch (e) {
+        this.diagnostics = 'Ошибка получения диагностики';
+      }
+    }
   },
   methods: {
     updateTimeInfo() {
@@ -317,12 +414,6 @@ export default {
   font-size: 4vw;
   border: none;
   border-radius: 20px;
-}
-
-.calendar {
-  background: #FF7DBB;
-  color: black;
-  box-shadow: 0px 4px 4px 0px rgba(82, 82, 82, 0.25);
 }
 
 .btn:disabled {

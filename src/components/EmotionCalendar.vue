@@ -669,6 +669,13 @@ export default {
   /* border: 2px solid #4caf50; */
 }
 
+.calendar-day.today {
+  border: 2px solid #FF7DBB;
+  background: linear-gradient(90deg, #fff0fa 60%, #ffe6f7 100%);
+  box-shadow: 0 0 8px 2px #ffb6e6;
+  z-index: 2;
+}
+
 .calendar-day .date {
   font-size: 14px;
   font-weight: bold;

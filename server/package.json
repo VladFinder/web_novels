@@ -1,5 +1,5 @@
 {
-  "name": "emotions-json-server",
+  "name": "web-novels-server",
   "version": "1.0.0",
   "description": "JSON Server для хранения эмоций пользователей",
   "main": "json-server.js",

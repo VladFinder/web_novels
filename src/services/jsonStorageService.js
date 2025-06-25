@@ -17,15 +17,17 @@ class JsonStorageService {
   async saveEmotion(telegramId, { emotion, note, timestamp, username }) {
     try {
       const apiUrl = this.getApiUrl();
+      const payload = { telegramId, emotion, note, date: timestamp, username };
+      window.lastEmotionPayload = payload; // Для диагностики
       console.log('Отправляем запрос на сервер:', `${apiUrl}/emotions`);
-      console.log('Данные:', { telegramId, emotion, note, timestamp, username });
+      console.log('Данные:', payload);
       
       const response = await fetch(`${apiUrl}/emotions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ telegramId, emotion, note, date: timestamp, username })
+        body: JSON.stringify(payload)
       });
 
       console.log('Получен ответ от сервера:', response.status, response.statusText);
