@@ -154,16 +154,17 @@ export default {
         if (user) {
           this.username = user.login || user.telegramId || telegramId
           // Проверяем, является ли пользователь админом по telegram ID (преобразуем в строку)
-          this.isAdmin = String(telegramId) === '488646763'
+          const ADMIN_IDS = ['488646763', '115339643', '128388657', '434205137'];
+          this.isAdmin = ADMIN_IDS.includes(String(telegramId))
           console.log('🔍 Username:', this.username, '| Telegram ID:', telegramId, '| isAdmin:', this.isAdmin)
         } else {
           this.username = telegramId
-          this.isAdmin = String(telegramId) === '488646763'
+          this.isAdmin = ADMIN_IDS.includes(String(telegramId))
         }
       } catch (e) {
         console.error('Ошибка получения логина:', e)
         this.username = telegramId
-        this.isAdmin = String(telegramId) === '488646763'
+        this.isAdmin = ADMIN_IDS.includes(String(telegramId))
       }
     }
     
