@@ -416,6 +416,18 @@ export default {
   border-radius: 20px;
 }
 
+.btn.calendar {
+  background: rgba(255, 125, 187, 1);
+  color: white;
+  box-shadow: 0 4px 15px rgba(82, 82, 82, 0.25);
+  transition: all 0.2s;
+}
+
+.btn.calendar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(82, 82, 82, 0.35);
+}
+
 .btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;

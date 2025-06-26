@@ -27,7 +27,7 @@
       </div>
       <p class="message">Завтра сможешь выбрать новую эмоцию!</p>
       <div class="buttons-container">
-        <button @click="goToCalendar" class="calendar-btn">Посмотреть календарь</button>
+        <button @click="goToCalendar" class="calendar-btn">Календарь настроения</button>
         <button @click="goToMain" class="close-btn">Закрыть</button>
       </div>
     </div>
@@ -240,9 +240,11 @@ export default {
 
 .emotions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(115px, 6fr));
-  gap: 5vw;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
   place-items: center;
+  width: 100%;
+  max-width: 100%;
 }
 
 .emotion-item {
@@ -252,6 +254,8 @@ export default {
   gap: 12px;
   cursor: pointer;
   transition: transform 0.2s;
+  width: 100%;
+  max-width: 150px;
 }
 
 .emotion-item:hover {
@@ -259,11 +263,11 @@ export default {
 }
 
 .emotion-item img {
-  width: 35vw;
-  max-width: 170px;
+  width: 130%;
+  max-width: 130px;
   min-width: 80px;
-  height: 25vw;
-  max-height: 140px;
+  height: auto;
+  max-height: 120px;
   min-height: 64px;
   object-fit: cover;
   border-radius: 16px;
@@ -272,8 +276,12 @@ export default {
 
 .emotion-name {
   font-family: 'Mulish', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   color: #333;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 100%;
+  line-height: 1.2;
 }
 
 /* Стили для экрана уже выбранной эмоции */
@@ -320,7 +328,7 @@ export default {
   width: 120px;
   height: 120px;
   border-radius: 20px;
-  object-fit: cover;
+  object-fit: contain;
   margin-bottom: 15px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
@@ -384,5 +392,136 @@ export default {
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 0.4);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Медиа-запросы для мобильных устройств */
+@media (max-width: 768px) {
+  .title {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+  
+  .glass-container {
+    padding: 30px 20px;
+    width: 90%;
+  }
+  
+  .emotions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .emotion-item {
+    max-width: 120px;
+  }
+  
+  .emotion-item img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+  
+  .emotion-name {
+    font-size: 14px;
+  }
+  
+  /* Стили для экрана уже выбранной эмоции */
+  .selected-emotion-card {
+    padding: 30px 20px;
+    width: 95%;
+  }
+  
+  .selected-emotion-card h2 {
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .emotion-icon-large {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .selected-emotion .emotion-name {
+    font-size: 20px;
+  }
+  
+  .message {
+    font-size: 14px;
+    margin-bottom: 25px;
+  }
+  
+  .buttons-container {
+    gap: 15px;
+  }
+  
+  .calendar-btn, .close-btn {
+    padding: 15px 30px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+  
+  .glass-container {
+    padding: 25px 15px;
+    width: 95%;
+  }
+  
+  .emotions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .emotion-item {
+    max-width: 110px;
+  }
+  
+  .emotion-item img {
+    max-width: 140px;
+    max-height: 115px;
+  }
+  
+  .emotion-name {
+    font-size: 13px;
+  }
+  
+  /* Стили для экрана уже выбранной эмоции */
+  .selected-emotion-card {
+    padding: 25px 15px;
+    width: 98%;
+  }
+  
+  .selected-emotion-card h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .emotion-icon-large {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .selected-emotion .emotion-name {
+    font-size: 18px;
+  }
+  
+  .message {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .buttons-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .calendar-btn, .close-btn {
+    padding: 15px 30px;
+    font-size: 16px;
+    width: 100%;
+  }
 }
 </style>
