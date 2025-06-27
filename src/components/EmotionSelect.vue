@@ -16,6 +16,11 @@
           <span class="emotion-name">{{ emotion.name }}</span>
         </div>
       </div>
+      <div class="skip-button-container">
+        <button @click="goToMain" class="skip-btn" :disabled="isLoading">
+          Пропустить
+        </button>
+      </div>
     </div>
   </div>
   <div v-else class="emotion-already-selected">
@@ -282,6 +287,38 @@ export default {
   word-wrap: break-word;
   max-width: 100%;
   line-height: 1.2;
+}
+
+.skip-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.skip-btn {
+  background: rgba(255, 255, 255, 0.3);
+  color: #666;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  padding: 12px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Mulish', sans-serif;
+  transition: all 0.2s;
+  backdrop-filter: blur(10px);
+}
+
+.skip-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.4);
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.skip-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Стили для экрана уже выбранной эмоции */
