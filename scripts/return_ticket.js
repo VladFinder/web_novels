@@ -545,7 +545,7 @@ const scenes = {
     },
     // Персонаж: ГГ в ночнушке грустная
     gl1_sc1_29: {
-        text: "«Боже мой, как давно они у меня? Они появились сегодня, или я просто не обращала на них внимания раньше? Кажется, мне нужно хорошо отоспаться на выходных.»",
+        text: "«Боже мой, как давно они у меня? Они появились сегодня, или я просто не обращала на них внимания раньше?»",
         background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [
             { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_sad.png", position: "center" }
@@ -555,7 +555,7 @@ const scenes = {
         ]
     },
     gl1_sc1_29_added: {
-        text: "«А может быть, мне вообще пора в отпуск?»",
+        text: "«Кажется, мне нужно хорошо отоспаться на выходных. А может быть, мне вообще пора в отпуск?»",
         background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [
             { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_sad.png", position: "center" }
@@ -610,11 +610,19 @@ const scenes = {
     },
     // Персонаж: ГГ в ночнушке нейтральная
     gl1_sc1_34_choice1_1: {
-        text: "Закатывая глаза, ты вслух проговариваешь, словно пытаясь убедить саму себя: „Мой рабочий день начинается в 9:00, я не обязана ему отвечать в своё свободное время.“",
+        text: "Закатывая глаза, ты вслух проговариваешь, словно пытаясь убедить саму себя: „Мой рабочий день начинается в 9:00“.",
         background: "assets/images/backgrounds/return_ticket/room_dark.png",
         characters: [
             { name: "", image: "assets/images/characters/return_ticket/main_character/nightdress_neutral.png", position: "center" }
         ],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_sc1_34_choice1_1_added" }
+        ]
+    },
+    gl1_sc1_34_choice1_1_added: {
+        text: "«Я не обязана ему отвечать в своё свободное время.»",
+        background: "assets/images/backgrounds/return_ticket/room_dark.png",
+        characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc1_34_choice1_2" }
         ]
@@ -994,8 +1002,17 @@ const scenes = {
     },
     // Локация: вагон метро
     gl1_sc2_13_choice1_2: {
-        text: "Звонкий голос диктора, озвучивающий станции, вернул тебя в текущую действительность. Большой город, карьера в компании мечты, амбиции – всё, как ты мечтала.",
+        text: "Звонкий голос диктора, озвучивающий станции, вернул тебя в текущую действительность.",
         background: "assets/images/cutscenes/return_ticket/gl1/subway.png",
+        characters: [],
+        choices: [
+            { text: "Дальше", nextScene: "gl1_sc2_13_choice1_2_added" }
+        ]
+    },
+    gl1_sc2_13_choice1_2_added: {
+        text: "Большой город, карьера в компании мечты, амбиции – всё, как ты мечтала.",
+        background: "assets/images/cutscenes/return_ticket/gl1/subway.png",
+        audio: "assets/audio/return_ticket/music/night_city_vibe.mp3",
         characters: [],
         choices: [
             { text: "Дальше", nextScene: "gl1_sc2_14" }
