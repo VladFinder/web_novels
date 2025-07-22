@@ -5,6 +5,19 @@
 import scenes from './scenes.js';
 import SaveManager from './saveManager.js';
 import AudioManager from './audioManager.js';
+import peleScenes from './pele.js';
+
+const STORIES = [
+    {
+        id: 'pele',
+        title: 'Слёзы Пеле',
+        description: 'История о вечной дружбе, бесконечной любви, вере, предательстве, и поиске себя.',
+        cover: 'src/assets/cover/1.jpg',
+        scenes: peleScenes,
+        startScene: 'menu',
+        chaptersCount: Object.keys(peleScenes).length // Можно уточнить, если главы — это только определённые сцены
+    }
+];
 
 const app = Vue.createApp({
     data() {
@@ -35,7 +48,13 @@ const app = Vue.createApp({
             tags: {},
 
             // Объект для хранения условий
-            conditions: {}
+            conditions: {},
+
+            currentView: 'menu', // 'menu' | 'storySelect' | 'storyRead'
+            stories: STORIES,
+            selectedStory: null,
+            currentStoryScene: null,
+            storyHistory: [], // Для навигации по главам
         };
     },
     methods: {
@@ -259,7 +278,40 @@ const app = Vue.createApp({
             if (!currentScene || !currentScene.choices) return [];
 
             return currentScene.choices.filter(choice => this.checkCondition(choice.condition));
-        }
+        },
+
+        openStorySelect() {
+            this.currentView = 'storySelect';
+        },
+        selectStory(story) {
+            this.selectedStory = story;
+            this.currentView = 'storyRead';
+            this.storyHistory = [story.startScene];
+            this.currentStoryScene = story.startScene;
+        },
+        nextChapter() {
+            const scene = this.selectedStory.scenes[this.currentStoryScene];
+            if (scene && scene.choices && scene.choices.length > 0) {
+                // По умолчанию берём первый вариант (линейное чтение)
+                this.goToScene(scene.choices[0].nextScene);
+            }
+        },
+        prevChapter() {
+            if (this.storyHistory.length > 1) {
+                this.storyHistory.pop();
+                this.currentStoryScene = this.storyHistory[this.storyHistory.length - 1];
+            }
+        },
+        goToScene(sceneId) {
+            this.currentStoryScene = sceneId;
+            this.storyHistory.push(sceneId);
+        },
+        backToStories() {
+            this.currentView = 'storySelect';
+            this.selectedStory = null;
+            this.currentStoryScene = null;
+            this.storyHistory = [];
+        },
     },
     mounted() {
         // // Добавляем версию в URL
