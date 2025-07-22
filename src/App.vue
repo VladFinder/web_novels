@@ -1,106 +1,83 @@
 <template>
   <div id="app">
-    <LoadingScreen v-if="currentScreen === 'loading'" />
-    <EmotionSelect v-else-if="currentScreen === 'emotion'" @emotion-selected="handleEmotionSelect" @navigate="handleNavigate" />
-    <MainScreen
-      v-else-if="currentScreen === 'main'"
-      @open-settings="openSettings"
-      @open-calendar="openCalendar"
+    <StorySelect
+      v-if="currentView === 'storySelect'"
+      :stories="stories"
+      @select="selectStory"
+      @close="currentView = 'menu'"
     />
-    <EmotionCalendar v-else-if="currentScreen === 'calendar'" @back="backToMain" />
+    <StoryReader
+      v-else-if="currentView === 'storyRead'"
+      :story="selectedStory"
+      :currentScene="currentStoryScene"
+      :history="storyHistory"
+      @next="nextChapter"
+      @prev="prevChapter"
+      @back="backToStories"
+    />
+    <div v-else id="startMenu">
+      <h1>Визуальная новелла</h1>
+      <button class="menu-button" @click="openStorySelect">Истории</button>
+    </div>
   </div>
 </template>
 
-<script>
-import LoadingScreen from './components/LoadingScreen.vue'
-import EmotionSelect from './components/EmotionSelect.vue'
-import MainScreen from './components/MainScreen.vue'
-import EmotionCalendar from './components/EmotionCalendar.vue'
+<script setup>
+import { ref } from 'vue';
+import StorySelect from './components/StorySelect.vue';
+import StoryReader from './components/StoryReader.vue';
+import peleScenes from './stories/pele.js';
 
-export default {
-  name: 'App',
-  components: {
-    LoadingScreen,
-    EmotionSelect,
-    MainScreen,
-    EmotionCalendar
-  },
-  data() {
-    return {
-      currentScreen: 'loading',
-      selectedEmotion: null,
-      showSettings: false
-    }
-  },
-  methods: {
-    handleEmotionSelect(emotionId) {
-      this.selectedEmotion = emotionId;
-      this.currentScreen = 'main';
-    },
-    handleNavigate(screen) {
-      this.currentScreen = screen;
-    },
-    openSettings() {
-      this.showSettings = true;
-    },
-    openCalendar() {
-      this.currentScreen = 'calendar';
-    },
-    backToMain() {
-      this.currentScreen = 'main';
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.currentScreen = 'emotion'
-    }, 2000)
+const stories = [
+  {
+    id: 'pele',
+    title: 'Слёзы Пеле',
+    description: 'История о вечной дружбе, бесконечной любви, вере, предательстве, и поиске себя.',
+    cover: '/cover/1.jpg',
+    scenes: peleScenes,
+    startScene: 'menu',
+    chaptersCount: Object.keys(peleScenes).length
   }
+];
+
+const currentView = ref('menu');
+const selectedStory = ref(null);
+const currentStoryScene = ref(null);
+const storyHistory = ref([]);
+
+function openStorySelect() {
+  currentView.value = 'storySelect';
+}
+function selectStory(story) {
+  selectedStory.value = story;
+  currentView.value = 'storyRead';
+  storyHistory.value = [story.startScene];
+  currentStoryScene.value = story.startScene;
+}
+function nextChapter() {
+  const scene = selectedStory.value.scenes[currentStoryScene.value];
+  if (scene && scene.choices && scene.choices.length > 0) {
+    goToScene(scene.choices[0].nextScene);
+  }
+}
+function prevChapter() {
+  if (storyHistory.value.length > 1) {
+    storyHistory.value.pop();
+    currentStoryScene.value = storyHistory.value[storyHistory.value.length - 1];
+  }
+}
+function goToScene(sceneId) {
+  currentStoryScene.value = sceneId;
+  storyHistory.value.push(sceneId);
+}
+function backToStories() {
+  currentView.value = 'storySelect';
+  selectedStory.value = null;
+  currentStoryScene.value = null;
+  storyHistory.value = [];
 }
 </script>
 
 <style>
-* {
-  font-family: 'Mulish', sans-serif;
-}
-
-html, body, #app {
-  /* width: 100%; */
-  height: 100%;
-  overflow-x: hidden; /* только горизонтальный скролл запрещён */
-  position: static;
-  overscroll-behavior: auto;
-  touch-action: auto;
-  margin: 0;
-}
-
-#app {
-  text-align: center;
-}
-
-.content {
-  margin: 20px;
-  padding: 20px;
-  border: 2px solid #42b983;
-}
-
-h1 {
-  margin: 20px;
-  padding: 20px;
-  /* border: 2px solid #42b983; */
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-.header {
-  background-color: #f8f9fa;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.telegram-app {
-  max-width: 100%;
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
-}
+@import './style.css';
 </style>

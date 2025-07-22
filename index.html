@@ -8,51 +8,11 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
 </head>
 <body>
-    <div id="app">
-        <!-- Главное меню -->
-        <div v-if="currentView === 'menu'" id="startMenu">
-            <h1>Визуальная новелла</h1>
-            <button class="menu-button" @click="openStorySelect">Истории</button>
-            <button class="menu-button" @click="toggleMainMenu">Меню</button>
-        </div>
-
-        <!-- Экран выбора истории -->
-        <div v-if="currentView === 'storySelect'" class="menu-overlay">
-            <div class="menu-content">
-                <h2>Выберите историю</h2>
-                <div v-for="story in stories" :key="story.id" class="story-card" style="margin-bottom: 30px; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); border-radius: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.15); padding: 24px; position: relative;">
-                    <div style="position: absolute; top: 16px; right: 16px; cursor: pointer; font-size: 24px; background: #fff; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.12);" @click="currentView = 'menu'">×</div>
-                    <h2 style="font-size: 2.5rem; margin-bottom: 16px;">{{ story.title }}</h2>
-                    <img :src="story.cover" alt="cover" style="width: 100%; max-width: 350px; border-radius: 12px; margin-bottom: 16px; object-fit: contain; background: #fff;" />
-                    <p style="font-size: 1.1rem; margin-bottom: 12px;">{{ story.description }}</p>
-                    <p style="font-size: 1rem; margin-bottom: 16px;">Количество глав: {{ story.chaptersCount }}</p>
-                    <button class="menu-button" style="background: #f48fb1; color: #222; font-size: 1.3rem; box-shadow: 0 2px 8px #f48fb1;" @click="selectStory(story)">Читать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Экран чтения истории -->
-        <div v-if="currentView === 'storyRead'" class="menu-overlay">
-            <div class="menu-content" style="max-width: 700px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <button @click="backToStories" style="background: #f48fb1; color: #222; font-size: 1.1rem; border-radius: 8px; padding: 6px 18px; margin-bottom: 12px;">← К историям</button>
-                    <span style="font-size: 1.1rem; color: #bbb;">Глава {{ storyHistory.length }}</span>
-                </div>
-                <h2 style="font-size: 2rem; margin-bottom: 12px;">{{ selectedStory.title }}</h2>
-                <div v-if="selectedStory && selectedStory.scenes && currentStoryScene">
-                    <div style="min-height: 120px; font-size: 1.2rem; margin-bottom: 18px; text-align: left; white-space: pre-line;">{{ selectedStory.scenes[currentStoryScene].text }}</div>
-                    <div style="display: flex; gap: 12px; justify-content: flex-end;">
-                        <button @click="prevChapter" :disabled="storyHistory.length <= 1" style="background: #e0c3fc; color: #222; font-size: 1.1rem; border-radius: 8px; padding: 6px 18px;">Назад</button>
-                        <button @click="nextChapter" :disabled="!selectedStory.scenes[currentStoryScene].choices || selectedStory.scenes[currentStoryScene].choices.length === 0" style="background: #8ec5fc; color: #222; font-size: 1.1rem; border-radius: 8px; padding: 6px 18px;">Дальше</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="app"></div>
 
     <!-- Аудио -->
     <audio id="backgroundMusic" loop></audio>
 
-    <script src="scripts/app.js" type="module"></script>
+    <!-- Удалено: <script src="scripts/app.js" type="module"></script> -->
 </body>
 </html>
