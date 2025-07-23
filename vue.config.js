@@ -15,7 +15,7 @@ module.exports = defineConfig({
       'Expires': '0'
     }
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/dev/' : '/',
   outputDir: process.env.NODE_ENV === 'production' ? 'dist' : 'dist-test',
   filenameHashing: true,
   configureWebpack: {

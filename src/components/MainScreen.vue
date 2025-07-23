@@ -1,5 +1,9 @@
 <template>
   <div class="main-screen">
+    <video class="bg-video" autoplay loop muted playsinline>
+      <source src="/dev/spok.MP4" type="video/mp4" />
+      Ваш браузер не поддерживает видео фон.
+    </video>
     <div class="user-login" v-if="username && username !== telegramId">
       Привет, @{{ username }}!
     </div>
@@ -529,6 +533,19 @@ export default {
   background: radial-gradient(48.34% 48.34% at 50% 51.66%, #DAF8FF 29.33%, #F2C0FF 75%, #FB8DFF 100%);
   flex-wrap: nowrap;
   justify-content: space-evenly;
+  position: relative;
+}
+
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 1;
+  pointer-events: none;
 }
 
 .glass-container{
