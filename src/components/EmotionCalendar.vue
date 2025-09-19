@@ -398,10 +398,12 @@ export default {
         console.log('🔍 Сегодняшняя дата:', today)
         
         const todayEmotion = await jsonStorageService.getEmotionByDate(telegramId, today)
-        
-        if (!todayEmotion) {
+
+        //Не позволяет сохранять заметку, если не выбрана эмоция
+        //TODO: @VladFinder удалить?
+        /* if (!todayEmotion) {
           throw new Error('Сначала выберите эмоцию на сегодня')
-        }
+        } */
         
         // Сохраняем заметку как мысль (чтобы не перезаписывалась)
         const result = await jsonStorageService.saveThought(telegramId, this.dailyNote, today)
