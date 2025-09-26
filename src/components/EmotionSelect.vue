@@ -40,11 +40,16 @@
 </template>
 
 <script>
-import { jsonStorageService } from '../services/jsonStorageService'
-import { getTelegramUserId } from '../utils/telegram'
+import { jsonStorageService } from '@/services/jsonStorageService'
+import { getTelegramUserId } from '@/utils/telegram'
+import { useEmotionStore } from '@/services/emotionStore'
 
 export default {
   name: 'EmotionSelect',
+  setup() {
+    const emotionStore = useEmotionStore()
+    return { emotionStore }
+  },
   data() {
     return {
       telegramId: null,
@@ -66,7 +71,8 @@ export default {
     console.log('🔍 EmotionSelect mounted');
     console.log('🔍 Telegram WebApp:', window.Telegram?.WebApp);
     console.log('🔍 Telegram user:', window.Telegram?.WebApp?.initDataUnsafe?.user);
-    
+
+
     this.telegramId = getTelegramUserId()
     this.telegramUsername = this.getTelegramUsername()
     
@@ -95,6 +101,12 @@ export default {
       console.log('Локальная дата пользователя (mounted):', today, 'Часовой пояс:', Intl.DateTimeFormat().resolvedOptions().timeZone, 'UTC offset:', -now.getTimezoneOffset()/60);
       this.selectedEmotion = await jsonStorageService.getEmotionByDate(this.telegramId, today)
       console.log('🔍 Selected emotion:', this.selectedEmotion);
+
+      // Сохраняем ID эмоции в store для использования в других компонентах
+      if (this.selectedEmotion && this.selectedEmotion.emotion) {
+        this.emotionStore.setEmotion(this.selectedEmotion.emotion);
+        console.log('🔍 Emotion ID saved to store:', this.selectedEmotion.emotion);
+      }
     }
   },
   methods: {
@@ -123,14 +135,14 @@ export default {
       try {
         let telegramId = getTelegramUserId();
         console.log('🔍 Got Telegram ID from function:', telegramId);
-        
+
         if (!telegramId) {
           console.warn('⚠️ Telegram ID not found in function');
           // Используем ID из компонента
           telegramId = this.telegramId;
           console.log('🔍 Using Telegram ID from component:', telegramId);
         }
-        
+
         // Сохраняем эмоцию с plain string датой
         const now = new Date();
         const year = now.getFullYear();
@@ -143,13 +155,13 @@ export default {
         const emotionData = {
           telegramId,
           telegramUsername: this.telegramUsername,
-          emotion: id, 
-          note, 
-          timestamp 
+          emotion: id,
+          note,
+          timestamp
         };
-        
+
         console.log('🔍 Saving emotion data:', emotionData);
-        
+
         const result = await jsonStorageService.saveEmotion(telegramId, {
           emotion: id,
           note,
@@ -160,6 +172,11 @@ export default {
         console.log('✅ Emotion successfully saved:', result);
         this.emotionAlreadySelected = true;
         this.selectedEmotion = { emotion: id, note, timestamp, username: this.telegramUsername };
+
+        // Сохраняем ID эмоции в store для использования в других компонентах
+        this.emotionStore.setEmotion(id);
+        console.log('🔍 Emotion ID saved to store:', id);
+
         this.$emit('emotion-selected', id);
         
       } catch (error) {
@@ -178,6 +195,13 @@ export default {
           // Получаем сохраненную эмоцию
           const today = new Date().toISOString().split('T')[0];
           this.selectedEmotion = await jsonStorageService.getEmotionByDate(telegramId, today);
+
+          // Сохраняем ID эмоции в store
+          if (this.selectedEmotion && this.selectedEmotion.emotion) {
+            this.emotionStore.setEmotion(this.selectedEmotion.emotion);
+            console.log('🔍 Existing emotion ID saved to store:', this.selectedEmotion.emotion);
+          }
+
           alert('Эмоция на сегодня уже сохранена. Завтра сможете выбрать новую эмоцию!');
         } else {
           alert(`Ошибка сохранения эмоции: ${error.message}`);

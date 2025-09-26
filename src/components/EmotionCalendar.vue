@@ -1,16 +1,16 @@
 <template>
-  <div class="calendar-screen">
+  <div class="calendar-screen" :style="dynamicBackgroundStyle">
   <div class="calendar-container">
       <!-- Кнопка назад -->
-      <button class="back-btn" @click="$emit('back')">Назад</button>
+      <button class="back-btn" @click="$emit('back')" :style="soulTextStyle">Назад</button>
       
     <div class="calendar">
       <div class="calendar-header">
-          <button @click="previousMonth" class="nav-btn">&lt;</button>
-          <h2>{{ currentMonthName }} {{ currentYear }}</h2>
-          <button @click="nextMonth" class="nav-btn">&gt;</button>
+          <button @click="previousMonth" class="nav-btn" :style="soulTextStyle">&lt;</button>
+          <h2 :style="soulTextStyle">{{ currentMonthName }} {{ currentYear }}</h2>
+          <button @click="nextMonth" class="nav-btn" :style="soulTextStyle">&gt;</button>
         </div>
-        
+
         <div class="weekdays">
           <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
       </div>
@@ -51,7 +51,7 @@
             class="note-textarea"
             rows="4"
       ></textarea>
-          <button @click="saveNote" class="save-note-btn" :disabled="isSavingNote">
+          <button @click="saveNote" class="save-note-btn" :disabled="isSavingNote" :style="{ background: dynamicButtonColor }">
             {{ isSavingNote ? 'Сохранение...' : 'Сохранить заметку' }}
           </button>
         </div>
@@ -87,7 +87,7 @@
               </div>
             </template>
           </div>
-          <button @click="closeModal" class="close-btn">Закрыть</button>
+          <button @click="closeModal" class="close-btn" :style="{ background: dynamicButtonColor }">Закрыть</button>
         </div>
       </div>
     </div>
@@ -95,11 +95,56 @@
 </template>
 
 <script>
-import { jsonStorageService } from '../services/jsonStorageService'
-import { getTelegramUserId } from '../utils/telegram'
+import { jsonStorageService } from '@/services/jsonStorageService'
+import { getTelegramUserId } from '@/utils/telegram'
+import { useEmotionStore } from '@/services/emotionStore'
+import { useSoulStyle } from '@/services/useSoulStyle'
+import { computed } from 'vue'
 
 export default {
   name: 'EmotionCalendar',
+  setup() {
+    const emotionStore = useEmotionStore()
+    console.log('🔍 EmotionCalendar: emotionStore:', emotionStore)
+    console.log('🔍 EmotionCalendar: selectedEmotionId:', emotionStore.selectedEmotionId)
+
+    const {backgroundStyle, buttonColor } = useSoulStyle(emotionStore.selectedEmotionId)
+    console.log('🔍 EmotionCalendar: backgroundStyle:', backgroundStyle)
+
+    // Create computed that also sets CSS custom property
+    const dynamicBackgroundStyle = computed(() => {
+      const style = backgroundStyle.value
+      console.log('🔍 EmotionCalendar: computed style:', style)
+      console.log('🔍 EmotionCalendar: selectedEmotionId in computed:', emotionStore.selectedEmotionId)
+
+      if (style && style.background) {
+        console.log('🔍 EmotionCalendar: Setting CSS property:', style.background)
+        document.documentElement.style.setProperty('--app-background', style.background)
+      } else {
+        console.log('🔍 EmotionCalendar: No style or background found')
+      }
+      return style
+    })
+
+    const dynamicButtonColor = computed(() => {
+      return buttonColor.value
+    })
+
+    const soulTextStyle = computed(() => {
+      return {
+        color: emotionStore.selectedEmotionId === 5 ? 'white' : '#333'
+      }
+    })
+
+    console.log('🔍 EmotionCalendar: dynamicBackgroundStyle value:', dynamicBackgroundStyle.value)
+
+    return { 
+      emotionStore, 
+      dynamicBackgroundStyle,
+      dynamicButtonColor,
+      soulTextStyle
+    }
+  },
   data() {
     return {
       currentDate: new Date(),
@@ -146,9 +191,7 @@ export default {
       
       // Первый день месяца
       const firstDay = new Date(year, month, 1)
-      // Последний день месяца
-      const lastDay = new Date(year, month + 1, 0)
-      
+
       // Начало недели (понедельник)
       const startDate = new Date(firstDay)
       const dayOfWeek = firstDay.getDay()
@@ -180,6 +223,7 @@ export default {
           isCurrentMonth: date.getMonth() === this.currentDate.getMonth(),
           isToday: date.getTime() === today.getTime(),
           isFutureDate: date > today,
+          isPastDate: date < today,
           emotion: emotionObj ? emotionObj.emotion : null,
           note: emotionObj ? emotionObj.note : null,
           username: emotionObj ? emotionObj.username : null,
@@ -286,11 +330,11 @@ export default {
         5: require('../assets/emotions/irritation.png'),
         6: require('../assets/emotions/dreaminess.png')
       }
-      return iconMap[emotionId] || ''
+      return iconMap[emotionId] || require('../assets/emotions/default.png')
     },
     
     getEmotionName(emotionId) {
-      return this.emotionNames[emotionId] || 'Неизвестно'
+      return this.emotionNames[emotionId] || 'Эмоция не выбрана'
     },
     
     async showEmotionDetails(day) {
@@ -397,7 +441,7 @@ export default {
         
         console.log('🔍 Сегодняшняя дата:', today)
         
-        const todayEmotion = await jsonStorageService.getEmotionByDate(telegramId, today)
+        //const todayEmotion = await jsonStorageService.getEmotionByDate(telegramId, today)
 
         //Не позволяет сохранять заметку, если не выбрана эмоция
         //TODO: @VladFinder удалить?
@@ -530,12 +574,12 @@ export default {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: radial-gradient(48.34% 48.34% at 50% 51.66%, #DAF8FF 29.33%, #F2C0FF 75%, #FB8DFF 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   overflow-y: auto;
+  transition: background 0.5s ease-in-out;
 }
 
 .back-btn {
@@ -841,7 +885,6 @@ export default {
 }
 
 .save-note-btn {
-  background: linear-gradient(135deg, #667eea, #764ba2);  
   color: white;
   border: none;
   padding: 12px 30px;

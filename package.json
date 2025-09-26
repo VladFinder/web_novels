@@ -15,7 +15,8 @@
     "firebase": "^11.9.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "pinia": "^3.0.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
