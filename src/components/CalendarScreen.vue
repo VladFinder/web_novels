@@ -1,6 +1,6 @@
 <template>
-  <div class="calendar-screen" @click="blurInput">
-    <button class="back-btn" @click="$emit('back')">Назад</button>
+  <div class="calendar-screen" :style="dynamicBackgroundStyle" @click="blurInput">
+    <button class="back-btn"  @click="$emit('back')" :style="soulTextStyle">Назад</button>
     <div class="calendar-header">
       <button class="nav-btn" @click="prevMonth" :disabled="isMinMonth">&lt;</button>
       <span class="month-title">{{ monthName }} {{ currentYear }}</span>
@@ -35,12 +35,46 @@
 </template>
 
 <script>
+import { useEmotionStore } from '@/services/emotionStore'
+import { useSoulStyle } from '@/services/useSoulStyle'
+import { computed } from 'vue'
+
 const START_YEAR = 2025
 const START_MONTH = 5 // июнь (0-январь, 5-июнь)
 const START_DAY = 1
 
 export default {
   name: 'CalendarScreen',
+  setup() {
+    const emotionStore = useEmotionStore()
+    const {backgroundStyle, buttonColor} = useSoulStyle(emotionStore.selectedEmotionId)
+
+    // Create computed that also sets CSS custom property
+    const dynamicBackgroundStyle = computed(() => {
+      const style = backgroundStyle.value
+      if (style && style.background) {
+        document.documentElement.style.setProperty('--app-background', style.background)
+      }
+      return style
+    })
+
+    const dynamicButtonColor = computed(() => {
+      return buttonColor.value
+    })
+
+    const soulTextStyle = computed(() => {
+      return {
+        color: emotionStore.selectedEmotionId === 5 ? 'white' : '#333'
+      }
+    })
+
+    return { 
+      emotionStore, 
+      dynamicBackgroundStyle,
+      dynamicButtonColor,
+      soulTextStyle
+    }
+  },
   data() {
     const today = new Date()
     const minMonth = START_MONTH
@@ -131,14 +165,15 @@ export default {
   top: 0;
   left: 0;
   height: 100vh;
-  background: radial-gradient(48.34% 48.34% at 50% 51.66%, #DAF8FF 29.33%, #F2C0FF 75%, #FB8DFF 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   overflow: hidden; /* запретить скролл всей странице */
+  transition: background 0.5s ease-in-out;
 }
 .back-btn {
+  color: black;
   align-self: flex-start;
   margin-left: 24px;
   margin-bottom: 24px;
@@ -161,6 +196,7 @@ export default {
   font-family: 'Mulish', sans-serif;
 }
 .nav-btn {
+  color: black;
   background: #fff;
   border: none;
   border-radius: 8px;

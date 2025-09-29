@@ -1,5 +1,5 @@
 <template>
-  <div class="main-screen">
+  <div class="main-screen" :style="dynamicBackgroundStyle">
     <video class="bg-video" autoplay loop muted playsinline>
       <source src="/dev/spok.MP4" type="video/mp4" />
       Ваш браузер не поддерживает видео фон.
@@ -135,18 +135,27 @@
       <!-- <img src="../assets/settings.svg" alt="Настройки" /> -->
     </button>
     <div class="glass-container">
-      <span class="soul-text">
-        {{ currentEmotion ? getRandomPhrase(currentEmotion) : 'Выбери эмоцию на сегодня' }}
-      </span>
+      <transition name="expand-fade" appear>
+        <span
+            v-if="currentEmotion"
+            class="soul-text"
+            :style="soulTextStyle"
+            key="phrase"
+        >
+          {{ getRandomPhrase(currentEmotion) }}
+        </span>
+      </transition>
     </div>
+
+
     <div class="soul-image">
-      <img src="../assets/soul.png" alt="Soul" />
+      <img :src="soulImageSrc || '../assets/emotion_avatars/calm.png'" alt="soul-image" />
     </div>
     <div class="buttons-row">
-      <button class="btn calendar" @click="$emit('open-calendar')">
+      <button class="btn calendar" :style="{ background: dynamicButtonColor }" @click="$emit('open-calendar')">
         Календарь настроения
       </button>
-      <button class="btn stories" disabled>
+      <button class="btn stories"  disabled>
         Скоро тут будут истории
       </button>
     </div>
@@ -154,12 +163,46 @@
 </template>
 
 <script>
-import { dbService } from '../services/dbService'
-import { jsonStorageService } from '../services/jsonStorageService'
-import { getTelegramUserId } from '../utils/telegram'
+import { dbService } from '@/services/dbService'
+import { jsonStorageService } from '@/services/jsonStorageService'
+import { getTelegramUserId } from '@/utils/telegram'
+import { useEmotionStore } from '@/services/emotionStore'
+import { useSoulStyle } from '@/services/useSoulStyle'
+import { watch, computed } from 'vue'
 
 export default {
   name: 'MainScreen',
+  setup() {
+    const emotionStore = useEmotionStore()
+    const { imageSrc, backgroundStyle, buttonColor } = useSoulStyle(emotionStore.selectedEmotionId)
+
+    // Create computed that also sets CSS custom property
+    const dynamicBackgroundStyleWithVar = computed(() => {
+      const style = backgroundStyle.value
+      if (style && style.background) {
+        document.documentElement.style.setProperty('--app-background', style.background)
+      }
+      return style
+    })
+
+    const dynamicButtonColor = computed(() => {
+      return buttonColor.value
+    })
+
+    const soulTextStyle = computed(() => {
+      return {
+        color: emotionStore.selectedEmotionId === 5 ? 'white' : '#333'
+      }
+    })
+
+    return { 
+      emotionStore, 
+      soulImageSrc: imageSrc, 
+      dynamicBackgroundStyle: dynamicBackgroundStyleWithVar,
+      dynamicButtonColor,
+      soulTextStyle
+    }
+  },
   data() {
     return {
       username: null,
@@ -442,6 +485,14 @@ export default {
         this.diagnostics = 'Ошибка получения диагностики';
       }
     }
+
+    // Watch for emotion store changes to update local current emotion
+    watch(() => this.emotionStore.selectedEmotionId, (newEmotionId) => {
+      if (newEmotionId && newEmotionId !== this.currentEmotion) {
+        this.currentEmotion = newEmotionId
+        console.log('🔍 MainScreen: Emotion updated from store:', newEmotionId)
+      }
+    })
   },
   methods: {
     getRandomPhrase(emotionId) {
@@ -482,6 +533,8 @@ export default {
             const todayEmotion = await jsonStorageService.getEmotionByDate(telegramId, this.emotionCheckDate)
             if (todayEmotion && todayEmotion.emotion) {
               this.currentEmotion = todayEmotion.emotion
+              // Синхронизируем emotion store с текущей эмоцией
+              this.emotionStore.setEmotion(todayEmotion.emotion)
             }
           }
         }
@@ -530,10 +583,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: radial-gradient(48.34% 48.34% at 50% 51.66%, #DAF8FF 29.33%, #F2C0FF 75%, #FB8DFF 100%);
   flex-wrap: nowrap;
   justify-content: space-evenly;
   position: relative;
+  transition: background 0.5s ease-in-out;
 }
 
 .bg-video {
@@ -593,6 +646,25 @@ export default {
   width: 80vw;
   height: auto;
 }
+
+.expand-fade-enter-active,
+.expand-fade-leave-active {
+  transition: max-height 3.0s ease, opacity 0.6s ease;
+  overflow: hidden;
+}
+
+.expand-fade-enter-from,
+.expand-fade-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+
+.expand-fade-enter-to,
+.expand-fade-leave-from {
+  max-height: 500px; /* pick something taller than your longest phrase */
+  opacity: 1;
+}
+
 
 .buttons-row {
   display: flex;
