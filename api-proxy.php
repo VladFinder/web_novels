@@ -25,7 +25,9 @@ if (strpos($request_uri, $api_path) === false) {
 $api_endpoint = substr($request_uri, strpos($request_uri, $api_path) + strlen($api_path));
 
 // URL API сервера
-$api_url = 'http://localhost:3001/api/' . $api_endpoint;
+$api_host = getenv('API_HOST') ?: '127.0.0.1';
+$api_port = getenv('API_PORT') ?: '3001';
+$api_url = "http://{$api_host}:{$api_port}/api/" . $api_endpoint;
 
 // Получаем метод запроса
 $method = $_SERVER['REQUEST_METHOD'];
