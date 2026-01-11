@@ -1,59 +1,60 @@
 // useSoulStyle.js
 import { computed } from "vue";
 
-// ✅ Use existing emotion icons (no missing avatars)
+// Используем существующие эмодзи из src/assets/emotions
 import joy from "@/assets/emotions/joy.png";
 import sadness from "@/assets/emotions/sadness.png";
 import calm from "@/assets/emotions/calm.png";
 import anxiety from "@/assets/emotions/anxiety.png";
 import irritation from "@/assets/emotions/irritation.png";
 import dreaminess from "@/assets/emotions/dreaminess.png";
+import defaultImg from "@/assets/emotions/default.png";
 
-// ✅ Image mapping
 const imageMap = {
-    1: joy,
-    2: sadness,
-    3: calm,
-    4: anxiety,
-    5: irritation,
-    6: dreaminess,
+  1: joy,
+  2: sadness,
+  3: calm,
+  4: anxiety,
+  5: irritation,
+  6: dreaminess
 };
 
-// ✅ Background mapping (could be solid colors or gradients)
 const backgroundMap = {
-    1: "radial-gradient(50% 50% at 50% 50%, #FCF8C8 18.69%, #F7CF5A 53.29%, #E89526 91.27%)", // happy
-    2: "radial-gradient(52.55% 52.55% at 50% 50%, #A3D7F2 19.71%, #86AFFB 45.67%, #3171CC 100%)", // sad
-    3: "radial-gradient(58.12% 58.12% at 50% 50%, #F2FFA0 33.25%, #B5FF7D 76.2%, #9AD335 100%)", // calm
-    4: "radial-gradient(65.05% 65.05% at 50% 50%, #DA93CD 10.23%, #965FDD 46.33%, #5F2C85 100%)", // worried
-    5: "radial-gradient(65.05% 65.05% at 50% 50%, #A70000 10.23%, #5F0000 46.33%, #2B0505 91.27%)", // irritated
-    6: "radial-gradient(54.74% 54.74% at 50% 50%, #FCFCFC 35.67%, #FCB2FF 75.29%, #FB99FF 100%)", // dreamy
+  1: "radial-gradient(50% 50% at 50% 50%, #FCF8C8 18.69%, #F7CF5A 53.29%, #E89526 91.27%)", // happy
+  2: "radial-gradient(52.55% 52.55% at 50% 50%, #A3D7F2 19.71%, #86AFFB 45.67%, #3171CC 100%)", // sad
+  3: "radial-gradient(58.12% 58.12% at 50% 50%, #F2FFA0 33.25%, #B5FF7D 76.2%, #9AD335 100%)", // calm
+  4: "radial-gradient(65.05% 65.05% at 50% 50%, #DA93CD 10.23%, #965FDD 46.33%, #5F2C85 100%)", // worried
+  5: "radial-gradient(65.05% 65.05% at 50% 50%, #A70000 10.23%, #5F0000 46.33%, #2B0505 91.27%)", // irritated
+  6: "radial-gradient(54.74% 54.74% at 50% 50%, #FCFCFC 35.67%, #FCB2FF 75.29%, #FB99FF 100%)" // dreamy
 };
 
 const buttonColorMap = {
-    1: "#FFCC00",
-    2: "#0050D2",
-    3: "#3CD400",
-    4: "#91008F",
-    5: "#70080A",
-    6: "#F50BE6",
+  1: "#FFCC00",
+  2: "#0050D2",
+  3: "#3CD400",
+  4: "#91008F",
+  5: "#70080A",
+  6: "#F50BE6"
 };
 
 export function useSoulStyle(selectionId) {
-    const currentId = computed(() => (selectionId && typeof selectionId === "object" && "value" in selectionId)
-        ? selectionId.value
-        : selectionId);
+  const currentId = computed(() => (selectionId && typeof selectionId === "object" && "value" in selectionId)
+    ? selectionId.value
+    : selectionId);
 
-    const imageSrc = computed(() => {
-        return imageMap[currentId.value] || calm;
-    });
+  const imageSrc = computed(() => {
+    return imageMap[currentId.value] || defaultImg || calm;
+  });
 
-    const backgroundStyle = computed(() => {
-        return { background: backgroundMap[currentId.value] || "radial-gradient(54.74% 54.74% at 50% 50%, #FCFCFC 35.67%, #FCB2FF 75.29%, #FB99FF 100%)" };
-    });
+  const backgroundStyle = computed(() => {
+    return {
+      background: backgroundMap[currentId.value] || "radial-gradient(54.74% 54.74% at 50% 50%, #FCFCFC 35.67%, #FCB2FF 75.29%, #FB99FF 100%)"
+    };
+  });
 
-    const buttonColor = computed(() => {
-        return buttonColorMap[currentId.value] || "#F50BE6";
-    })
+  const buttonColor = computed(() => {
+    return buttonColorMap[currentId.value] || "#F50BE6";
+  });
 
-    return { imageSrc, backgroundStyle, buttonColor };
+  return { imageSrc, backgroundStyle, buttonColor };
 }
