@@ -1,22 +1,22 @@
 // useSoulStyle.js
 import { computed } from "vue";
 
-// ✅ Images
-import dreamy from "@/assets/emotion_avatars/dreamy.png";
-import happy from "@/assets/emotion_avatars/happy.png";
-import irritated from "@/assets/emotion_avatars/irritated.png";
-import sad from "@/assets/emotion_avatars/sad.png";
-import calm from "@/assets/emotion_avatars/calm.png";
-import worried from "@/assets/emotion_avatars/worried.png";
+// ✅ Use existing emotion icons (no missing avatars)
+import joy from "@/assets/emotions/joy.png";
+import sadness from "@/assets/emotions/sadness.png";
+import calm from "@/assets/emotions/calm.png";
+import anxiety from "@/assets/emotions/anxiety.png";
+import irritation from "@/assets/emotions/irritation.png";
+import dreaminess from "@/assets/emotions/dreaminess.png";
 
 // ✅ Image mapping
 const imageMap = {
-    1: happy,
-    2: sad,
+    1: joy,
+    2: sadness,
     3: calm,
-    4: worried,
-    5: irritated,
-    6: dreamy,
+    4: anxiety,
+    5: irritation,
+    6: dreaminess,
 };
 
 // ✅ Background mapping (could be solid colors or gradients)
@@ -39,17 +39,20 @@ const buttonColorMap = {
 };
 
 export function useSoulStyle(selectionId) {
-    const imageSrc = computed(() => {
+    const currentId = computed(() => (selectionId && typeof selectionId === "object" && "value" in selectionId)
+        ? selectionId.value
+        : selectionId);
 
-        return imageMap[selectionId] ? imageMap[selectionId] : calm; // fallback
+    const imageSrc = computed(() => {
+        return imageMap[currentId.value] || calm;
     });
 
     const backgroundStyle = computed(() => {
-        return { background: backgroundMap[selectionId] || "radial-gradient(54.74% 54.74% at 50% 50%, #FCFCFC 35.67%, #FCB2FF 75.29%, #FB99FF 100%)" };
+        return { background: backgroundMap[currentId.value] || "radial-gradient(54.74% 54.74% at 50% 50%, #FCFCFC 35.67%, #FCB2FF 75.29%, #FB99FF 100%)" };
     });
 
     const buttonColor = computed(() => {
-        return buttonColorMap[selectionId] || "#F50BE6";
+        return buttonColorMap[currentId.value] || "#F50BE6";
     })
 
     return { imageSrc, backgroundStyle, buttonColor };

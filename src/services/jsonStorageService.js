@@ -1,10 +1,11 @@
 // Сервис для сохранения эмоций через JSON сервер
 class JsonStorageService {
   constructor() {
-    // Используем localhost для разработки, сервер для продакшена
-    this.apiUrl = process.env.NODE_ENV === 'development' 
-      ? 'http://localhost:3001/api' 
+    const fallback = process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3001/api'
       : '/api';
+    // Позволяем переопределять базовый URL через переменную окружения
+    this.apiUrl = process.env.VUE_APP_API_URL || fallback;
     this.userId = null;
   }
 

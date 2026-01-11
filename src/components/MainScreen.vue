@@ -149,15 +149,68 @@
 
 
     <div class="soul-image">
-      <img :src="soulImageSrc || '../assets/emotion_avatars/calm.png'" alt="soul-image" />
+      <img :src="soulImageSrc" alt="soul-image" />
     </div>
     <div class="buttons-row">
       <button class="btn calendar" :style="{ background: dynamicButtonColor }" @click="$emit('open-calendar')">
         Календарь настроения
       </button>
-      <button class="btn stories"  disabled>
-        Скоро тут будут истории
+      <button v-if="canSeeStories" class="btn stories" @click="openStories">
+        Истории
       </button>
+    </div>
+
+    <div v-if="showStoriesModal && canSeeStories" class="stories-modal" @click="closeStories">
+      <div class="stories-modal__content" @click.stop>
+        <div class="stories-modal__header">
+          <h3>Истории</h3>
+          <button class="stories-modal__close" @click="closeStories">✕</button>
+        </div>
+        <template v-if="!selectedStory">
+          <p class="stories-modal__hint">Выбери историю — это тестовые карточки с примерами.</p>
+          <div class="stories-list">
+            <button
+              v-for="story in stories"
+              :key="story.id"
+              class="story-card"
+              @click="selectStory(story)"
+            >
+              <div class="story-card__title">{{ story.title }}</div>
+              <div class="story-card__meta">
+                {{ story.duration }}
+                <span class="story-card__progress">{{ getStoryProgress(story) }}</span>
+              </div>
+              <div class="story-card__desc">{{ story.tagline }}</div>
+            </button>
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="story-player">
+            <div class="story-player__header">
+              <div>
+                <div class="story-player__title">{{ selectedStory.title }}</div>
+                <div class="story-player__meta">{{ selectedStory.duration }}</div>
+              </div>
+              <button class="stories-modal__close" @click="closeStory">✕</button>
+            </div>
+            <div class="story-player__body">
+              <p>{{ currentStoryStep }}</p>
+            </div>
+            <div class="story-player__controls">
+              <button class="story-nav" :disabled="storyStep === 0" @click="prevStep">Назад</button>
+              <div class="story-progress">{{ storyStep + 1 }} / {{ selectedStory.steps.length }}</div>
+              <button class="story-nav" :disabled="storyStep === selectedStory.steps.length - 1" @click="nextStep">Далее</button>
+            </div>
+            <div class="story-savebar">
+              <button class="story-nav ghost" @click="saveProgress">Сохранить</button>
+              <button class="story-nav ghost" @click="loadProgress">Загрузить</button>
+              <span class="story-progress-message">{{ progressMessage }}</span>
+            </div>
+            <button class="story-exit" @click="closeStory">Закрыть историю</button>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -169,6 +222,25 @@ import { getTelegramUserId } from '@/utils/telegram'
 import { useEmotionStore } from '@/services/emotionStore'
 import { useSoulStyle } from '@/services/useSoulStyle'
 import { watch, computed } from 'vue'
+import scenes from '../../scenes.js'
+
+const STORY_ALLOWED_IDS = ['434205137', '115339643', '128388657', '488646763']
+const ADMIN_IDS = [...STORY_ALLOWED_IDS]
+
+const peleStory = (() => {
+  // Берём тексты сцен в порядке объявления
+  const steps = Object.values(scenes)
+    .map(scene => scene?.text || '')
+    .filter(text => Boolean(text?.trim()))
+
+  return {
+    id: 'pele',
+    title: 'Плёзы Пеле',
+    duration: `${steps.length} шагов`,
+    tagline: 'Большая история о Пеле и Лейле',
+    steps
+  }
+})()
 
 export default {
   name: 'MainScreen',
@@ -385,7 +457,12 @@ export default {
       emotionDates: [],
       lastEmotionPayload: null,
       diagnostics: null,
-      dateDiagnostics: null
+      dateDiagnostics: null,
+      showStoriesModal: false,
+      selectedStory: null,
+      storyStep: 0,
+      progressMessage: '',
+      stories: [peleStory]
     }
   },
   watch: {
@@ -401,7 +478,6 @@ export default {
     }
   },
   async mounted() {
-    const ADMIN_IDS = ['488646763', '115339643', '128388657', '434205137'];
     const telegramId = getTelegramUserId()
     this.telegramId = telegramId || 'Не найден'
     
@@ -572,6 +648,84 @@ export default {
           throw error
         }
       }
+    },
+
+    openStories() {
+      if (!this.canSeeStories) return
+      this.showStoriesModal = true
+    },
+
+    closeStories() {
+      this.showStoriesModal = false
+      this.selectedStory = null
+      this.storyStep = 0
+      this.progressMessage = ''
+    },
+
+    selectStory(story) {
+      this.selectedStory = story
+      this.loadProgress()
+    },
+
+    closeStory() {
+      this.selectedStory = null
+      this.storyStep = 0
+      this.progressMessage = ''
+    },
+
+    nextStep() {
+      if (this.selectedStory && this.storyStep < this.selectedStory.steps.length - 1) {
+        this.storyStep++
+      }
+    },
+
+    prevStep() {
+      if (this.selectedStory && this.storyStep > 0) {
+        this.storyStep--
+      }
+    },
+
+    saveProgress() {
+      if (!this.selectedStory) return
+      const key = `story-progress-${this.selectedStory.id}`
+      localStorage.setItem(key, String(this.storyStep))
+      this.progressMessage = 'Прогресс сохранён'
+      setTimeout(() => { this.progressMessage = '' }, 2000)
+    },
+
+    loadProgress() {
+      if (!this.selectedStory) return
+      const key = `story-progress-${this.selectedStory.id}`
+      const saved = localStorage.getItem(key)
+      if (saved !== null) {
+        const step = Number(saved)
+        if (!Number.isNaN(step)) {
+          this.storyStep = Math.min(Math.max(step, 0), this.selectedStory.steps.length - 1)
+          this.progressMessage = 'Прогресс загружен'
+          setTimeout(() => { this.progressMessage = '' }, 2000)
+          return
+        }
+      }
+      this.storyStep = 0
+    },
+
+    getStoryProgress(story) {
+      if (!story || !story.steps?.length) return '0%'
+      const key = `story-progress-${story.id}`
+      const saved = localStorage.getItem(key)
+      const total = story.steps.length
+      const current = saved !== null ? Math.min(Math.max(Number(saved), 0), total - 1) : -1
+      const percent = Math.round(((current + 1) / total) * 100)
+      return `${Math.max(percent, 0)}%`
+    }
+  },
+  computed: {
+    canSeeStories() {
+      return STORY_ALLOWED_IDS.includes(String(this.telegramId || ''))
+    },
+    currentStoryStep() {
+      if (!this.selectedStory) return ''
+      return this.selectedStory.steps[this.storyStep] || ''
     }
   }
 }
@@ -696,6 +850,18 @@ export default {
 .btn.calendar:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(82, 82, 82, 0.35);
+}
+
+.btn.stories {
+  background: rgba(255, 255, 255, 0.85);
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s;
+}
+
+.btn.stories:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .btn:disabled {
@@ -865,5 +1031,190 @@ export default {
   text-align: center;
   margin: 0;
   white-space: pre-line;
+}
+
+.stories-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.stories-modal__content {
+  width: min(900px, 100%);
+  height: min(90vh, 100%);
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 24px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  color: #111;
+  display: flex;
+  flex-direction: column;
+}
+
+.stories-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.stories-modal__header h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.stories-modal__close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.stories-modal__hint {
+  margin: 0 0 12px;
+  color: #555;
+  font-size: 14px;
+}
+
+.stories-list {
+  display: grid;
+  gap: 12px;
+}
+
+.story-card {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 12px;
+  background: #fafafa;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.story-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.story-card__title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.story-card__meta {
+  color: #666;
+  font-size: 13px;
+}
+
+.story-card__progress {
+  color: #2e8b57;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.story-card__desc {
+  color: #777;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.story-player {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.story-player__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.story-player__title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.story-player__meta {
+  color: #666;
+  font-size: 13px;
+}
+
+.story-player__body {
+  background: #f7f7f7;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 50vh;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.story-player__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.story-nav {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #ff7dbb;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.story-nav.ghost {
+  background: #ececec;
+  color: #333;
+}
+
+.story-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.story-progress {
+  color: #555;
+  font-size: 14px;
+}
+
+.story-savebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.story-progress-message {
+  color: #4caf50;
+  font-size: 13px;
+}
+
+.story-exit {
+  width: 100%;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.story-exit:hover {
+  background: #f5f5f5;
 }
 </style>
