@@ -15,7 +15,8 @@ module.exports = defineConfig({
       'Expires': '0'
     }
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/dev/' : '/',
+  // Prod собирается для корня домена; dev — обычный /
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
   outputDir: process.env.NODE_ENV === 'production' ? 'dist' : 'dist-test',
   filenameHashing: true,
   configureWebpack: {
