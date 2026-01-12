@@ -2,10 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs').promises;
 const path = require('path');
-const fsSync = require('fs'); // Для sync-операций (чтение списка файлов)
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
+const HOST = process.env.HOST || '127.0.0.1';
 
 // Middleware
 app.use(cors());
@@ -56,15 +56,6 @@ async function initializeServer() {
     await saveData({ user_emotions: {}, users: {} });
     console.log('Создан новый файл данных');
   }
-}
-
-// --- Новый способ: хранение эмоций по файлам ---
-const USER_DATA_DIR = path.join(__dirname, 'data');
-function getUserDir(userId) {
-  return path.join(USER_DATA_DIR, String(userId));
-}
-function getEmotionFile(userId, date) {
-  return path.join(getUserDir(userId), `${date}.json`);
 }
 
 // API Routes
@@ -126,96 +117,78 @@ app.get('/api/users/:telegramId', async (req, res) => {
 app.post('/api/emotions', async (req, res) => {
   try {
     const { telegramId, emotion, note, timestamp, username, date } = req.body;
+    
+    console.log('Получен запрос на сохранение эмоции:', { telegramId, emotion, note, timestamp, username, date });
+    
     if (!telegramId || emotion === undefined || emotion === null) {
+      console.error('Отсутствуют обязательные поля:', { telegramId, emotion });
       return res.status(400).json({ error: 'Необходимы telegramId и emotion' });
     }
+
+    const data = await loadData();
     const userId = String(telegramId);
-    const realDate = date || timestamp || new Date().toISOString().split('T')[0];
-    const userDir = getUserDir(userId);
-    await fs.mkdir(userDir, { recursive: true });
-    const filePath = getEmotionFile(userId, realDate);
-    // Если файл уже есть — не даём перезаписать
-    try {
-      await fs.access(filePath);
+    const realDate = timestamp || date || new Date().toISOString().split('T')[0];
+
+    console.log('Обработанные данные:', { userId, realDate, emotion });
+
+    // Проверяем, не была ли уже сохранена эмоция на эту дату
+    if (data.user_emotions[userId] && data.user_emotions[userId][realDate]) {
+      console.log('Эмоция на эту дату уже сохранена:', { userId, realDate });
       return res.status(400).json({ error: 'Эмоция на эту дату уже сохранена' });
-    } catch {}
-    const record = {
+    }
+
+    // Инициализируем объект пользователя если его нет
+    if (!data.user_emotions[userId]) {
+      data.user_emotions[userId] = {};
+    }
+
+    // Сохраняем эмоцию
+    data.user_emotions[userId][realDate] = {
       emotion: Number(emotion),
       note: note || '',
       timestamp: timestamp || new Date().toISOString(),
       username: username || 'Пользователь',
       createdAt: new Date().toISOString()
     };
-    await fs.writeFile(filePath, JSON.stringify(record, null, 2), 'utf8');
+
+    await saveData(data);
+    await saveDiagnostics(userId, data.user_emotions[userId]);
+    
+    console.log('Эмоция сохранена:', { userId, realDate, emotion, username });
+    console.log('Ключи эмоций пользователя после сохранения:', Object.keys(data.user_emotions[userId]));
     res.json({ success: true, id: `${userId}_${realDate}` });
+    
   } catch (error) {
+    console.error('Ошибка сохранения эмоции:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Получение эмоций пользователя за период
+// Получение эмоций пользователя за период (или всех, если даты не переданы)
 app.get('/api/emotions', async (req, res) => {
   try {
     const { telegramId, startDate, endDate } = req.query;
-    const userId = String(Array.isArray(telegramId) ? telegramId[0] : telegramId);
-    if (!userId) return res.status(400).json({ error: 'Необходим telegramId' });
-    const userDir = getUserDir(userId);
-    let result = [];
-    // Перебираем даты в диапазоне
-    let cur = Array.isArray(startDate) ? startDate[0] : startDate;
-    const end = Array.isArray(endDate) ? endDate[0] : endDate;
-    while (cur <= end) {
-      const filePath = getEmotionFile(userId, cur);
-      try {
-        const raw = await fs.readFile(filePath, 'utf8');
-        const data = JSON.parse(raw);
-        result.push({ id: `${userId}_${cur}`, date: cur, ...data });
-      } catch {}
-      // Следующий день
-      const d = new Date(cur);
-      d.setDate(d.getDate() + 1);
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      cur = `${year}-${month}-${day}`;
+    const cleanTelegramId = Array.isArray(telegramId) ? telegramId[0] : telegramId;
+    if (!cleanTelegramId) {
+      return res.status(400).json({ error: 'Необходим telegramId' });
     }
-    res.json(result.sort((a, b) => a.date.localeCompare(b.date)));
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+    const data = await loadData();
+    const userId = String(cleanTelegramId);
+    const userEmotions = data.user_emotions[userId] || {};
+    const entries = Object.entries(userEmotions).map(([date, payload]) => ({
+      id: `${userId}_${date}`,
+      date,
+      ...payload
+    }));
 
-// Получение эмоции за конкретную дату
-app.get('/api/emotions/:telegramId/:date', async (req, res) => {
-  try {
-    const { telegramId, date } = req.params;
-    const userId = String(telegramId);
-    const filePath = getEmotionFile(userId, date);
-    try {
-      const raw = await fs.readFile(filePath, 'utf8');
-      const data = JSON.parse(raw);
-      res.json({ id: `${userId}_${date}`, date, ...data });
-    } catch {
-      res.status(404).json({ error: 'Нет эмоции на эту дату' });
+    let filtered = entries;
+    if (startDate || endDate) {
+      const s = startDate ? (Array.isArray(startDate) ? startDate[0] : startDate) : '0000-01-01';
+      const e = endDate ? (Array.isArray(endDate) ? endDate[0] : endDate) : '9999-12-31';
+      filtered = entries.filter(item => item.date >= s && item.date <= e);
     }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
-// Получение всех дат с эмоциями пользователя
-app.get('/api/emotions/dates/:telegramId', async (req, res) => {
-  try {
-    const { telegramId } = req.params;
-    const userId = String(telegramId);
-    const userDir = getUserDir(userId);
-    let dates = [];
-    try {
-      dates = fsSync.readdirSync(userDir)
-        .filter(f => f.endsWith('.json'))
-        .map(f => f.replace('.json', ''));
-    } catch {}
-    res.json(dates.sort());
+    res.json(filtered.sort((a, b) => a.date.localeCompare(b.date)));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -256,6 +229,21 @@ app.get('/api/emotions/today/:telegramId', async (req, res) => {
     
   } catch (error) {
     console.error('Ошибка проверки эмоции на сегодня:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Получение эмоции на конкретную дату
+app.get('/api/emotions/:telegramId/:date', async (req, res) => {
+  try {
+    const { telegramId, date } = req.params;
+    const data = await loadData();
+    const userId = String(telegramId);
+    const dateStr = date; // plain string
+    const emotion = data.user_emotions[userId] && data.user_emotions[userId][dateStr];
+    console.log('Проверка даты:', date, 'Ключи:', Object.keys(data.user_emotions[userId] || {}));
+    res.json(emotion || null);
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
@@ -456,8 +444,8 @@ app.get('/api/emotions/diagnostics/:telegramId/:date', async (req, res) => {
 
 // Запуск сервера
 initializeServer().then(() => {
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`JSON Server запущен на порту ${PORT}`);
+  app.listen(PORT, HOST, () => {
+    console.log(`JSON Server запущен на ${HOST}:${PORT}`);
     console.log(`Файл данных: ${DATA_FILE}`);
   });
 }).catch(error => {
