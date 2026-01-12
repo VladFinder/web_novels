@@ -10,19 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Получаем путь запроса
+// Получаем путь запроса относительно этого скрипта
 $request_uri = $_SERVER['REQUEST_URI'];
-$api_path = '/api/';
-
-// Проверяем, что это API запрос
-if (strpos($request_uri, $api_path) === false) {
-    http_response_code(404);
-    echo json_encode(['error' => 'API endpoint not found']);
-    exit();
+$script_name = $_SERVER['SCRIPT_NAME'];
+$api_endpoint = '';
+if (strpos($request_uri, $script_name) === 0) {
+    $api_endpoint = substr($request_uri, strlen($script_name));
 }
-
-// Убираем /api/ из пути
-$api_endpoint = substr($request_uri, strpos($request_uri, $api_path) + strlen($api_path));
+$api_endpoint = ltrim($api_endpoint, '/');
 
 // URL API сервера
 $api_host = getenv('API_HOST') ?: '127.0.0.1';
