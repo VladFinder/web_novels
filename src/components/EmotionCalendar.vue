@@ -167,7 +167,8 @@ export default {
       thoughtSaved: false,
       modalThought: '',
       isSavingModalThought: false,
-      modalThoughtSaved: false
+      modalThoughtSaved: false,
+      initializedCalendar: false
     }
   },
   computed: {
@@ -275,17 +276,9 @@ export default {
         console.log('🔍 Текущая дата календаря:', this.currentDate)
         console.log('🔍 Месяц календаря:', this.currentDate.getMonth(), '(0-январь, 5-июнь)')
         
-        // Загружаем эмоции за текущий месяц
-        const startDateObj = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
-        const endDateObj = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0)
-        const startYear = startDateObj.getFullYear();
-        const startMonth = String(startDateObj.getMonth() + 1).padStart(2, '0');
-        const startDay = String(startDateObj.getDate()).padStart(2, '0');
-        const startDate = `${startYear}-${startMonth}-${startDay}`;
-        const endYear = endDateObj.getFullYear();
-        const endMonth = String(endDateObj.getMonth() + 1).padStart(2, '0');
-        const endDay = String(endDateObj.getDate()).padStart(2, '0');
-        const endDate = `${endYear}-${endMonth}-${endDay}`;
+        // Забираем весь диапазон — чтобы не потерять старые эмоции при смене месяцев
+        const startDate = '2000-01-01'
+        const endDate = '2100-12-31'
         const loadedEmotions = await jsonStorageService.getUserEmotions(telegramId, startDate, endDate)
         console.log('🔍 Загружены эмоции:', loadedEmotions)
         console.log('🔍 Количество эмоций:', loadedEmotions.length)
@@ -298,6 +291,19 @@ export default {
             console.log('🔍 Эмоция на', emotion.date, ':', emotion.emotion, 'Заметка:', emotion.note)
           })
           this.emotions = loadedEmotions
+
+          // При первом запуске открываем месяц последней эмоции
+          if (!this.initializedCalendar && this.emotions.length > 0) {
+            const lastDate = this.emotions
+              .map(e => e.date)
+              .filter(Boolean)
+              .sort((a, b) => b.localeCompare(a))[0]
+            if (lastDate) {
+              this.currentDate = new Date(lastDate)
+              this.initializedCalendar = true
+              console.log('🔍 Устанавливаем текущий месяц на последнюю эмоцию:', lastDate)
+            }
+          }
         } else {
           console.warn('⚠️ Эмоции не являются массивом:', loadedEmotions)
           this.emotions = []
