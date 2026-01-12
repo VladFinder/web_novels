@@ -164,39 +164,31 @@ app.post('/api/emotions', async (req, res) => {
   }
 });
 
-// Получение эмоций пользователя за период
+// Получение эмоций пользователя за период (или всех, если даты не переданы)
 app.get('/api/emotions', async (req, res) => {
   try {
     const { telegramId, startDate, endDate } = req.query;
     const cleanTelegramId = Array.isArray(telegramId) ? telegramId[0] : telegramId;
-    const cleanStartDate = Array.isArray(startDate) ? startDate[0] : startDate;
-    const cleanEndDate = Array.isArray(endDate) ? endDate[0] : endDate;
     if (!cleanTelegramId) {
       return res.status(400).json({ error: 'Необходим telegramId' });
     }
     const data = await loadData();
     const userId = String(cleanTelegramId);
     const userEmotions = data.user_emotions[userId] || {};
-    // plain string сравнение дат
-    const emotions = [];
-    let cur = cleanStartDate;
-    while (cur <= cleanEndDate) {
-      if (userEmotions[cur]) {
-        emotions.push({
-          id: `${userId}_${cur}`,
-          date: cur,
-          ...userEmotions[cur]
-        });
-      }
-      // увеличиваем дату на 1 день (plain string)
-      const d = new Date(cur);
-      d.setDate(d.getDate() + 1);
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      cur = `${year}-${month}-${day}`;
+    const entries = Object.entries(userEmotions).map(([date, payload]) => ({
+      id: `${userId}_${date}`,
+      date,
+      ...payload
+    }));
+
+    let filtered = entries;
+    if (startDate || endDate) {
+      const s = startDate ? (Array.isArray(startDate) ? startDate[0] : startDate) : '0000-01-01';
+      const e = endDate ? (Array.isArray(endDate) ? endDate[0] : endDate) : '9999-12-31';
+      filtered = entries.filter(item => item.date >= s && item.date <= e);
     }
-    res.json(emotions.sort((a, b) => a.date.localeCompare(b.date)));
+
+    res.json(filtered.sort((a, b) => a.date.localeCompare(b.date)));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
