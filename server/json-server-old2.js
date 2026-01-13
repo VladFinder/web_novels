@@ -12,7 +12,7 @@ const HOST = process.env.HOST || '127.0.0.1';
 app.use(cors());
 app.use(express.json());
 
-// Путь к файлу с данными (users, thoughts, старый формат эмоций)
+// Путь к файлу с данными
 const DATA_FILE = path.join(__dirname, 'data', 'emotions.json');
 
 // Создаем папку data если её нет
@@ -70,12 +70,14 @@ async function readEmotion(userId, date) {
   }
 }
 async function writeEmotion(userId, date, payload) {
-  await fs.mkdir(getUserDir(userId), { recursive: true });
+  const userDir = getUserDir(userId);
+  await fs.mkdir(userDir, { recursive: true });
   await fs.writeFile(getEmotionFile(userId, date), JSON.stringify(payload, null, 2), 'utf8');
 }
 async function listEmotionDates(userId) {
   try {
-    return fsSync.readdirSync(getUserDir(userId))
+    const files = await fs.readdir(getUserDir(userId));
+    return files
       .filter(f => f.endsWith('.json'))
       .map(f => f.replace('.json', ''))
       .sort();
@@ -154,7 +156,8 @@ app.post('/api/emotions', async (req, res) => {
     }
     const userId = String(telegramId);
     const realDate = date || timestamp || new Date().toISOString().split('T')[0];
-    await fs.mkdir(getUserDir(userId), { recursive: true });
+    const userDir = getUserDir(userId);
+    await fs.mkdir(userDir, { recursive: true });
     const filePath = getEmotionFile(userId, realDate);
     // Если файл уже есть — не даём перезаписать
     try {
@@ -181,19 +184,26 @@ app.get('/api/emotions', async (req, res) => {
     const { telegramId, startDate, endDate } = req.query;
     const userId = String(Array.isArray(telegramId) ? telegramId[0] : telegramId);
     if (!userId) return res.status(400).json({ error: 'Необходим telegramId' });
-    const start = Array.isArray(startDate) ? startDate[0] : (startDate || '0000-01-01');
-    const end = Array.isArray(endDate) ? endDate[0] : (endDate || '9999-12-31');
-
-    const result = [];
+    const start = Array.isArray(startDate) ? startDate[0] : startDate || '0000-01-01';
+    const end = Array.isArray(endDate) ? endDate[0] : endDate || '9999-12-31';
+    const userDir = getUserDir(userId);
+    let result = [];
+    // Перебираем даты в диапазоне
     let cur = start;
     while (cur <= end) {
-      const data = await readEmotion(userId, cur);
-      if (data) {
+      const filePath = getEmotionFile(userId, cur);
+      try {
+        const raw = await fs.readFile(filePath, 'utf8');
+        const data = JSON.parse(raw);
         result.push({ id: `${userId}_${cur}`, date: cur, ...data });
-      }
+      } catch {}
+      // Следующий день
       const d = new Date(cur);
       d.setDate(d.getDate() + 1);
-      cur = normalizeDateString(d);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      cur = `${year}-${month}-${day}`;
     }
     res.json(result.sort((a, b) => a.date.localeCompare(b.date)));
   } catch (error) {
@@ -240,7 +250,12 @@ app.put('/api/emotions/note', async (req, res) => {
     if (!existing) {
       return res.status(404).json({ error: 'Эмоция на эту дату не найдена' });
     }
-    await writeEmotion(userId, date, { ...existing, note, updatedAt: new Date().toISOString() });
+    const updated = {
+      ...existing,
+      note,
+      updatedAt: new Date().toISOString()
+    };
+    await writeEmotion(userId, date, updated);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -271,8 +286,8 @@ app.get('/api/emotions/stats/:telegramId', async (req, res) => {
     const { startDate, endDate } = req.query;
     const userId = String(telegramId);
     const stats = {};
-    const start = Array.isArray(startDate) ? startDate[0] : (startDate || '0000-01-01');
-    const end = Array.isArray(endDate) ? endDate[0] : (endDate || '9999-12-31');
+    const start = Array.isArray(startDate) ? startDate[0] : startDate || '0000-01-01';
+    const end = Array.isArray(endDate) ? endDate[0] : endDate || '9999-12-31';
     let cur = start;
     while (cur <= end) {
       const em = await readEmotion(userId, cur);
@@ -297,12 +312,12 @@ app.get('/api/export/:telegramId', async (req, res) => {
     const userId = String(telegramId);
     
     const dates = await listEmotionDates(userId);
-    const userData = {};
+    const exportData = {};
     for (const date of dates) {
       const val = await readEmotion(userId, date);
-      if (val) userData[date] = val;
+      if (val) exportData[date] = val;
     }
-    res.json(userData);
+    res.json(exportData);
     
   } catch (error) {
     console.error('Ошибка экспорта данных:', error);
@@ -321,7 +336,8 @@ app.post('/api/import/:telegramId', async (req, res) => {
     if (!userData || typeof userData !== 'object') {
       return res.status(400).json({ error: 'Некорректные данные для импорта' });
     }
-    for (const [date, payload] of Object.entries(userData)) {
+    const entries = Object.entries(userData);
+    for (const [date, payload] of entries) {
       await writeEmotion(userId, date, payload);
     }
     
