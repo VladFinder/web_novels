@@ -1,26 +1,28 @@
 #!/bin/bash
 
-# Данные сервера
-SERVER="u3076779@37.140.192.181"
-REMOTE_DIR="/var/www/u3076779/data/www/ikiteam.ru"
+set -euo pipefail
 
-echo "Загружаем измененные файлы на сервер..."
+SSH_USER="${SSH_USER:-deploy}"
+SERVER_HOST="${SERVER_HOST:-your.server.com}"
+REMOTE_DIR="${REMOTE_DIR:-/home/c/commano5/iki.commandc.ru/public_html}"
 
-# Создаем папки на сервере
+SSH_TARGET="${SSH_USER}@${SERVER_HOST}"
+
+echo "Загружаем измененные файлы на сервер ${SSH_TARGET}..."
+
 echo "Создаем папки на сервере..."
-ssh -o StrictHostKeyChecking=no $SERVER "mkdir -p $REMOTE_DIR/css $REMOTE_DIR/img"
+ssh -o StrictHostKeyChecking=no "$SSH_TARGET" "mkdir -p $REMOTE_DIR/css $REMOTE_DIR/img"
 
-# Загружаем основные файлы
 echo "Загружаем index.html..."
-scp -o StrictHostKeyChecking=no dist/index.html $SERVER:$REMOTE_DIR/
+scp -o StrictHostKeyChecking=no dist/index.html "$SSH_TARGET:$REMOTE_DIR/"
 
 echo "Загружаем JS файлы..."
-scp -o StrictHostKeyChecking=no dist/*.js $SERVER:$REMOTE_DIR/
+scp -o StrictHostKeyChecking=no dist/*.js "$SSH_TARGET:$REMOTE_DIR/"
 
 echo "Загружаем CSS файлы..."
-scp -o StrictHostKeyChecking=no dist/css/* $SERVER:$REMOTE_DIR/css/
+scp -o StrictHostKeyChecking=no dist/css/* "$SSH_TARGET:$REMOTE_DIR/css/"
 
 echo "Загружаем изображения..."
-# scp -o StrictHostKeyChecking=no dist/img/* $SERVER:$REMOTE_DIR/img/
+# scp -o StrictHostKeyChecking=no dist/img/* "$SSH_TARGET:$REMOTE_DIR/img/"
 
 echo "Загрузка завершена!"

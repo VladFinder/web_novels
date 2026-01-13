@@ -1,27 +1,37 @@
 #!/bin/bash
 
-# Данные сервера
-SERVER="u3076779@37.140.192.181"
-REMOTE_DIR="/var/www/u3076779/data/www/ikiteam.ru"
-PASSWORD="T6YJqgT2R5cN9w3E"
+set -euo pipefail
 
-echo "Загружаем измененные файлы на сервер..."
+SSH_USER="${SSH_USER:-deploy}"
+SERVER_HOST="${SERVER_HOST:-your.server.com}"
+REMOTE_DIR="${REMOTE_DIR:-/home/c/commano5/iki.commandc.ru/public_html}"
+SSH_PASSWORD="${SSH_PASSWORD:-}"
 
-# Создаем папки на сервере
+SSH_TARGET="${SSH_USER}@${SERVER_HOST}"
+
+if [ -n "$SSH_PASSWORD" ]; then
+  SSH_CMD=(sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no "$SSH_TARGET")
+  SCP_CMD=(sshpass -p "$SSH_PASSWORD" scp -o StrictHostKeyChecking=no)
+else
+  SSH_CMD=(ssh -o StrictHostKeyChecking=no "$SSH_TARGET")
+  SCP_CMD=(scp -o StrictHostKeyChecking=no)
+fi
+
+echo "Загружаем измененные файлы на сервер ${SSH_TARGET}..."
+
 echo "Создаем папки на сервере..."
-sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $SERVER "mkdir -p $REMOTE_DIR/css $REMOTE_DIR/img"
+"${SSH_CMD[@]}" "mkdir -p $REMOTE_DIR/css $REMOTE_DIR/img"
 
-# Загружаем основные файлы
 echo "Загружаем index.html..."
-sshpass -p "$PASSWORD" scp -o StrictHostKeyChecking=no dist/index.html $SERVER:$REMOTE_DIR/
+"${SCP_CMD[@]}" dist/index.html "$SSH_TARGET:$REMOTE_DIR/"
 
 echo "Загружаем JS файлы..."
-sshpass -p "$PASSWORD" scp -o StrictHostKeyChecking=no dist/*.js $SERVER:$REMOTE_DIR/
+"${SCP_CMD[@]}" dist/*.js "$SSH_TARGET:$REMOTE_DIR/"
 
 echo "Загружаем CSS файлы..."
-sshpass -p "$PASSWORD" scp -o StrictHostKeyChecking=no dist/css/* $SERVER:$REMOTE_DIR/css/
+"${SCP_CMD[@]}" dist/css/* "$SSH_TARGET:$REMOTE_DIR/css/"
 
 echo "Загружаем изображения..."
-# sshpass -p "$PASSWORD" scp -o StrictHostKeyChecking=no dist/img/* $SERVER:$REMOTE_DIR/img/
+# "${SCP_CMD[@]}" dist/img/* "$SSH_TARGET:$REMOTE_DIR/img/"
 
-echo "Загрузка завершена!" 
+echo "Загрузка завершена!"

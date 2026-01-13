@@ -25,7 +25,7 @@ node json-server.js
 Сервер должен запуститься на порту 3001.
 
 ### 3. Проверить работу
-Откройте в браузере: `https://37.140.192.181/test-proxy.html`
+Откройте в браузере: `https://iki.commandc.ru/test-proxy.html`
 
 ### 4. Настроить автозапуск сервера
 Создать systemd сервис:
@@ -67,7 +67,7 @@ sudo systemctl status emotions-api
 ## Структура запросов
 
 Теперь все API запросы идут через:
-- `https://37.140.192.181/api/emotions` - вместо `http://37.140.192.181:3001/api/emotions`
+- `https://iki.commandc.ru/api/emotions` - вместо `http://127.0.0.1:3001/api/emotions`
 
 PHP прокси автоматически перенаправляет их на локальный сервер.
 

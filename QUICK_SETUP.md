@@ -21,10 +21,10 @@ chmod +x deploy-php-proxy.sh
 ```
 
 ### 3. Проверить работу
-Откройте: `https://37.140.192.181/test-proxy.html`
+Откройте: `https://iki.commandc.ru/test-proxy.html`
 
 ## Как это работает:
-- Клиент делает запрос на `https://37.140.192.181/api/emotions`
+- Клиент делает запрос на `https://iki.commandc.ru/api/emotions`
 - `.htaccess` перенаправляет на `api.php`
 - `api.php` проксирует на `http://localhost:3001/api/emotions`
 - HTTP сервер отвечает через PHP прокси обратно клиенту

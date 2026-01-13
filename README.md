@@ -1,47 +1,61 @@
 # Web Novels
 
-Две части в одном репо:
-- Web-приложение (Vue 3 + Pinia) для выбора эмоций в Telegram WebApp.
-- Мини-демо визуальной новеллы на RenJS, собранное как статика.
+Мини веб-приложение под Telegram WebApp: выбор эмоции, ежедневные записи, календарь и тестовые «истории». Всё на Vue 3 + Pinia, хранение — лёгкий JSON API на Express.
 
 ## Требования
-- Node.js (LTS, подходит v18/v20/v24) + npm.
-- Запущенный API по умолчанию `http://localhost:3001/api` (можно переопределить `VUE_APP_API_URL`).
+- Node.js LTS (v18/v20/v24) + npm.
+- Доступ к API (по умолчанию `http://localhost:3001/api`, можно переопределить `VUE_APP_API_URL`).
 
-## Установка и запуск фронтенда
+## Запуск
+### 1) API
 ```bash
-# один раз в сессии: подхватить nvm (если нужно)
-export NVM_DIR="$HOME/.nvm"; source "$NVM_DIR/nvm.sh"; nvm use 24
-
-cd /Users/vladzyranov/Documents/Проекты/web_novels
+cd server
 npm install
-npm run serve           # dev-сервер на http://localhost:8080
-
-# прод-сборка (артефакты в dist-test из vue.config.js)
-npm run build
+npm start            # http://localhost:3001/api, данные в server/data/
 ```
 
-### Конфигурация API
-- По умолчанию запросы идут на `/api` с прокси на `http://localhost:3001`.
-- Переопределить базовый URL: создать `.env.development` или `.env.production` с `VUE_APP_API_URL="https://your-api-host/api"`.
+### 2) Фронтенд
+```bash
+npm install
+npm run serve        # dev-сервер http://localhost:8080 с прокси на /api
+npm run build        # прод-сборка (dist для prod, dist-test для dev)
+```
 
-## RenJS демо (визуальная новелла)
-- Файл: `public/vn/index.html` (использует CDN renjs@3.5.0).
-- Ассеты: сейчас с CDN; можно заменить на локальные файлы в `public/vn/`.
-- Запуск в dev: `npm run serve`, открыть http://localhost:8080/vn/.
-- Расширение: выносите сценарий/ассеты в отдельные JS/JSON внутри `public/vn/` и подключайте в `index.html`.
+### Настройка API-адреса
+Создать `.env.development` или `.env.production`:
+```
+# Для продакшена на iki.commandc.ru (API отдаётся по /api через nginx)
+VUE_APP_API_URL="https://iki.commandc.ru/api"
+```
+Без переменной фронт использует `/api` (работает с dev-прокси из `vue.config.js` или с прод-прокси nginx на том же домене).
 
-## Бэкенд (Node/Express)
-- Код: `server/`.
-- API: `POST /api/emotions`, `GET /api/emotions`, `POST /api/users`, `GET /api/users/:telegramId`.
-- Запуск (в новой сессии не забыть `source ~/.nvm/nvm.sh && nvm use 24`):
-  ```bash
-  cd server
-  npm install
-  npm start   # слушает 3001
-  ```
-- База: MySQL, схема в `db/schema.sql` (проверь подключение в `server/db.js`).
+**Важно для CORS:** в проде либо держите API на том же домене через nginx-прокси `/api -> http://127.0.0.1:3001/api`, либо задайте `VUE_APP_API_URL` на точный домен API. Если фронт и API на разных доменах, в nginx добавьте заголовки `Access-Control-Allow-Origin`/`Methods`/`Headers` и ответ `204` на `OPTIONS`.
 
-## Что ещё
-- Статика и тестовые файлы из старой визуальной новеллы удалены.
-- Неиспользуемые зависимости (vuex/router/crypto) убраны из `package.json`.
+## Как устроено
+- `src/constants/emotions.js` — единый справочник эмоций (иконки, градиенты, фразы).
+- `src/services/apiClient.js` — клиент API: `ensureUser`, `saveEmotion`, `getEmotionByDate`, `getEmotionsRange`, `saveThought`, `getThoughtsByDate`.
+- `src/utils/dates.js` и `src/utils/telegram.js` — безопасные даты и получение Telegram ID (есть локальный fallback для разработки).
+- `src/services/useSoulStyle.js` — подбор фоновой темы/кнопок по выбранной эмоции.
+- Компоненты:
+  - `EmotionSelect.vue` — выбор эмоции, проверка «сегодня уже сохранено».
+  - `MainScreen.vue` — приветствие, фраза под эмоцию, переход в календарь, модальные истории (для whitelisted ID).
+  - `EmotionCalendar.vue` — месячный календарь, модалка с деталями эмоции и заметками, поле «мысль за сегодня».
+  - `LoadingScreen.vue` — стартовый лоадер.
+- `scenes.js` — тексты для тестовых историй (используется в модалке «Истории»).
+- `server/json-server.js` — API-эндпоинты, данные лежат в `server/data/` (по одному JSON на пользователя/дату).
+- `vue.config.js` — dev-прокси `/api -> http://localhost:3001`.
+
+## Пользовательский флоу
+1. Берём Telegram ID через `getSafeTelegramId` (если нет — сохраняем локальный debug ID).
+2. `ensureUser` гарантирует наличие пользователя на сервере.
+3. `EmotionSelect` проверяет `getEmotionByDate` на сегодня и даёт выбрать/показывает выбранное.
+4. `MainScreen` подхватывает эмоцию, показывает случайную фразу и даёт перейти в календарь/истории.
+5. `EmotionCalendar` тянет весь диапазон эмоций, подсвечивает календарь, показывает детали и сохраняет «мысли» за день.
+
+## Полезные команды
+- `npm run serve` — dev-фронтенд.
+- `npm run build` — сборка фронта.
+- `cd server && npm start` — API.
+
+## Telegram WebApp
+Скрипт `https://telegram.org/js/telegram-web-app.js` подключён в `public/index.html`. Для локальной разработки без Telegram есть `getSafeTelegramId` — он создаёт/читает ID из `localStorage`, чтобы API принимал запросы.

@@ -126,7 +126,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://37.140.192.181:3001/api';
+        const API_URL = window.API_URL || 'https://iki.commandc.ru/api';
         
         function showResult(data, type = 'info') {
             const resultDiv = document.getElementById('result');

@@ -303,7 +303,7 @@ async function startServer() {
     
     https.createServer(httpsOptions, app).listen(HTTPS_PORT, () => {
       console.log(`HTTPS Server запущен на порту ${HTTPS_PORT}`);
-      console.log(`API доступен по адресу: https://37.140.192.181:${HTTPS_PORT}/api`);
+      console.log(`API доступен по адресу: https://iki.commandc.ru:${HTTPS_PORT}/api`);
     });
   } catch (error) {
     console.error('Ошибка запуска HTTPS сервера:', error);

@@ -4,26 +4,26 @@
 
 ### Проверка статуса сервера
 ```bash
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "ps aux | grep json-server"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "ps aux | grep json-server"
 ```
 
 ### Остановка сервера
 ```bash
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "pkill -f 'node json-server.js'"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "pkill -f 'node json-server.js'"
 ```
 
 ### Запуск сервера
 ```bash
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "cd /var/www/u3076779/data/www/ikiteam.ru/server && nohup node json-server.js > server.log 2>&1 &"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "cd /home/c/commano5/iki.commandc.ru/public_html/server && nohup node json-server.js > server.log 2>&1 &"
 ```
 
 ### Перезапуск сервера
 ```bash
 # Остановка
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "pkill -f 'node json-server.js'"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "pkill -f 'node json-server.js'"
 
 # Запуск
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "cd /var/www/u3076779/data/www/ikiteam.ru/server && nohup node json-server.js > server.log 2>&1 &"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "cd /home/c/commano5/iki.commandc.ru/public_html/server && nohup node json-server.js > server.log 2>&1 &"
 ```
 
 ## Подробные инструкции
@@ -32,7 +32,7 @@ sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.19
 
 **Команда:**
 ```bash
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "ps aux | grep json-server"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "ps aux | grep json-server"
 ```
 
 **Что показывает:**
@@ -48,7 +48,7 @@ u3076779 1525931  0.0  0.0 611864 45392 ?        Sl   12:48   0:00 node json-ser
 
 **Команда:**
 ```bash
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "pkill -f 'node json-server.js'"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "pkill -f 'node json-server.js'"
 ```
 
 **Что происходит:**
@@ -60,7 +60,7 @@ sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.19
 
 **Команда:**
 ```bash
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "cd /var/www/u3076779/data/www/ikiteam.ru/server && nohup node json-server.js > server.log 2>&1 &"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "cd /home/c/commano5/iki.commandc.ru/public_html/server && nohup node json-server.js > server.log 2>&1 &"
 ```
 
 **Что происходит:**
@@ -74,43 +74,43 @@ sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.19
 **Последовательность команд:**
 ```bash
 # 1. Остановка
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "pkill -f 'node json-server.js'"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@ikiteam.ru "pkill -f 'node json-server.js'"
 
 # 2. Проверка остановки (опционально)
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "ps aux | grep json-server"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "ps aux | grep json-server"
 
 # 3. Запуск
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "cd /var/www/u3076779/data/www/ikiteam.ru/server && nohup node json-server.js > server.log 2>&1 &"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@ikiteam.ru "cd /var/www/u3076779/data/www/ikiteam.ru/server && nohup node json-server.js > server.log 2>&1 &"
 
 # 4. Проверка запуска
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "ps aux | grep json-server"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@ikiteam.ru "ps aux | grep json-server"
 ```
 
 ## Дополнительные команды
 
 ### Просмотр логов сервера
 ```bash
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "cd /var/www/u3076779/data/www/ikiteam.ru/server && tail -20 server.log"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "cd /home/c/commano5/iki.commandc.ru/public_html/server && tail -20 server.log"
 ```
 
 ### Просмотр последних 50 строк логов
 ```bash
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "cd /var/www/u3076779/data/www/ikiteam.ru/server && tail -50 server.log"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "cd /home/c/commano5/iki.commandc.ru/public_html/server && tail -50 server.log"
 ```
 
 ### Тестирование API
 ```bash
 # Тест GET запроса
-curl -X GET "https://ikiteam.ru/api/emotions/test_user/2025-06-22"
+curl -X GET "https://iki.commandc.ru/api/emotions/test_user/2025-06-22"
 
 # Тест POST запроса
-curl -X POST "https://ikiteam.ru/api/emotions" -H "Content-Type: application/json" -d '{"telegramId": "test_user_123", "emotion": 1, "username": "Test User"}'
+curl -X POST "https://iki.commandc.ru/api/emotions" -H "Content-Type: application/json" -d '{"telegramId": "test_user_123", "emotion": 1, "username": "Test User"}'
 ```
 
 ## Структура сервера
 
 ```
-/var/www/u3076779/data/www/ikiteam.ru/
+/home/c/commano5/iki.commandc.ru/public_html/
 ├── server/
 │   ├── json-server.js          # Основной файл сервера
 │   ├── package.json            # Зависимости
@@ -148,17 +148,17 @@ curl -X POST "https://ikiteam.ru/api/emotions" -H "Content-Type: application/jso
 echo "Перезапуск сервера..."
 
 # Остановка
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "pkill -f 'node json-server.js'"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "pkill -f 'node json-server.js'"
 
 # Пауза
 sleep 2
 
 # Запуск
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "cd /var/www/u3076779/data/www/ikiteam.ru/server && nohup node json-server.js > server.log 2>&1 &"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "cd /home/c/commano5/iki.commandc.ru/public_html/server && nohup node json-server.js > server.log 2>&1 &"
 
 # Проверка
 sleep 3
-sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@37.140.192.181 "ps aux | grep json-server"
+sshpass -p "T6YJqgT2R5cN9w3E" ssh -o StrictHostKeyChecking=no u3076779@iki.commandc.ru "ps aux | grep json-server"
 
 echo "Перезапуск завершен!"
 ```

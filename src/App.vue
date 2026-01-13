@@ -2,11 +2,7 @@
   <div id="app">
     <LoadingScreen v-if="currentScreen === 'loading'" />
     <EmotionSelect v-else-if="currentScreen === 'emotion'" @emotion-selected="handleEmotionSelect" @navigate="handleNavigate" />
-    <MainScreen
-      v-else-if="currentScreen === 'main'"
-      @open-settings="openSettings"
-      @open-calendar="openCalendar"
-    />
+    <MainScreen v-else-if="currentScreen === 'main'" @open-calendar="openCalendar" />
     <EmotionCalendar v-else-if="currentScreen === 'calendar'" @back="backToMain" />
   </div>
 </template>
@@ -27,21 +23,15 @@ export default {
   },
   data() {
     return {
-      currentScreen: 'loading',
-      selectedEmotion: null,
-      showSettings: false
+      currentScreen: 'loading'
     }
   },
   methods: {
     handleEmotionSelect(emotionId) {
-      this.selectedEmotion = emotionId;
       this.currentScreen = 'main';
     },
     handleNavigate(screen) {
       this.currentScreen = screen;
-    },
-    openSettings() {
-      this.showSettings = true;
     },
     openCalendar() {
       this.currentScreen = 'calendar';
