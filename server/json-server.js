@@ -5,7 +5,8 @@ const path = require('path');
 const fsSync = require('fs'); // Для sync-операций (чтение списка файлов)
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
+const HOST = process.env.HOST || '127.0.0.1';
 
 // Middleware
 app.use(cors());
@@ -456,8 +457,8 @@ app.get('/api/emotions/diagnostics/:telegramId/:date', async (req, res) => {
 
 // Запуск сервера
 initializeServer().then(() => {
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`JSON Server запущен на порту ${PORT}`);
+  app.listen(PORT, HOST, () => {
+    console.log(`JSON Server запущен на ${HOST}:${PORT}`);
     console.log(`Файл данных: ${DATA_FILE}`);
   });
 }).catch(error => {
