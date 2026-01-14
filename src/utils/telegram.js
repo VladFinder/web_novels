@@ -8,6 +8,14 @@ export const getTelegramUserId = () => {
   return telegram?.initDataUnsafe?.user?.id;
 };
 
+export const getTelegramUsername = () => {
+  return (
+    telegram?.initDataUnsafe?.user?.username ||
+    telegram?.initDataUnsafe?.user?.first_name ||
+    ''
+  );
+};
+
 export const initTelegram = () => {
   if (telegram) {
     telegram.ready();

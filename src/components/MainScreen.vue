@@ -5,8 +5,8 @@
       Ваш браузер не поддерживает видео фон.
     </video>
 
-    <div class="user-login" v-if="username">
-      Привет, @{{ username }}!
+    <div class="user-login" v-if="displayName">
+      Привет, {{ displayName }}!
     </div>
 
     <div class="glass-container">
@@ -98,7 +98,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useEmotionStore } from '@/services/emotionStore';
 import { useSoulStyle } from '@/services/useSoulStyle';
 import { getEmotionPhrases } from '@/constants/emotions';
-import { getSafeTelegramId } from '@/utils/telegram';
+import { getSafeTelegramId, getTelegramUsername } from '@/utils/telegram';
 import { ensureUser, getEmotionByDate } from '@/services/apiClient';
 import { todayString } from '@/utils/dates';
 import scenes from '../../scenes.js';
@@ -124,6 +124,7 @@ export default {
     const emotionStore = useEmotionStore();
     const username = ref('');
     const telegramId = ref('');
+    const telegramUsername = ref(getTelegramUsername() || '');
     const showStoriesModal = ref(false);
     const selectedStory = ref(null);
     const storyStep = ref(0);
@@ -171,10 +172,10 @@ export default {
       const id = getSafeTelegramId();
       telegramId.value = id;
       try {
-        const user = await ensureUser(id);
-        username.value = user?.login || user?.telegramId || '';
+        const user = await ensureUser(id, telegramUsername.value || id);
+        username.value = user?.login || telegramUsername.value || user?.telegramId || '';
       } catch {
-        username.value = id;
+        username.value = telegramUsername.value || id;
       }
       await preloadTodayEmotion(id);
     });
@@ -259,8 +260,16 @@ export default {
       return selectedStory.value.steps[storyStep.value] || '';
     });
 
+    const displayName = computed(() => {
+      const name = username.value?.toString().trim();
+      if (!name) return 'друг';
+      if (name === telegramId.value?.toString() || name.startsWith('debug_')) return 'друг';
+      return name.startsWith('@') ? name : `@${name}`;
+    });
+
     return {
       username,
+      displayName,
       dynamicBackgroundStyle,
       dynamicButtonColor,
       soulImageSrc: imageSrc,
@@ -282,7 +291,8 @@ export default {
       loadProgress,
       getStoryProgress,
       canSeeStories,
-      currentStoryStep
+      currentStoryStep,
+      telegramId
     };
   }
 };
