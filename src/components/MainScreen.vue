@@ -72,13 +72,35 @@
               </div>
               <button class="stories-modal__close" @click="closeStory">✕</button>
             </div>
-            <div class="story-player__body">
-              <p>{{ currentStoryStep }}</p>
+            <div class="story-player__body" :style="storyBackgroundStyle">
+              <div class="story-layer">
+                <div
+                  v-for="(char, idx) in currentStepCharacters"
+                  :key="idx"
+                  class="story-char"
+                  :style="getCharacterStyle(char)"
+                >
+                  <img :src="char.image" alt="" />
+                </div>
+                <div class="story-text-box">
+                  <p class="story-text">{{ currentStoryStepText }}</p>
+                  <div v-if="currentChoices.length" class="story-choices">
+                    <button
+                      v-for="(choice, cidx) in currentChoices"
+                      :key="cidx"
+                      class="story-choice"
+                      @click="chooseChoice(choice)"
+                    >
+                      {{ choice.text || 'Выбор' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="story-player__controls">
               <button class="story-nav" :disabled="storyStep === 0" @click="prevStep">Назад</button>
               <div class="story-progress">{{ storyStep + 1 }} / {{ selectedStory.steps.length }}</div>
-              <button class="story-nav" :disabled="storyStep === selectedStory.steps.length - 1" @click="nextStep">Далее</button>
+              <button class="story-nav" :disabled="getNextIndexByGraph() < 0" @click="nextStep">Далее</button>
             </div>
             <div class="story-savebar">
               <button class="story-nav ghost" @click="saveProgress">Сохранить</button>
@@ -99,24 +121,16 @@ import { useEmotionStore } from '@/services/emotionStore';
 import { useSoulStyle } from '@/services/useSoulStyle';
 import { getEmotionPhrases } from '@/constants/emotions';
 import { getSafeTelegramId, getTelegramUsername } from '@/utils/telegram';
-import { ensureUser, getEmotionByDate } from '@/services/apiClient';
+import {
+  ensureUser,
+  getEmotionByDate,
+  getStories,
+  getStory,
+  getStoryProgress as fetchStoryProgress,
+  saveStoryProgress
+} from '@/services/apiClient';
 import { todayString } from '@/utils/dates';
-import scenes from '../../scenes.js';
-
 const STORY_ALLOWED_IDS = ['434205137', '115339643', '128388657', '488646763'];
-const peleStory = (() => {
-  const steps = Object.values(scenes)
-    .map((scene) => scene?.text || '')
-    .filter((text) => Boolean(text?.trim()));
-
-  return {
-    id: 'pele',
-    title: 'Плёзы Пеле',
-    duration: `${steps.length} шагов`,
-    tagline: 'Большая история о Пеле и Лейле',
-    steps
-  };
-})();
 
 export default {
   name: 'MainScreen',
@@ -128,10 +142,13 @@ export default {
     const showStoriesModal = ref(false);
     const selectedStory = ref(null);
     const storyStep = ref(0);
+    const storyHistory = ref([]);
     const progressMessage = ref('');
-    const stories = ref([peleStory]);
+    const stories = ref([]);
     const currentEmotion = computed(() => emotionStore.selectedEmotionId);
     const currentPhrase = ref('');
+    const storiesLoading = ref(false);
+    const storiesError = ref('');
 
     const { imageSrc, backgroundStyle, buttonColor, textColor } = useSoulStyle(currentEmotion);
 
@@ -178,7 +195,34 @@ export default {
         username.value = telegramUsername.value || id;
       }
       await preloadTodayEmotion(id);
+      await loadStories();
     });
+
+    const loadStories = async () => {
+      storiesLoading.value = true;
+      storiesError.value = '';
+      try {
+        const list = await getStories();
+        // Загружаем полный контент первой истории для начального состояния
+        if (Array.isArray(list)) {
+          const loaded = [];
+          for (const meta of list) {
+            const full = await getStory(meta.id);
+            if (full?.steps?.length) {
+              loaded.push(full);
+            }
+          }
+          stories.value = loaded;
+        } else {
+          stories.value = [];
+        }
+      } catch (error) {
+        storiesError.value = error.message || 'Ошибка загрузки историй';
+        stories.value = [];
+      } finally {
+        storiesLoading.value = false;
+      }
+    };
 
     const openStories = () => {
       if (!canSeeStories.value) return;
@@ -192,6 +236,7 @@ export default {
 
     const selectStory = (story) => {
       selectedStory.value = story;
+      storyHistory.value = story?.steps?.length ? [0] : [];
       loadProgress();
     };
 
@@ -201,64 +246,135 @@ export default {
       progressMessage.value = '';
     };
 
+    const findStepIndexById = (id) => {
+      if (!selectedStory.value?.steps) return -1;
+      return selectedStory.value.steps.findIndex((s) => s.id === id);
+    };
+
+    const getNextIndexByGraph = () => {
+      const step = currentStoryStep.value;
+      if (!step) return -1;
+      const firstChoice = Array.isArray(step.choices) && step.choices.length > 0 ? step.choices.find((c) => c?.next) : null;
+      if (firstChoice?.next) {
+        return findStepIndexById(firstChoice.next);
+      }
+      return -1;
+    };
+
     const nextStep = () => {
-      if (selectedStory.value && storyStep.value < selectedStory.value.steps.length - 1) {
-        storyStep.value += 1;
+      const nextIdx = getNextIndexByGraph();
+      if (nextIdx >= 0) {
+        storyStep.value = nextIdx;
+        storyHistory.value = [...storyHistory.value, nextIdx];
       }
     };
 
     const prevStep = () => {
-      if (selectedStory.value && storyStep.value > 0) {
-        storyStep.value -= 1;
+      if (storyHistory.value.length > 1) {
+        storyHistory.value.pop();
+        storyStep.value = storyHistory.value[storyHistory.value.length - 1];
       }
     };
 
-    const saveProgress = () => {
+    const saveProgress = async () => {
       if (!selectedStory.value) return;
-      const key = `story-progress-${selectedStory.value.id}`;
-      localStorage.setItem(key, String(storyStep.value));
-      progressMessage.value = 'Прогресс сохранён';
-      setTimeout(() => {
-        progressMessage.value = '';
-      }, 2000);
+      try {
+        await saveStoryProgress({
+          telegramId: telegramId.value,
+          storyId: selectedStory.value.id,
+          stepIndex: storyStep.value,
+          flags: []
+        });
+        progressMessage.value = 'Прогресс сохранён';
+      } catch (error) {
+        progressMessage.value = `Ошибка сохранения: ${error.message}`;
+      } finally {
+        setTimeout(() => {
+          progressMessage.value = '';
+        }, 2000);
+      }
     };
 
-    const loadProgress = () => {
+    const loadProgress = async () => {
       if (!selectedStory.value) return;
-      const key = `story-progress-${selectedStory.value.id}`;
-      const saved = localStorage.getItem(key);
-      if (saved !== null) {
-        const step = Number(saved);
-        if (!Number.isNaN(step)) {
-          storyStep.value = Math.min(Math.max(step, 0), selectedStory.value.steps.length - 1);
+      try {
+        const progress = await fetchStoryProgress(telegramId.value, selectedStory.value.id);
+        if (progress && progress.stepIndex >= 0) {
+          storyStep.value = Math.min(
+            Math.max(Number(progress.stepIndex), 0),
+            selectedStory.value.steps.length - 1
+          );
+          storyHistory.value = [storyStep.value];
           progressMessage.value = 'Прогресс загружен';
           setTimeout(() => {
             progressMessage.value = '';
           }, 2000);
           return;
         }
+      } catch (error) {
+        console.error('Ошибка загрузки прогресса истории:', error);
       }
       storyStep.value = 0;
+      storyHistory.value = selectedStory.value?.steps?.length ? [0] : [];
     };
 
-    const getStoryProgress = (story) => {
+    const getStoryProgressText = (story) => {
       if (!story || !story.steps?.length) return '0%';
-      const key = `story-progress-${story.id}`;
-      const saved = localStorage.getItem(key);
       const total = story.steps.length;
-      const current = saved !== null ? Math.min(Math.max(Number(saved), 0), total - 1) : -1;
-      const percent = Math.round(((current + 1) / total) * 100);
+      const currentIndex = story.id === selectedStory.value?.id ? storyStep.value : -1;
+      const percent = Math.round(((currentIndex + 1) / total) * 100);
       return `${Math.max(percent, 0)}%`;
     };
 
     const canSeeStories = computed(() =>
-      STORY_ALLOWED_IDS.includes(String(telegramId.value || ''))
+      STORY_ALLOWED_IDS.includes(String(telegramId.value || '')) && stories.value.length > 0
     );
 
     const currentStoryStep = computed(() => {
-      if (!selectedStory.value) return '';
-      return selectedStory.value.steps[storyStep.value] || '';
+      if (!selectedStory.value) return null;
+      return selectedStory.value.steps?.[storyStep.value] || null;
     });
+
+    const currentStoryStepText = computed(() => currentStoryStep.value?.text || '');
+    const currentStepCharacters = computed(() => currentStoryStep.value?.characters || []);
+    const currentChoices = computed(() => currentStoryStep.value?.choices || []);
+
+    const goToStepId = (id, push = true) => {
+      const idx = findStepIndexById(id);
+      if (idx >= 0) {
+        storyStep.value = idx;
+        if (push) {
+          storyHistory.value = [...storyHistory.value, idx];
+        }
+        return true;
+      }
+      return false;
+    };
+
+    const chooseChoice = (choice) => {
+      const targetId = choice?.next;
+      if (targetId) {
+        goToStepId(targetId, true);
+      }
+    };
+    const storyBackgroundStyle = computed(() => {
+      const bg = currentStoryStep.value?.bg;
+      return bg
+        ? { backgroundImage: `url(${bg})` }
+        : { backgroundColor: '#1f2937' };
+    });
+
+    const getCharacterStyle = (char) => {
+      const x = Number(char?.x) || 50;
+      const y = Number(char?.y) || 50;
+      const size = Number(char?.size) || 30;
+      return {
+        left: `${x}%`,
+        top: `${y}%`,
+        width: `${size}%`,
+        transform: 'translate(-50%, -50%)'
+      };
+    };
 
     const displayName = computed(() => {
       const name = username.value?.toString().trim();
@@ -289,10 +405,19 @@ export default {
       prevStep,
       saveProgress,
       loadProgress,
-      getStoryProgress,
+      getStoryProgress: getStoryProgressText,
       canSeeStories,
       currentStoryStep,
-      telegramId
+      currentStoryStepText,
+      currentStepCharacters,
+      currentChoices,
+      storyBackgroundStyle,
+      getCharacterStyle,
+      telegramId,
+      storiesLoading,
+      storiesError,
+      chooseChoice,
+      getNextIndexByGraph
     };
   }
 };
@@ -554,13 +679,67 @@ export default {
 }
 
 .story-player__body {
-  background: #f7f7f7;
+  background: #0f172a;
   border: 1px solid #ececec;
   border-radius: 12px;
-  padding: 16px;
   min-height: 50vh;
   max-height: 60vh;
-  overflow-y: auto;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.story-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.story-char {
+  position: absolute;
+}
+.story-char img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.story-text-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.8) 100%);
+  color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.story-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.story-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.story-choice {
+  flex: 1 1 auto;
+  min-width: 120px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.story-choice:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.35);
 }
 
 .story-player__controls {

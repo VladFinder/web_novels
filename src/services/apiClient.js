@@ -130,3 +130,38 @@ export const apiClient = {
   saveThought,
   getThoughtsByDate
 };
+
+// -------- Истории --------
+
+export const getStories = async () => request('/stories');
+
+export const getStory = async (id) => request(`/stories/${id}`);
+
+export const getStoryProgress = async (telegramId, storyId) => {
+  try {
+    return await request(`/story-progress/${telegramId}/${storyId}`);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) {
+      return null;
+    }
+    throw error;
+  }
+};
+
+export const saveStoryProgress = async ({ telegramId, storyId, stepIndex, flags }) =>
+  request('/story-progress', {
+    method: 'POST',
+    body: { telegramId, storyId, stepIndex, flags }
+  });
+
+export const saveStory = async (story) =>
+  request('/stories', {
+    method: 'POST',
+    body: story
+  });
+
+export const uploadFile = async (filename, base64) =>
+  request('/upload', {
+    method: 'POST',
+    body: { filename, data: base64 }
+  });

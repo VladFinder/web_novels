@@ -11,6 +11,7 @@ const HOST = process.env.HOST || '127.0.0.1';
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(UPLOAD_DIR));
 
 // Путь к файлу с данными (users, thoughts, старый формат эмоций)
 const DATA_FILE = path.join(__dirname, 'data', 'emotions.json');
@@ -43,6 +44,7 @@ async function saveData(data) {
 // Инициализация сервера
 async function initializeServer() {
   await ensureDataDirectory();
+  await fs.mkdir(UPLOAD_DIR, { recursive: true });
   
   // Создаем файл если его нет
   try {
@@ -89,6 +91,124 @@ function normalizeDateString(dateObj) {
   const day = String(dateObj.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
+// --- Истории и прогресс историй ---
+const STORIES_DIR = path.join(USER_DATA_DIR, 'stories');
+const STORY_PROGRESS_DIR = path.join(USER_DATA_DIR, 'story_progress');
+const UPLOAD_DIR = path.join(__dirname, 'uploads');
+
+async function ensureStoryDirs() {
+  await fs.mkdir(STORIES_DIR, { recursive: true });
+  await fs.mkdir(STORY_PROGRESS_DIR, { recursive: true });
+  await fs.mkdir(UPLOAD_DIR, { recursive: true });
+}
+
+async function listStoriesMeta() {
+  try {
+    const files = fsSync.readdirSync(STORIES_DIR).filter((f) => f.endsWith('.json'));
+    const metas = [];
+    for (const file of files) {
+      const raw = await fs.readFile(path.join(STORIES_DIR, file), 'utf8');
+      const story = JSON.parse(raw);
+      metas.push({
+        id: story.id || file.replace('.json', ''),
+        title: story.title || 'История',
+        tagline: story.tagline || '',
+        duration: story.duration || `${story.steps?.length || 0} шагов`,
+        updatedAt: story.updatedAt || null
+      });
+    }
+    return metas;
+  } catch {
+    return [];
+  }
+}
+
+async function readStory(storyId) {
+  const filePath = path.join(STORIES_DIR, `${storyId}.json`);
+  try {
+    const raw = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+async function writeStory(story) {
+  if (!story?.id) throw new Error('Story id required');
+  const filePath = path.join(STORIES_DIR, `${story.id}.json`);
+  const payload = { ...story, updatedAt: new Date().toISOString() };
+  await fs.writeFile(filePath, JSON.stringify(payload, null, 2), 'utf8');
+  return payload;
+}
+
+function getStoryProgressPath(userId, storyId) {
+  return path.join(STORY_PROGRESS_DIR, String(userId), `${storyId}.json`);
+}
+
+async function readStoryProgress(userId, storyId) {
+  try {
+    const raw = await fs.readFile(getStoryProgressPath(userId, storyId), 'utf8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+async function writeStoryProgress(userId, storyId, payload) {
+  const dir = path.join(STORY_PROGRESS_DIR, String(userId));
+  await fs.mkdir(dir, { recursive: true });
+  const filePath = getStoryProgressPath(userId, storyId);
+  await fs.writeFile(filePath, JSON.stringify(payload, null, 2), 'utf8');
+  return payload;
+}
+
+async function seedDemoStory() {
+  const demoPath = path.join(STORIES_DIR, 'demo.json');
+  try {
+    await fs.access(demoPath);
+    return;
+  } catch {
+    const demo = {
+      id: 'demo',
+      title: 'Демо-история',
+      tagline: 'Пример истории',
+      duration: '3 шага',
+      steps: [
+        { id: 'step1', text: 'Привет! Это демо-история.' },
+        { id: 'step2', text: 'Ты можешь добавить свои шаги на сервере.' },
+        { id: 'step3', text: 'Сохранение прогресса хранится на сервере.' }
+      ],
+      updatedAt: new Date().toISOString()
+    };
+    await writeStory(demo);
+  }
+}
+
+function sanitizeFilename(name) {
+  return String(name || 'file')
+    .replace(/[^a-zA-Z0-9._-]/g, '_')
+    .replace(/_+/g, '_');
+}
+
+app.post('/api/upload', async (req, res) => {
+  try {
+    const { filename, data } = req.body || {};
+    if (!filename || !data) {
+      return res.status(400).json({ error: 'filename и data обязательны' });
+    }
+    await fs.mkdir(UPLOAD_DIR, { recursive: true });
+    const safe = sanitizeFilename(filename);
+    const finalName = `${Date.now()}_${safe}`;
+    const base64 = String(data).replace(/^data:.+;base64,/, '');
+    const buffer = Buffer.from(base64, 'base64');
+    await fs.writeFile(path.join(UPLOAD_DIR, finalName), buffer);
+    return res.json({ url: `/uploads/${finalName}` });
+  } catch (error) {
+    console.error('Ошибка загрузки файла', error);
+    return res.status(500).json({ error: 'Ошибка загрузки файла' });
+  }
+});
 
 // API Routes
 
@@ -466,10 +586,83 @@ app.get('/api/emotions/diagnostics/:telegramId/:date', async (req, res) => {
 
 // Запуск сервера
 initializeServer().then(() => {
+  ensureStoryDirs().then(seedDemoStory).catch((err) => console.error('Seed story error:', err));
   app.listen(PORT, HOST, () => {
     console.log(`JSON Server запущен на ${HOST}:${PORT}`);
     console.log(`Файл данных: ${DATA_FILE}`);
   });
 }).catch(error => {
   console.error('Ошибка инициализации сервера:', error);
-}); 
+});
+
+// -------- Истории --------
+
+// Список историй (метаданные)
+app.get('/api/stories', async (req, res) => {
+  try {
+    const metas = await listStoriesMeta();
+    res.json(metas);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Получить историю по id
+app.get('/api/stories/:id', async (req, res) => {
+  try {
+    const story = await readStory(req.params.id);
+    if (!story) {
+      return res.status(404).json({ error: 'История не найдена' });
+    }
+    res.json(story);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Создать/обновить историю (простая форма без авторизации)
+app.post('/api/stories', async (req, res) => {
+  try {
+    const story = req.body;
+    if (!story?.id) {
+      return res.status(400).json({ error: 'id обязателен' });
+    }
+    const saved = await writeStory(story);
+    res.json(saved);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Прогресс истории: получить
+app.get('/api/story-progress/:telegramId/:storyId', async (req, res) => {
+  try {
+    const { telegramId, storyId } = req.params;
+    const progress = await readStoryProgress(telegramId, storyId);
+    if (!progress) return res.status(404).json({ error: 'Нет прогресса' });
+    res.json(progress);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Прогресс истории: сохранить
+app.post('/api/story-progress', async (req, res) => {
+  try {
+    const { telegramId, storyId, stepIndex, flags } = req.body;
+    if (!telegramId || !storyId) {
+      return res.status(400).json({ error: 'telegramId и storyId обязательны' });
+    }
+    const payload = {
+      telegramId: String(telegramId),
+      storyId: String(storyId),
+      stepIndex: Number(stepIndex) || 0,
+      flags: Array.isArray(flags) ? flags : [],
+      updatedAt: new Date().toISOString()
+    };
+    const saved = await writeStoryProgress(payload.telegramId, payload.storyId, payload);
+    res.json(saved);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});

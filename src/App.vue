@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <LoadingScreen v-if="currentScreen === 'loading'" />
+    <StoryEditor v-if="isEditor" />
+    <LoadingScreen v-else-if="currentScreen === 'loading'" />
     <EmotionSelect v-else-if="currentScreen === 'emotion'" @emotion-selected="handleEmotionSelect" @navigate="handleNavigate" />
     <MainScreen v-else-if="currentScreen === 'main'" @open-calendar="openCalendar" />
     <EmotionCalendar v-else-if="currentScreen === 'calendar'" @back="backToMain" />
@@ -12,6 +13,7 @@ import LoadingScreen from './components/LoadingScreen.vue'
 import EmotionSelect from './components/EmotionSelect.vue'
 import MainScreen from './components/MainScreen.vue'
 import EmotionCalendar from './components/EmotionCalendar.vue'
+import StoryEditor from './components/StoryEditor.vue'
 
 export default {
   name: 'App',
@@ -19,11 +21,13 @@ export default {
     LoadingScreen,
     EmotionSelect,
     MainScreen,
-    EmotionCalendar
+    EmotionCalendar,
+    StoryEditor
   },
   data() {
     return {
-      currentScreen: 'loading'
+      currentScreen: 'loading',
+      isEditor: window.location.pathname.includes('/editor')
     }
   },
   methods: {
