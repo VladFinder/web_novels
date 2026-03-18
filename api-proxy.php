@@ -10,14 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Получаем путь запроса относительно этого скрипта
+// Получаем путь запроса
 $request_uri = $_SERVER['REQUEST_URI'];
-$script_name = $_SERVER['SCRIPT_NAME'];
-$api_endpoint = '';
-if (strpos($request_uri, $script_name) === 0) {
-    $api_endpoint = substr($request_uri, strlen($script_name));
+$path = parse_url($request_uri, PHP_URL_PATH);
+// При вызове через mod_rewrite REQUEST_URI = /api/endpoint, SCRIPT_NAME = /api-proxy.php
+// Извлекаем всё что идёт после /api/
+if (preg_match('#^/api/(.*)$#', $path, $m)) {
+    $api_endpoint = $m[1];
+} else {
+    $api_endpoint = ltrim(substr($path, strlen($_SERVER['SCRIPT_NAME'])), '/');
 }
-$api_endpoint = ltrim($api_endpoint, '/');
 
 // URL API сервера
 $api_host = getenv('API_HOST') ?: '94.103.13.116';
