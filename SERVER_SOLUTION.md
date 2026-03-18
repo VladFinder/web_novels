@@ -1,124 +1,36 @@
 # Серверное решение для хранения эмоций
 
-## 🎯 Что решено:
+Express-сервер (`server/json-server.js`) хранит эмоции и мысли в JSON на диске. Один эндпоинт — один простой файл, без БД.
 
-### ✅ **Исправлена кнопка "Посмотреть календарь"**
-- Теперь корректно работает навигация между страницами
-- Использует Vue Router для перехода на `/calendar`
-
-### ✅ **Привязка к Telegram ID/нику**
-- Данные сохраняются по уникальному Telegram ID
-- Имя пользователя сохраняется вместе с эмоцией
-- Синхронизация между платформами через ID
-
-### ✅ **Система заметок**
-- Поле ввода заметки в календаре
-- Кнопка "Сохранить заметку" для отправки
-- Заметки привязываются к эмоции за день
-- Отображение заметок при клике на дату
-
-### ✅ **Серверное хранение JSON**
-- Данные хранятся в файле `server/data/emotions.json`
-- Постоянное хранение на сервере
-- Легкая миграция в базу данных в будущем
-
-## 🏗️ Архитектура:
-
-### Серверная часть (`server/json-server.js`)
+## Архитектура
 ```
 server/
-├── json-server.js      # Основной сервер
-├── package.json        # Зависимости
-└── data/
-    └── emotions.json   # Файл с данными
+├── json-server.js       # основной сервер
+├── data/                # данные пользователей
+│   ├── <telegramId>/<yyyy-mm-dd>.json   # эмоции по дням
+│   └── emotions.json (user_thoughts)    # мысли/заметки
+└── package.json
 ```
 
-### Клиентская часть
-```
-src/services/jsonStorageService.js  # API клиент
-src/components/EmotionSelect.vue    # Выбор эмоций
-src/components/EmotionCalendar.vue  # Календарь с заметками
-```
+## API
+- `POST /api/users` — создать/обновить пользователя `{ telegramId, login }`.
+- `GET /api/users/:telegramId` — получить пользователя.
+- `POST /api/emotions` — сохранить эмоцию `{ telegramId, emotion, note?, date?, username? }` (одна эмоция на дату).
+- `GET /api/emotions?telegramId&startDate&endDate` — получить эмоции диапазона.
+- `GET /api/emotions/:telegramId/:date` — эмоция на дату.
+- `POST /api/thoughts` — сохранить мысль `{ telegramId, thought, date? }`.
+- `GET /api/thoughts/:telegramId/:date` — мысли на дату.
 
-## 🚀 API Endpoints:
+Все маршруты уже подключены к фронту через `src/services/apiClient.js`.
 
-### Сохранение эмоции
-```http
-POST /api/emotions
-{
-  "telegramId": "123456789",
-  "emotion": 1,
-  "note": "",
-  "timestamp": "2024-01-15T10:30:00.000Z",
-  "username": "john_doe"
-}
-```
-
-### Получение эмоций за период
-```http
-GET /api/emotions?telegramId=123456789&startDate=2024-01-01&endDate=2024-01-31
-```
-
-### Обновление заметки
-```http
-PUT /api/emotions/note
-{
-  "telegramId": "123456789",
-  "date": "2024-01-15",
-  "note": "Отличный день!"
-}
-```
-
-### Проверка эмоции на сегодня
-```http
-GET /api/emotions/today/123456789
-```
-
-### Получение эмоции по дате
-```http
-GET /api/emotions/123456789/2024-01-15
-```
-
-## 📊 Структура данных:
-
-```json
-{
-  "user_emotions": {
-    "123456789": {
-      "2024-01-15": {
-        "emotion": 1,
-        "note": "Отличный день!",
-        "timestamp": "2024-01-15T10:30:00.000Z",
-        "username": "john_doe",
-        "createdAt": "2024-01-15T10:30:00.000Z",
-        "updatedAt": "2024-01-15T15:45:00.000Z"
-      }
-    }
-  }
-}
-```
-
-## 🛠️ Установка и запуск:
-
-### 1. Установка зависимостей сервера
+## Запуск
 ```bash
 cd server
 npm install
+npm start           # по умолчанию слушает 3001, базовый путь /api
 ```
 
-### 2. Запуск сервера
-```bash
-# В папке server
-npm start
-
-# Или из корневой папки
-./start-server.sh
-```
-
-### 3. Сборка клиента
-```bash
-npm run build
-```
+Если нужен HTTPS/другой хост: используйте переменные `PORT` и `HOST` при запуске или оберните в собственный reverse-proxy (пример конфигов в `nginx*.conf`).
 
 ## 🔧 Конфигурация:
 

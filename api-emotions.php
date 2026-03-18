@@ -11,7 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // URL API сервера
-$api_url = 'http://localhost:3001/api/emotions';
+$api_host = getenv('API_HOST') ?: '127.0.0.1';
+$api_port = getenv('API_PORT') ?: '3001';
+$api_url = "http://{$api_host}:{$api_port}/api/emotions";
 
 // Получаем метод запроса
 $method = $_SERVER['REQUEST_METHOD'];
