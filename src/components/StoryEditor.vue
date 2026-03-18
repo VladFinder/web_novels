@@ -8,6 +8,13 @@
         <span v-if="form.title" class="top-story-name">— {{ form.title }}</span>
         <span v-if="isDirty" class="dirty-dot" title="Несохранённые изменения">●</span>
       </div>
+      <div class="top-bar-actions">
+        <button class="btn tiny ghost" @click="exportStory" :disabled="!form.steps.length" title="Экспорт в JSON">↓ JSON</button>
+        <label class="btn tiny ghost import-btn" title="Импорт из JSON">
+          ↑ JSON
+          <input type="file" accept=".json" @change="importStory" />
+        </label>
+      </div>
     </div>
 
     <div class="side-menu" :class="{ open: menuOpen }">
@@ -151,6 +158,7 @@
               <button class="btn tiny ghost icon-btn" @click="redo" :disabled="!canRedo" title="Повторить Ctrl+Y">↪</button>
               <span class="toolbar-sep"></span>
               <button class="btn tiny ghost icon-btn" @click="fitToView" title="Вписать всё в экран">⊡</button>
+              <button class="btn tiny ghost icon-btn" :class="{ active: search.visible }" @click="toggleSearch" title="Поиск и замена Ctrl+F">🔍</button>
             </div>
             <div class="toolbar-stats" v-if="form.steps.length">
               <span>{{ storyStats.steps }} блоков</span>
@@ -166,6 +174,32 @@
               <button class="btn tiny ghost" @click="addStep('choice')">+ Выбор</button>
             </div>
           </div>
+          <!-- Панель поиска / замены -->
+          <div v-if="search.visible" class="search-panel" @click.stop>
+            <div class="search-row">
+              <input
+                ref="searchInput"
+                v-model="search.query"
+                placeholder="Поиск по тексту и ID..."
+                class="search-input"
+                @input="doSearch"
+                @keydown.enter.exact="nextSearchResult"
+                @keydown.shift.enter="prevSearchResult"
+              />
+              <span class="search-count" :class="{ 'no-results': search.query && !search.results.length }">
+                {{ search.query ? (search.results.length ? `${search.resultIndex + 1} / ${search.results.length}` : '0 совпад.') : '' }}
+              </span>
+              <button class="btn tiny ghost" @click="prevSearchResult" :disabled="!search.results.length">↑</button>
+              <button class="btn tiny ghost" @click="nextSearchResult" :disabled="!search.results.length">↓</button>
+              <button class="btn tiny ghost" @click="search.visible = false">✕</button>
+            </div>
+            <div class="search-row">
+              <input v-model="search.replace" placeholder="Заменить на..." class="search-input" />
+              <button class="btn tiny ghost" @click="doReplace" :disabled="!search.results.length">Заменить</button>
+              <button class="btn tiny ghost" @click="doReplaceAll" :disabled="!search.results.length">Все ({{ search.results.length }})</button>
+            </div>
+          </div>
+
           <div
             class="graph-canvas"
             :class="{ panning }"
@@ -234,11 +268,13 @@
                 broken: brokenLinks.has(node.id),
                 'node-choice': node.type === 'choice',
                 'node-start': node.idx === 0,
-                'node-end': isEndNode(node)
+                'node-end': isEndNode(node),
+                'node-search-hit': searchHighlighted.has(node.idx)
               }"
               :style="getNodeStyle(node)"
               @mousedown.prevent="startGraphDrag(node, $event)"
               @click.stop="goToStep(node.idx)"
+              @contextmenu.stop.prevent="onNodeContextMenu(node, $event)"
             >
               <div class="node-type-badge" v-if="node.type === 'choice'">Выбор</div>
               <div class="node-type-badge start-badge" v-else-if="node.idx === 0">Старт</div>
@@ -273,6 +309,23 @@
             </div>
             </div>
           </div>
+          <!-- Миникарта -->
+          <div class="minimap" v-if="minimapData" @click.stop="onMinimapClick">
+            <svg :width="minimapData.mW" :height="minimapData.mH">
+              <rect
+                v-for="(n, i) in minimapData.nodes" :key="i"
+                :x="n.x" :y="n.y" :width="n.w" :height="n.h" rx="2"
+                :class="['mm-node', { 'mm-active': n.active, 'mm-choice': n.choice, 'mm-start': n.start, 'mm-end': n.end }]"
+              />
+              <rect
+                class="mm-viewport"
+                :x="minimapData.vpX" :y="minimapData.vpY"
+                :width="minimapData.vpW" :height="minimapData.vpH"
+                rx="2"
+              />
+            </svg>
+          </div>
+
           <!-- Контекстное меню правого клика -->
           <div
             v-if="contextMenu.visible"
@@ -282,6 +335,7 @@
             <button @click="addStepAtContextMenu('step')">📝 Добавить блок</button>
             <button @click="addStepAtContextMenu('choice')">🔀 Добавить выбор</button>
             <div class="context-sep"></div>
+            <button v-if="contextMenu.targetIdx >= 0" @click="duplicateStep(contextMenu.targetIdx); closeContextMenu()">⊕ Дублировать</button>
             <button @click="closeContextMenu" class="context-cancel">Отмена</button>
           </div>
         </div>
@@ -300,7 +354,8 @@
                 <span class="block-index-info">{{ previewIndex + 1 }} / {{ form.steps.length }}</span>
               </div>
               <div class="block-header-actions">
-                <button class="btn tiny" @click="testFromStep(previewIndex)" title="Тест с этого шага">▶ Тест</button>
+                <button class="btn tiny" @click="testFromStep(previewIndex)" title="Тест с этого шага">▶</button>
+                <button class="btn tiny ghost" @click="duplicateStep(previewIndex)" title="Дублировать Ctrl+D">⊕</button>
                 <button class="btn tiny danger" @click="removeStep(previewIndex)" title="Удалить блок">✕</button>
               </div>
             </div>
@@ -308,11 +363,11 @@
             <div class="block-section">
               <label class="block-label">
                 ID блока
-                <input v-model="selectedBlock.id" placeholder="id шага" />
+                <input v-model="selectedBlock.id" placeholder="id шага" @blur="undoSnapshot" />
               </label>
               <label class="block-label">
                 Текст
-                <textarea v-model="selectedBlock.text" rows="4" placeholder="Текст шага"></textarea>
+                <textarea v-model="selectedBlock.text" rows="4" placeholder="Текст шага" @blur="undoSnapshot"></textarea>
               </label>
             </div>
 
@@ -330,6 +385,16 @@
               <label class="block-label">
                 Музыка (BGM)
                 <input v-model="selectedBlock.bgm" placeholder="URL или ключ музыки" />
+              </label>
+              <label class="block-label">
+                Переход к сцене
+                <select v-model="selectedBlock.transition">
+                  <option value="">Без перехода</option>
+                  <option value="fade">Затухание (Fade)</option>
+                  <option value="slide-left">Слайд влево</option>
+                  <option value="slide-right">Слайд вправо</option>
+                  <option value="zoom-in">Приближение</option>
+                </select>
               </label>
             </div>
 
@@ -513,7 +578,9 @@ export default {
       localSaveTimeout: null,
       history: [],
       historyIndex: -1,
-      contextMenu: { visible: false, x: 0, y: 0, worldX: 0, worldY: 0 }
+      contextMenu: { visible: false, x: 0, y: 0, worldX: 0, worldY: 0, targetIdx: -1 },
+      search: { visible: false, query: '', replace: '', results: [], resultIndex: -1 },
+      canvasSize: { w: 800, h: 600 }
     };
   },
   computed: {
@@ -655,6 +722,38 @@ export default {
     },
     contextMenuStyle() {
       return { left: this.contextMenu.x + 'px', top: this.contextMenu.y + 'px' };
+    },
+    minimapData() {
+      const nodes = this.graphNodes;
+      if (nodes.length < 2) return null;
+      const pad = 20, mW = 180, mH = 110;
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      for (const n of nodes) {
+        minX = Math.min(minX, n.x); minY = Math.min(minY, n.y);
+        maxX = Math.max(maxX, n.x + 180); maxY = Math.max(maxY, n.y + 110);
+      }
+      const worldW = maxX - minX + pad * 2;
+      const worldH = maxY - minY + pad * 2;
+      const scale = Math.min(mW / worldW, mH / worldH);
+      const offsetX = minX - pad, offsetY = minY - pad;
+      const mapped = nodes.map(n => ({
+        x: (n.x - offsetX) * scale,
+        y: (n.y - offsetY) * scale,
+        w: Math.max(4, 180 * scale),
+        h: Math.max(3, 110 * scale),
+        active: n.idx === this.previewIndex,
+        choice: n.type === 'choice',
+        start: n.idx === 0,
+        end: this.isEndNode(n)
+      }));
+      const vpX = (-this.pan.x / this.zoom - offsetX) * scale;
+      const vpY = (-this.pan.y / this.zoom - offsetY) * scale;
+      const vpW = (this.canvasSize.w / this.zoom) * scale;
+      const vpH = (this.canvasSize.h / this.zoom) * scale;
+      return { nodes: mapped, mW, mH, scale, offsetX, offsetY, vpX, vpY, vpW, vpH };
+    },
+    searchHighlighted() {
+      return new Set(this.search.results.map(r => r.idx));
     },
     graphNodes() {
       const cols = 3;
@@ -1310,6 +1409,101 @@ export default {
         else state[key] = val;
       });
     },
+    /* ── Дублирование блока ── */
+    duplicateStep(idx) {
+      this.undoSnapshot();
+      const src = this.form.steps[idx];
+      const copy = JSON.parse(JSON.stringify(src));
+      const suffix = '_copy' + (this.form.steps.filter(s => s.id.startsWith(src.id + '_copy')).length + 1);
+      copy.id = src.id + suffix;
+      if (copy.layout) { copy.layout.x += 200; copy.layout.y += 60; }
+      this.form.steps.splice(idx + 1, 0, copy);
+      this.$nextTick(() => this.goToStep(idx + 1));
+    },
+    /* ── Поиск/замена ── */
+    toggleSearch() {
+      this.search.visible = !this.search.visible;
+      if (this.search.visible) this.$nextTick(() => this.$refs.searchInput?.focus());
+      else this.search.results = [];
+    },
+    doSearch() {
+      const q = this.search.query.toLowerCase().trim();
+      if (!q) { this.search.results = []; this.search.resultIndex = -1; return; }
+      this.search.results = this.form.steps
+        .map((s, idx) => ({ idx, id: s.id, text: s.text || '' }))
+        .filter(s => s.id.toLowerCase().includes(q) || s.text.toLowerCase().includes(q));
+      this.search.resultIndex = this.search.results.length ? 0 : -1;
+      if (this.search.results.length) this.goToStep(this.search.results[0].idx);
+    },
+    nextSearchResult() {
+      if (!this.search.results.length) return;
+      this.search.resultIndex = (this.search.resultIndex + 1) % this.search.results.length;
+      this.goToStep(this.search.results[this.search.resultIndex].idx);
+    },
+    prevSearchResult() {
+      if (!this.search.results.length) return;
+      this.search.resultIndex = (this.search.resultIndex - 1 + this.search.results.length) % this.search.results.length;
+      this.goToStep(this.search.results[this.search.resultIndex].idx);
+    },
+    doReplace() {
+      if (this.search.resultIndex < 0 || !this.search.results.length) return;
+      this.undoSnapshot();
+      const r = this.search.results[this.search.resultIndex];
+      const step = this.form.steps[r.idx];
+      step.text = (step.text || '').split(this.search.query).join(this.search.replace);
+      this.doSearch();
+    },
+    doReplaceAll() {
+      if (!this.search.results.length) return;
+      this.undoSnapshot();
+      const q = this.search.query;
+      this.search.results.forEach(r => {
+        const step = this.form.steps[r.idx];
+        step.text = (step.text || '').split(q).join(this.search.replace);
+      });
+      this.doSearch();
+    },
+    /* ── Экспорт / импорт ── */
+    exportStory() {
+      const data = JSON.stringify(this.form, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${this.form.id || 'story'}.json`;
+      a.click(); URL.revokeObjectURL(url);
+    },
+    importStory(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          this.undoSnapshot();
+          this.form = { steps: [], characters: [], backgrounds: [], ...data };
+          this.previewIndex = 0;
+          this.previewHistory = [{ idx: 0, tags: {} }];
+        } catch { alert('Ошибка: невалидный JSON файл'); }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    },
+    /* ── Миникарта ── */
+    onMinimapClick(event) {
+      const d = this.minimapData;
+      if (!d) return;
+      const rect = event.currentTarget.getBoundingClientRect();
+      const mx = (event.clientX - rect.left) * (d.mW / rect.width);
+      const my = (event.clientY - rect.top) * (d.mH / rect.height);
+      const worldX = mx / d.scale + d.offsetX;
+      const worldY = my / d.scale + d.offsetY;
+      this.pan.x = -(worldX * this.zoom - this.canvasSize.w / 2);
+      this.pan.y = -(worldY * this.zoom - this.canvasSize.h / 2);
+    },
+    updateCanvasSize() {
+      const el = this.$refs.graph;
+      if (el) this.canvasSize = { w: el.offsetWidth, h: el.offsetHeight };
+    },
     isEndNode(node) {
       if (!node.choices || node.choices.length === 0) return true;
       return node.choices.every((c) => !c.next);
@@ -1345,7 +1539,11 @@ export default {
     onCanvasContextMenu(event) {
       const world = this.screenToWorld(event);
       if (!world) return;
-      this.contextMenu = { visible: true, x: event.clientX, y: event.clientY, worldX: world.x, worldY: world.y };
+      this.contextMenu = { visible: true, x: event.clientX, y: event.clientY, worldX: world.x, worldY: world.y, targetIdx: -1 };
+    },
+    onNodeContextMenu(node, event) {
+      event.stopPropagation();
+      this.contextMenu = { visible: true, x: event.clientX, y: event.clientY, worldX: node.x, worldY: node.y, targetIdx: node.idx };
     },
     addStepAtContextMenu(type) {
       this.undoSnapshot();
@@ -1455,8 +1653,17 @@ export default {
         event.preventDefault();
         this.redo();
       }
+      if ((event.ctrlKey || event.metaKey) && event.code === 'KeyF') {
+        event.preventDefault();
+        this.toggleSearch();
+      }
+      if ((event.ctrlKey || event.metaKey) && event.code === 'KeyD') {
+        event.preventDefault();
+        if (this.selectedBlock) this.duplicateStep(this.previewIndex);
+      }
       if (event.code === 'Escape') {
         this.closeContextMenu();
+        this.search.visible = false;
       }
     },
     onKeyUp(event) {
@@ -1467,7 +1674,14 @@ export default {
   },
   mounted() {
     this.loadStories();
-    this.$nextTick(() => { this.undoSnapshot(); });
+    this.$nextTick(() => {
+      this.undoSnapshot();
+      this.updateCanvasSize();
+      if (this.$refs.graph) {
+        this._resizeObserver = new ResizeObserver(this.updateCanvasSize);
+        this._resizeObserver.observe(this.$refs.graph);
+      }
+    });
     document.addEventListener('click', this.closeContextMenu);
     window.addEventListener('mouseup', this.stopDrag);
     window.addEventListener('resize', this.updateGraphSize);
@@ -1484,6 +1698,7 @@ export default {
     this.$watch('form', () => { this.scheduleLocalSave(); }, { deep: true });
   },
   beforeUnmount() {
+    if (this._resizeObserver) this._resizeObserver.disconnect();
     document.removeEventListener('click', this.closeContextMenu);
     window.removeEventListener('mouseup', this.stopDrag);
     window.removeEventListener('mousemove', this.onDrag);
@@ -1860,6 +2075,65 @@ input:focus, textarea:focus, select:focus {
   pointer-events: auto;
 }
 .edge-delete:hover { background: #fee2e2; }
+
+/* ─── Top bar actions ─── */
+.top-bar-actions { display: flex; gap: 6px; margin-left: auto; }
+.import-btn { cursor: pointer; position: relative; overflow: hidden; }
+.import-btn input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;
+}
+
+/* ─── Панель поиска ─── */
+.search-panel {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  display: grid;
+  gap: 6px;
+}
+.search-row { display: flex; gap: 6px; align-items: center; }
+.search-input { flex: 1; padding: 5px 9px; font-size: 12px; }
+.search-count { font-size: 11px; color: #6b7280; white-space: nowrap; min-width: 60px; text-align: right; }
+.search-count.no-results { color: #ef4444; }
+.icon-btn.active { background: #e0e7ff; color: #4338ca; }
+
+/* ─── Миникарта ─── */
+.minimap {
+  position: absolute;
+  bottom: 10px; right: 10px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  cursor: crosshair;
+  overflow: hidden;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+}
+.minimap svg { display: block; }
+.mm-node { fill: #cbd5e1; }
+.mm-active { fill: #6366f1; }
+.mm-choice { fill: #a855f7; }
+.mm-start { fill: #10b981; }
+.mm-end { fill: #f59e0b; }
+.mm-viewport {
+  fill: rgba(99,102,241,0.08);
+  stroke: #6366f1;
+  stroke-width: 1;
+}
+
+/* ─── Выделение нод поиском ─── */
+.graph-node.node-search-hit {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.25), 0 8px 24px rgba(15,23,42,0.1);
+  animation: pulse-search 1s ease infinite alternate;
+}
+@keyframes pulse-search {
+  from { box-shadow: 0 0 0 2px rgba(245,158,11,0.2); }
+  to   { box-shadow: 0 0 0 5px rgba(245,158,11,0.35); }
+}
 
 /* ─── Контекстное меню ─── */
 .context-menu {
