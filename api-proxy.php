@@ -20,7 +20,7 @@ if (strpos($request_uri, $script_name) === 0) {
 $api_endpoint = ltrim($api_endpoint, '/');
 
 // URL API сервера
-$api_host = getenv('API_HOST') ?: '127.0.0.1';
+$api_host = getenv('API_HOST') ?: '94.103.13.116';
 $api_port = getenv('API_PORT') ?: '3001';
 $api_url = "http://{$api_host}:{$api_port}/api/" . $api_endpoint;
 

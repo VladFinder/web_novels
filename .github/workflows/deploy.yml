@@ -28,7 +28,7 @@ jobs:
           NODE_ENV: production
           VUE_APP_API_URL: https://iki.commandc.ru/api
 
-      - name: Deploy via SCP
+      - name: Deploy frontend via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: commano5.beget.tech
@@ -37,4 +37,14 @@ jobs:
           source: "dist/*"
           target: "iki.commandc.ru/public_html"
           strip_components: 1
+          overwrite: true
+
+      - name: Deploy PHP proxy files via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: commano5.beget.tech
+          username: commano5_main
+          password: ${{ secrets.BEGET_SSH_PASSWORD }}
+          source: "api-proxy.php,api-emotions.php,.htaccess"
+          target: "iki.commandc.ru/public_html"
           overwrite: true
