@@ -367,6 +367,7 @@
 
 <script>
 import { getStories, getStory, saveStory, uploadFile } from '@/services/apiClient';
+import { getCharStyle } from '@/utils/storyUtils';
 
 export default {
   name: 'StoryEditor',
@@ -414,7 +415,7 @@ export default {
   },
   computed: {
     stepsView() {
-      return this.form.steps.map((step, idx) => ({ step, idx })).slice().reverse();
+      return this.form.steps.map((step, idx) => ({ step, idx })).reverse();
     },
     currentStep() {
       if (!this.form.steps || this.form.steps.length === 0) return null;
@@ -548,17 +549,7 @@ export default {
     selectChar(idx) {
       this.selectedChar = idx;
     },
-    getCharStyle(char) {
-      const x = Number(char?.x) || 50;
-      const y = Number(char?.y) || 50;
-      const size = Number(char?.size) || 30;
-      return {
-        left: `${x}%`,
-        top: `${y}%`,
-        width: `${size}%`,
-        transform: 'translate(-50%, -50%)'
-      };
-    },
+    getCharStyle,
     getNodeStyle(node) {
       return {
         left: `${node.x}px`,
@@ -917,7 +908,7 @@ export default {
       this.form.steps.push(base);
       if (this.form.steps.length === 1) {
         this.previewIndex = 0;
-        this.previewHistory = [0];
+        this.previewHistory = [{ idx: 0, tags: {} }];
       }
     },
     addCharacter(stepIndex) {
@@ -1275,24 +1266,6 @@ export default {
 }
 .side-menu.open {
   transform: translateX(0);
-}
-.top-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.burger {
-  border: none;
-  background: #fff;
-  border-radius: 10px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .top-title {
   font-weight: 700;

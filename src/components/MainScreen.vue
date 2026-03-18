@@ -78,7 +78,7 @@
                   v-for="(char, idx) in currentStepCharacters"
                   :key="idx"
                   class="story-char"
-                  :style="getCharacterStyle(char)"
+                  :style="getCharStyle(char)"
                 >
                   <img :src="char.image" alt="" />
                 </div>
@@ -121,6 +121,7 @@ import { useEmotionStore } from '@/services/emotionStore';
 import { useSoulStyle } from '@/services/useSoulStyle';
 import { getEmotionPhrases } from '@/constants/emotions';
 import { getSafeTelegramId, getTelegramUsername } from '@/utils/telegram';
+import { getCharStyle } from '@/utils/storyUtils';
 import {
   ensureUser,
   getEmotionByDate,
@@ -205,14 +206,8 @@ export default {
         const list = await getStories();
         // Загружаем полный контент первой истории для начального состояния
         if (Array.isArray(list)) {
-          const loaded = [];
-          for (const meta of list) {
-            const full = await getStory(meta.id);
-            if (full?.steps?.length) {
-              loaded.push(full);
-            }
-          }
-          stories.value = loaded;
+          const results = await Promise.all(list.map((meta) => getStory(meta.id)));
+          stories.value = results.filter((full) => full?.steps?.length);
         } else {
           stories.value = [];
         }
@@ -271,8 +266,9 @@ export default {
 
     const prevStep = () => {
       if (storyHistory.value.length > 1) {
-        storyHistory.value.pop();
-        storyStep.value = storyHistory.value[storyHistory.value.length - 1];
+        const updated = storyHistory.value.slice(0, -1);
+        storyHistory.value = updated;
+        storyStep.value = updated[updated.length - 1];
       }
     };
 
@@ -364,18 +360,6 @@ export default {
         : { backgroundColor: '#1f2937' };
     });
 
-    const getCharacterStyle = (char) => {
-      const x = Number(char?.x) || 50;
-      const y = Number(char?.y) || 50;
-      const size = Number(char?.size) || 30;
-      return {
-        left: `${x}%`,
-        top: `${y}%`,
-        width: `${size}%`,
-        transform: 'translate(-50%, -50%)'
-      };
-    };
-
     const displayName = computed(() => {
       const name = username.value?.toString().trim();
       if (!name) return 'друг';
@@ -412,7 +396,7 @@ export default {
       currentStepCharacters,
       currentChoices,
       storyBackgroundStyle,
-      getCharacterStyle,
+      getCharStyle,
       telegramId,
       storiesLoading,
       storiesError,
