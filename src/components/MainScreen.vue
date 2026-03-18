@@ -351,6 +351,15 @@ export default {
       const targetId = choice?.next;
       if (targetId) {
         goToStepId(targetId, true);
+        // Авто-сохранение прогресса (fire-and-forget)
+        if (selectedStory.value) {
+          saveStoryProgress({
+            telegramId: telegramId.value,
+            storyId: selectedStory.value.id,
+            stepIndex: storyStep.value,
+            flags: []
+          }).catch(() => {});
+        }
       }
     };
     const storyBackgroundStyle = computed(() => {

@@ -54,8 +54,8 @@
           Длительность/мета
           <input v-model="form.duration" placeholder="Например, 10 шагов" />
         </label>
-        <button class="btn primary" @click="save" :disabled="loading">
-          {{ loading ? 'Сохранение...' : 'Сохранить историю' }}
+        <button class="btn primary" @click="save" :disabled="loading" :class="{ dirty: isDirty }">
+          {{ loading ? 'Сохранение...' : (isDirty ? '● Сохранить историю' : 'Сохранить историю') }}
         </button>
         <div v-if="error" class="error">{{ error }}</div>
         <div v-if="success" class="success">{{ success }}</div>
@@ -141,8 +141,13 @@
       <div class="editor-left">
         <div class="graph-panel">
           <div class="graph-header">
-            <div>Карта блоков</div>
+            <div>
+              Карта блоков
+              <span v-if="isDirty" class="dirty-dot" title="Есть несохранённые изменения">●</span>
+              <span v-if="brokenLinksCount > 0" class="broken-badge" title="Битые ссылки">⚠ {{ brokenLinksCount }}</span>
+            </div>
             <div class="graph-actions">
+              <button class="btn tiny ghost" @click="fitToView" title="Вписать всё в экран">⊡</button>
               <button class="btn tiny" @click="addStep('step')">+ Блок</button>
               <button class="btn tiny ghost" @click="addStep('choice')">+ Выбор</button>
             </div>
@@ -203,7 +208,7 @@
               v-for="node in graphNodes"
               :key="node.id"
               class="graph-node"
-              :class="{ active: previewIndex === node.idx }"
+              :class="{ active: previewIndex === node.idx, broken: brokenLinks.has(node.id) }"
               :style="getNodeStyle(node)"
               @mousedown.prevent="startGraphDrag(node, $event)"
               @click.stop="goToStep(node.idx)"
@@ -410,7 +415,9 @@ export default {
       panOrigin: { x: 0, y: 0 },
       spacePressed: false,
       showCharactersPanel: true,
-      showBackgroundsPanel: true
+      showBackgroundsPanel: true,
+      isDirty: false,
+      localSaveTimeout: null
     };
   },
   computed: {
@@ -543,6 +550,21 @@ export default {
         });
       });
       return edges;
+    },
+    brokenLinks() {
+      const ids = new Set(this.form.steps.map((s) => s.id));
+      const broken = new Set();
+      this.form.steps.forEach((step) => {
+        (step.choices || []).forEach((c) => {
+          if (c.next && !ids.has(c.next)) {
+            broken.add(step.id);
+          }
+        });
+      });
+      return broken;
+    },
+    brokenLinksCount() {
+      return this.brokenLinks.size;
     }
   },
   methods: {
@@ -860,7 +882,12 @@ export default {
             }
           });
           this.previewIndex = 0;
-      this.previewHistory = this.form.steps.length ? [{ idx: 0, tags: {} }] : [];
+          this.previewHistory = this.form.steps.length ? [{ idx: 0, tags: {} }] : [];
+          this.isDirty = false;
+          this.$nextTick(() => {
+            this.checkAndRestoreDraft(story.id);
+            this.fitToView();
+          });
         }
       } catch (e) {
         this.error = e.message || 'Ошибка загрузки истории';
@@ -1103,6 +1130,8 @@ export default {
       try {
         await saveStory(this.form);
         this.success = 'Сохранено';
+        this.isDirty = false;
+        this.clearLocalDraft();
         await this.loadStories();
       } catch (e) {
         this.error = e.message || 'Ошибка сохранения';
@@ -1164,9 +1193,83 @@ export default {
         else state[key] = val;
       });
     },
+    fitToView() {
+      if (!this.graphNodes.length) return;
+      const rect = this.$refs.graph?.getBoundingClientRect();
+      if (!rect) return;
+      const padding = 60;
+      const nw = this.nodeSize.w;
+      const nh = this.nodeSize.h;
+      const minX = Math.min(...this.graphNodes.map((n) => n.x));
+      const minY = Math.min(...this.graphNodes.map((n) => n.y));
+      const maxX = Math.max(...this.graphNodes.map((n) => n.x)) + nw;
+      const maxY = Math.max(...this.graphNodes.map((n) => n.y)) + nh;
+      const contentW = maxX - minX || 1;
+      const contentH = maxY - minY || 1;
+      const scaleX = (rect.width - padding * 2) / contentW;
+      const scaleY = (rect.height - padding * 2) / contentH;
+      const newZoom = Math.min(2.5, Math.max(0.3, Math.min(scaleX, scaleY)));
+      this.zoom = newZoom;
+      this.pan = {
+        x: padding - minX * newZoom,
+        y: padding - minY * newZoom
+      };
+    },
+    saveDraftToLocal() {
+      if (!this.form.id && this.form.steps.length === 0) return;
+      try {
+        localStorage.setItem('story_editor_draft', JSON.stringify({
+          storyId: this.form.id,
+          savedAt: Date.now(),
+          form: this.form
+        }));
+      } catch {
+        // ignore quota errors
+      }
+    },
+    scheduleLocalSave() {
+      this.isDirty = true;
+      if (this.localSaveTimeout) clearTimeout(this.localSaveTimeout);
+      this.localSaveTimeout = setTimeout(() => {
+        this.saveDraftToLocal();
+        this.localSaveTimeout = null;
+      }, 1500);
+    },
+    clearLocalDraft() {
+      try {
+        localStorage.removeItem('story_editor_draft');
+      } catch {
+        // ignore
+      }
+    },
+    checkAndRestoreDraft(storyId) {
+      try {
+        const raw = localStorage.getItem('story_editor_draft');
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (!draft || draft.storyId !== storyId) return;
+        const ageMin = (Date.now() - draft.savedAt) / 60000;
+        if (ageMin > 60 * 24) {
+          this.clearLocalDraft();
+          return;
+        }
+        if (confirm(`Найден черновик от ${Math.round(ageMin)} мин. назад. Восстановить?`)) {
+          this.form = draft.form;
+          this.previewIndex = 0;
+          this.previewHistory = this.form.steps.length ? [{ idx: 0, tags: {} }] : [];
+          this.isDirty = true;
+        }
+      } catch {
+        // ignore
+      }
+    },
     onKeyDown(event) {
       if (event.code === 'Space') {
         this.spacePressed = true;
+      }
+      if ((event.ctrlKey || event.metaKey) && event.code === 'KeyS') {
+        event.preventDefault();
+        this.save();
       }
     },
     onKeyUp(event) {
@@ -1189,6 +1292,7 @@ export default {
       graph.addEventListener('mouseleave', this.cancelLink);
       graph.addEventListener('mouseleave', this.clearEdgeHover);
     }
+    this.$watch('form', () => { this.scheduleLocalSave(); }, { deep: true });
   },
   beforeUnmount() {
     window.removeEventListener('mouseup', this.stopDrag);
@@ -1399,6 +1503,23 @@ input, textarea {
   display: flex;
   gap: 6px;
 }
+.dirty-dot {
+  color: #f59e0b;
+  margin-left: 4px;
+  font-size: 10px;
+}
+.broken-badge {
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 6px;
+  background: rgba(239,68,68,0.08);
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+.btn.primary.dirty {
+  background: #f59e0b;
+}
 .graph-canvas {
   position: relative;
   width: 100%;
@@ -1444,6 +1565,10 @@ input, textarea {
 .graph-node.active {
   border-color: #6366f1;
   box-shadow: 0 0 0 2px rgba(99,102,241,0.2), 0 10px 30px rgba(15,23,42,0.12);
+}
+.graph-node.broken {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239,68,68,0.2);
 }
 .graph-node:hover {
   transform: translateY(-2px);
