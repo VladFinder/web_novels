@@ -232,6 +232,8 @@ export default {
     onMounted(async () => {
       const id = getSafeTelegramId();
       telegramId.value = id;
+      // Показываем ник сразу из Telegram (синхронно), не ждём сеть
+      if (telegramUsername.value) username.value = telegramUsername.value;
       try {
         const user = await ensureUser(id, telegramUsername.value || id);
         username.value = user?.login || telegramUsername.value || user?.telegramId || '';
