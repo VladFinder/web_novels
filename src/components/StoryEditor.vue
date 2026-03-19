@@ -216,6 +216,30 @@
             </div>
           </div>
         </div>
+
+        <!-- Соавторы -->
+        <div class="accordion" v-if="form.id">
+          <button class="accordion-header" @click="showCollabPanel = !showCollabPanel">
+            <span>👥 Соавторы</span>
+            <span>{{ showCollabPanel ? '▲' : '▼' }}</span>
+          </button>
+          <div v-if="showCollabPanel" class="accordion-body">
+            <div class="muted" style="margin-bottom:8px">Кто видит изменения в реальном времени</div>
+            <div class="collab-editor-list">
+              <label
+                v-for="name in allEditors.filter(e => e !== currentEditor)"
+                :key="name"
+                class="collab-editor-row"
+              >
+                <input type="checkbox" :value="name" v-model="form.collaborators" />
+                <span class="editor-dot" :style="{ background: editorColors[name] }"></span>
+                <span>{{ name }}</span>
+                <span v-if="otherEditors[name]" class="online-dot" title="Сейчас онлайн">●</span>
+              </label>
+            </div>
+            <div v-if="form.collaborators.length === 0" class="muted small">Нет соавторов — совместное редактирование отключено</div>
+          </div>
+        </div>
       </div>
     </div>
     </div>
@@ -404,7 +428,7 @@
               v-for="ed in otherEditorsList"
               :key="ed.editorName"
               class="collab-cursor-wrap"
-              :style="getCursorStyle(ed)"
+              :style="getCursorStyle(ed.editorName)"
             >
               <svg class="cursor-svg" width="18" height="22" viewBox="0 0 18 22" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2 2 L2 18 L6 13 L9 20 L12 19 L9 12 L14 12 Z" :fill="ed.color" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
@@ -618,8 +642,8 @@
 <script>
 import { getStories, getStory, saveStoryAsTest, publishStory, uploadFile, saveEditorDraft, loadEditorDraft, clearEditorDraft } from '@/services/apiClient';
 import { getCharStyle } from '@/utils/storyUtils';
-import { login, logout, getCurrentEditor, getEditorColor, EDITOR_COLORS } from '@/services/editorAuth';
-import { updatePresence, removePresence, watchPresence, watchStory } from '@/services/collaborationService';
+import { login, logout, getCurrentEditor, getEditorColor, EDITOR_COLORS, ALL_EDITORS } from '@/services/editorAuth';
+import { updatePresence, removePresence, watchPresence, watchStory, syncStoryLive, watchStoryLive } from '@/services/collaborationService';
 
 export default {
   name: 'StoryEditor',
@@ -633,7 +657,8 @@ export default {
         duration: '',
         steps: [],
         characters: [],
-        backgrounds: []
+        backgrounds: [],
+        collaborators: [],
       },
       previewIndex: 0,
       loading: false,
@@ -675,12 +700,11 @@ export default {
       loginUsername: '',
       loginPassword: '',
       loginError: '',
-      // Collaboration
+      showCollabPanel: false,
+      // Collaboration — reactive
       otherEditors: {},        // { name: { cursor, selectedStep, color, lastSeen } }
-      colabRemoteUpdate: null, // pending remote story update
-      _collabUnsubPresence: null,
-      _collabUnsubStory: null,
-      _cursorThrottle: null,
+      cursorPositions: {},     // { name: { x, y, color, editorName } } — smooth interpolated
+      colabRemoteUpdate: null, // pending remote story update (save notification)
     };
   },
   computed: {
@@ -689,6 +713,9 @@ export default {
     },
     editorColors() {
       return EDITOR_COLORS;
+    },
+    allEditors() {
+      return ALL_EDITORS;
     },
     otherEditorsList() {
       // Filter out stale presence (>30s old)
@@ -967,6 +994,8 @@ export default {
       this.graphDragging = null;
       window.removeEventListener('mousemove', this.onGraphDrag);
       window.removeEventListener('mouseup', this.stopGraphDrag);
+      // Immediately sync node positions to collaborators
+      this._flushLiveSync();
     },
     goToStep(idx) {
       const safe = Math.max(0, Math.min(idx, this.form.steps.length - 1));
@@ -1192,7 +1221,8 @@ export default {
             duration: story.duration || '',
             steps: story.steps ? JSON.parse(JSON.stringify(story.steps)) : [],
             characters: story.characters ? JSON.parse(JSON.stringify(story.characters)) : [],
-            backgrounds: story.backgrounds ? JSON.parse(JSON.stringify(story.backgrounds)) : []
+            backgrounds: story.backgrounds ? JSON.parse(JSON.stringify(story.backgrounds)) : [],
+            collaborators: story.collaborators ? [...story.collaborators] : [],
           };
           // проставляем layout, если не было
           this.form.steps.forEach((step, idx) => {
@@ -1225,6 +1255,7 @@ export default {
       }
     },
     createNew() {
+      this.stopCollaboration();
       this.form = {
         id: '',
         title: '',
@@ -1232,7 +1263,8 @@ export default {
         duration: '',
         steps: [],
         characters: [],
-        backgrounds: []
+        backgrounds: [],
+        collaborators: [],
       };
       this.previewIndex = 0;
       this.previewHistory = [];
@@ -1476,33 +1508,99 @@ export default {
       this.stopCollaboration();
       if (!this.currentEditor || !storyId) return;
 
-      // Announce presence immediately
+      const collaborators = this.form.collaborators || [];
+      // Only participate if we are in the collaborators list (or list is empty = no restrictions yet)
+      if (collaborators.length > 0 && !collaborators.includes(this.currentEditor)) return;
+
+      // Announce presence
       updatePresence(storyId, this.currentEditor, {
         selectedStep: this.currentStep?.id || null,
         cursor: null,
       });
 
-      // Watch other editors' presence
-      this._collabUnsubPresence = watchPresence(storyId, this.currentEditor, (presenceMap) => {
-        this.otherEditors = presenceMap;
+      // Watch other editors' presence — filter by collaborators
+      this._collabUnsubPresence = watchPresence(
+        storyId,
+        this.currentEditor,
+        collaborators,
+        (presenceMap) => {
+          this.otherEditors = presenceMap;
+          // Sync cursor targets for smooth animation
+          Object.entries(presenceMap).forEach(([name, data]) => {
+            if (data.cursor) {
+              this._cursorTargets[name] = { x: data.cursor.x, y: data.cursor.y, color: data.color, editorName: name };
+              if (!this.cursorPositions[name]) {
+                this.cursorPositions[name] = { x: data.cursor.x, y: data.cursor.y, color: data.color, editorName: name };
+              }
+            }
+          });
+          // Remove editors who went offline
+          Object.keys(this._cursorTargets).forEach((name) => {
+            if (!presenceMap[name]) {
+              delete this._cursorTargets[name];
+              delete this.cursorPositions[name];
+            }
+          });
+        }
+      );
+
+      // Watch live story content from other editors
+      this._collabUnsubLive = watchStoryLive(storyId, this.currentEditor, (data) => {
+        this._applyLiveUpdate(data);
       });
 
-      // Watch story document for remote saves
+      // Watch saved story for save notifications
       let firstSnapshot = true;
       this._collabUnsubStory = watchStory(storyId, (remoteStory) => {
-        if (firstSnapshot) { firstSnapshot = false; return; } // skip initial load
+        if (firstSnapshot) { firstSnapshot = false; return; }
         if (remoteStory.lastEditedBy && remoteStory.lastEditedBy !== this.currentEditor) {
           this.colabRemoteUpdate = remoteStory;
         }
       });
+
+      // Start RAF cursor interpolation loop
+      this._startCursorAnimation();
     },
     stopCollaboration() {
       if (this._collabUnsubPresence) { this._collabUnsubPresence(); this._collabUnsubPresence = null; }
       if (this._collabUnsubStory) { this._collabUnsubStory(); this._collabUnsubStory = null; }
+      if (this._collabUnsubLive) { this._collabUnsubLive(); this._collabUnsubLive = null; }
+      this._stopCursorAnimation();
+      this._cursorTargets = {};
+      this.cursorPositions = {};
+      this.otherEditors = {};
+    },
+    _startCursorAnimation() {
+      if (this._cursorAnimFrame) return;
+      const LERP = 0.22; // smoothing factor per frame
+      const animate = () => {
+        Object.entries(this._cursorTargets || {}).forEach(([name, target]) => {
+          const curr = this.cursorPositions[name];
+          if (!curr) {
+            this.cursorPositions[name] = { ...target };
+            return;
+          }
+          const nx = curr.x + (target.x - curr.x) * LERP;
+          const ny = curr.y + (target.y - curr.y) * LERP;
+          // Only update if movement is significant (avoids unnecessary re-renders)
+          if (Math.abs(nx - curr.x) > 0.3 || Math.abs(ny - curr.y) > 0.3) {
+            this.cursorPositions[name] = { ...curr, x: nx, y: ny };
+          }
+        });
+        this._cursorAnimFrame = requestAnimationFrame(animate);
+      };
+      this._cursorAnimFrame = requestAnimationFrame(animate);
+    },
+    _stopCursorAnimation() {
+      if (this._cursorAnimFrame) {
+        cancelAnimationFrame(this._cursorAnimFrame);
+        this._cursorAnimFrame = null;
+      }
     },
     onCanvasCursorMove(event) {
       if (!this.currentEditor || !this.form.id) return;
       if (this._cursorThrottle) return;
+      // ~20fps cursor sends to Firestore (50ms interval)
       this._cursorThrottle = setTimeout(() => {
         this._cursorThrottle = null;
         const world = this.screenToWorld(event);
@@ -1511,19 +1609,52 @@ export default {
           cursor: { x: world.x, y: world.y },
           selectedStep: this.currentStep?.id || null,
         });
-      }, 80); // ~12fps cursor updates
+      }, 50);
     },
-    getCursorStyle(editor) {
-      if (!editor.cursor) return { display: 'none' };
-      const sx = editor.cursor.x * this.zoom + this.pan.x;
-      const sy = editor.cursor.y * this.zoom + this.pan.y;
+    // Sync live story content to Firestore (debounced 300ms)
+    _scheduleLiveSync() {
+      if (!this.currentEditor || !this.form.id || this._applyingRemote) return;
+      if (this._liveSyncTimer) clearTimeout(this._liveSyncTimer);
+      this._liveSyncTimer = setTimeout(() => {
+        this._liveSyncTimer = null;
+        syncStoryLive(this.form.id, this.currentEditor, {
+          steps: this.form.steps,
+          characters: this.form.characters,
+          backgrounds: this.form.backgrounds,
+        });
+      }, 300);
+    },
+    // Immediate live sync (used after drag stop)
+    _flushLiveSync() {
+      if (!this.currentEditor || !this.form.id) return;
+      if (this._liveSyncTimer) { clearTimeout(this._liveSyncTimer); this._liveSyncTimer = null; }
+      syncStoryLive(this.form.id, this.currentEditor, {
+        steps: this.form.steps,
+        characters: this.form.characters,
+        backgrounds: this.form.backgrounds,
+      });
+    },
+    // Apply live update from another editor
+    _applyLiveUpdate(data) {
+      // Skip if current editor edited very recently (within 800ms)
+      if (Date.now() - (this._lastLocalEditAt || 0) < 800) return;
+      this._applyingRemote = true;
+      this.form.steps = JSON.parse(JSON.stringify(data.steps || []));
+      if (data.characters) this.form.characters = JSON.parse(JSON.stringify(data.characters));
+      if (data.backgrounds) this.form.backgrounds = JSON.parse(JSON.stringify(data.backgrounds));
+      this.$nextTick(() => { this._applyingRemote = false; });
+    },
+    getCursorStyle(editorName) {
+      const pos = this.cursorPositions[editorName];
+      if (!pos) return { display: 'none' };
+      const sx = pos.x * this.zoom + this.pan.x;
+      const sy = pos.y * this.zoom + this.pan.y;
       return {
         position: 'absolute',
         left: `${sx}px`,
         top: `${sy}px`,
         pointerEvents: 'none',
         zIndex: 50,
-        transform: 'translate(0, 0)',
       };
     },
     applyRemoteUpdate() {
@@ -1531,7 +1662,7 @@ export default {
       const remote = this.colabRemoteUpdate;
       this.colabRemoteUpdate = null;
       this.undoSnapshot();
-      this.form = { steps: [], characters: [], backgrounds: [], ...remote };
+      this.form = { steps: [], characters: [], backgrounds: [], collaborators: [], ...remote };
       this.previewIndex = 0;
       this.previewHistory = this.form.steps.length ? [{ idx: 0, tags: {} }] : [];
       this.isDirty = false;
@@ -1904,6 +2035,17 @@ export default {
     }
   },
   mounted() {
+    // Instance-level (non-reactive) collab state
+    this._collabUnsubPresence = null;
+    this._collabUnsubStory = null;
+    this._collabUnsubLive = null;
+    this._cursorAnimFrame = null;
+    this._cursorTargets = {};
+    this._cursorThrottle = null;
+    this._liveSyncTimer = null;
+    this._lastLocalEditAt = 0;
+    this._applyingRemote = false;
+
     // Restore editor session
     this.currentEditor = getCurrentEditor();
 
@@ -1930,7 +2072,13 @@ export default {
       graph.addEventListener('mouseleave', this.cancelLink);
       graph.addEventListener('mouseleave', this.clearEdgeHover);
     }
-    this.$watch('form', () => { this.scheduleLocalSave(); }, { deep: true });
+    this.$watch('form', () => {
+      if (!this._applyingRemote) {
+        this._lastLocalEditAt = Date.now();
+        this.scheduleLocalSave();
+        this._scheduleLiveSync();
+      }
+    }, { deep: true });
   },
   beforeUnmount() {
     this.stopCollaboration();
@@ -1938,6 +2086,7 @@ export default {
       removePresence(this.form.id, this.currentEditor);
     }
     if (this._cursorThrottle) clearTimeout(this._cursorThrottle);
+    if (this._liveSyncTimer) clearTimeout(this._liveSyncTimer);
     if (this._resizeObserver) this._resizeObserver.disconnect();
     document.removeEventListener('click', this.closeContextMenu);
     window.removeEventListener('mouseup', this.stopDrag);
@@ -2821,5 +2970,28 @@ input:focus, textarea:focus, select:focus {
   white-space: nowrap;
   margin-top: 2px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* ─── Collaborators panel ─── */
+.collab-editor-list { display: flex; flex-direction: column; gap: 6px; }
+.collab-editor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: background 0.12s;
+}
+.collab-editor-row:hover { background: #f1f5f9; }
+.editor-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.online-dot {
+  color: #22c55e;
+  font-size: 10px;
+  margin-left: auto;
 }
 </style>
