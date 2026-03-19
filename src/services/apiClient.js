@@ -108,6 +108,12 @@ export const getStories = async () => {
   return snap.docs.map(d => d.data());
 };
 
+// Only published stories (for regular users in the main app)
+export const getPublishedStories = async () => {
+  const snap = await getDocs(collection(db, 'stories'));
+  return snap.docs.map(d => d.data()).filter(s => s.status === 'published');
+};
+
 export const getStory = async (id) => {
   const snap = await getDoc(doc(db, 'stories', id));
   if (!snap.exists()) throw new ApiError('Story not found', 404);
@@ -117,6 +123,59 @@ export const getStory = async (id) => {
 export const saveStory = async (story) => {
   await setDoc(doc(db, 'stories', story.id), story);
   return story;
+};
+
+// Save as test (visible only to editors)
+export const saveStoryAsTest = async (story, editorName) => {
+  const data = { ...story, status: 'test', lastEditedBy: editorName, updatedAt: new Date().toISOString() };
+  await setDoc(doc(db, 'stories', story.id), data);
+  return data;
+};
+
+// Publish (visible to all users)
+export const publishStory = async (story, editorName) => {
+  const data = { ...story, status: 'published', lastEditedBy: editorName, publishedAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+  await setDoc(doc(db, 'stories', story.id), data);
+  return data;
+};
+
+// Editor private drafts stored in localStorage (keyed by editor name)
+export const saveEditorDraft = (editorName, storyId, form) => {
+  if (!editorName || !storyId) return;
+  try {
+    localStorage.setItem(`editor_draft_${editorName}_${storyId}`, JSON.stringify({
+      form,
+      savedAt: Date.now(),
+    }));
+  } catch {
+    // Ignore quota errors
+  }
+};
+
+export const loadEditorDraft = (editorName, storyId) => {
+  if (!editorName || !storyId) return null;
+  try {
+    const raw = localStorage.getItem(`editor_draft_${editorName}_${storyId}`);
+    if (!raw) return null;
+    const draft = JSON.parse(raw);
+    // Expire after 7 days
+    if (Date.now() - draft.savedAt > 7 * 24 * 60 * 60 * 1000) {
+      clearEditorDraft(editorName, storyId);
+      return null;
+    }
+    return draft;
+  } catch {
+    return null;
+  }
+};
+
+export const clearEditorDraft = (editorName, storyId) => {
+  if (!editorName || !storyId) return;
+  try {
+    localStorage.removeItem(`editor_draft_${editorName}_${storyId}`);
+  } catch {
+    // Ignore
+  }
 };
 
 export const getStoryProgress = async (telegramId, storyId) => {

@@ -1,5 +1,44 @@
 <template>
   <div class="editor-page">
+    <!-- Login overlay -->
+    <div v-if="!currentEditor" class="login-overlay">
+      <div class="login-card">
+        <div class="login-logo">✍️</div>
+        <div class="login-title">Редактор историй</div>
+        <div class="login-sub">Войдите в свой аккаунт</div>
+        <div class="login-avatars">
+          <span v-for="name in ['vlad','chris','elina','diana']" :key="name"
+            class="editor-avatar" :style="{ background: editorColors[name] }"
+            @click="loginUsername = name">
+            {{ name[0].toUpperCase() }}
+          </span>
+        </div>
+        <input
+          v-model="loginUsername"
+          placeholder="Логин (vlad, chris, elina, diana)"
+          class="login-input"
+          @keydown.enter="$refs.loginPwdInput.focus()"
+        />
+        <input
+          ref="loginPwdInput"
+          v-model="loginPassword"
+          type="password"
+          placeholder="Пароль"
+          class="login-input"
+          @keydown.enter="doLogin"
+        />
+        <div v-if="loginError" class="login-error">{{ loginError }}</div>
+        <button class="btn primary login-btn" @click="doLogin">Войти</button>
+      </div>
+    </div>
+
+    <!-- Remote update notification -->
+    <div v-if="colabRemoteUpdate" class="collab-banner">
+      <span>📡 <b>{{ colabRemoteUpdate.lastEditedBy }}</b> сохранил историю</span>
+      <button class="btn tiny" @click="applyRemoteUpdate">Обновить</button>
+      <button class="btn tiny ghost" @click="colabRemoteUpdate = null">Игнорировать</button>
+    </div>
+
     <div class="menu-overlay" v-if="menuOpen" @click="menuOpen = false"></div>
     <div class="top-bar">
       <button class="burger" @click="menuOpen = !menuOpen">☰</button>
@@ -9,11 +48,26 @@
         <span v-if="isDirty" class="dirty-dot" title="Несохранённые изменения">●</span>
       </div>
       <div class="top-bar-actions">
+        <!-- Online editors badges -->
+        <div class="online-editors" v-if="currentEditor && form.id">
+          <span
+            v-for="ed in otherEditorsList"
+            :key="ed.editorName"
+            class="online-badge"
+            :style="{ background: ed.color }"
+            :title="ed.editorName + (ed.selectedStep ? ' → ' + ed.selectedStep : '')"
+          >{{ ed.editorName[0].toUpperCase() }}</span>
+        </div>
         <button class="btn tiny ghost" @click="exportStory" :disabled="!form.steps.length" title="Экспорт в JSON">↓ JSON</button>
         <label class="btn tiny ghost import-btn" title="Импорт из JSON">
           ↑ JSON
           <input type="file" accept=".json" @change="importStory" />
         </label>
+        <!-- Editor account badge -->
+        <div v-if="currentEditor" class="editor-badge" :style="{ background: editorColor }">
+          {{ currentEditor[0].toUpperCase() + currentEditor.slice(1) }}
+          <button class="logout-btn" @click="doLogout" title="Выйти">✕</button>
+        </div>
       </div>
     </div>
 
@@ -45,6 +99,11 @@
           >
             <div class="title">{{ story.title || story.id }}</div>
             <div class="meta">{{ story.tagline || story.duration }}</div>
+            <div class="story-status-row">
+              <span class="status-badge sm" :class="story.status || 'draft'">
+                {{ { published: '✅ Опубликовано', test: '🔬 Тест', draft: '📝 Черновик' }[story.status] || '📝 Черновик' }}
+              </span>
+            </div>
           </button>
         </div>
       </div>
@@ -65,9 +124,22 @@
           Длительность/мета
           <input v-model="form.duration" placeholder="Например, 10 шагов" />
         </label>
-        <button class="btn primary" @click="save" :disabled="loading" :class="{ dirty: isDirty }">
-          {{ loading ? 'Сохранение...' : (isDirty ? '● Сохранить историю' : 'Сохранить историю') }}
-        </button>
+        <!-- Story status badge -->
+        <div v-if="form.status" class="status-row">
+          <span class="status-badge" :class="form.status">
+            {{ { published: '✅ Опубликовано', test: '🔬 Для теста', draft: '📝 Черновик' }[form.status] || '📝 Черновик' }}
+          </span>
+          <span v-if="form.lastEditedBy" class="muted" style="font-size:11px">от {{ form.lastEditedBy }}</span>
+        </div>
+        <div class="save-btns">
+          <button class="btn ghost save-test-btn" @click="saveAsTest" :disabled="loading || !currentEditor" :class="{ dirty: isDirty }">
+            {{ loading ? '...' : '🔬 Для теста' }}
+          </button>
+          <button class="btn publish-btn" @click="doPublish" :disabled="loading || !currentEditor">
+            {{ loading ? '...' : '🚀 Опубликовать' }}
+          </button>
+        </div>
+        <div v-if="!currentEditor" class="muted" style="font-size:11px">Войдите в аккаунт для сохранения</div>
         <div v-if="error" class="error">{{ error }}</div>
         <div v-if="success" class="success">{{ success }}</div>
 
@@ -326,6 +398,21 @@
             </svg>
           </div>
 
+          <!-- Collaboration cursors overlay -->
+          <div class="collab-cursors-overlay" v-if="otherEditorsList.length">
+            <div
+              v-for="ed in otherEditorsList"
+              :key="ed.editorName"
+              class="collab-cursor-wrap"
+              :style="getCursorStyle(ed)"
+            >
+              <svg class="cursor-svg" width="18" height="22" viewBox="0 0 18 22" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 2 L2 18 L6 13 L9 20 L12 19 L9 12 L14 12 Z" :fill="ed.color" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              <span class="cursor-name" :style="{ background: ed.color }">{{ ed.editorName }}</span>
+            </div>
+          </div>
+
           <!-- Контекстное меню правого клика -->
           <div
             v-if="contextMenu.visible"
@@ -529,8 +616,10 @@
 </template>
 
 <script>
-import { getStories, getStory, saveStory, uploadFile } from '@/services/apiClient';
+import { getStories, getStory, saveStoryAsTest, publishStory, uploadFile, saveEditorDraft, loadEditorDraft, clearEditorDraft } from '@/services/apiClient';
 import { getCharStyle } from '@/utils/storyUtils';
+import { login, logout, getCurrentEditor, getEditorColor, EDITOR_COLORS } from '@/services/editorAuth';
+import { updatePresence, removePresence, watchPresence, watchStory } from '@/services/collaborationService';
 
 export default {
   name: 'StoryEditor',
@@ -580,10 +669,32 @@ export default {
       historyIndex: -1,
       contextMenu: { visible: false, x: 0, y: 0, worldX: 0, worldY: 0, targetIdx: -1 },
       search: { visible: false, query: '', replace: '', results: [], resultIndex: -1 },
-      canvasSize: { w: 800, h: 600 }
+      canvasSize: { w: 800, h: 600 },
+      // Auth
+      currentEditor: null,
+      loginUsername: '',
+      loginPassword: '',
+      loginError: '',
+      // Collaboration
+      otherEditors: {},        // { name: { cursor, selectedStep, color, lastSeen } }
+      colabRemoteUpdate: null, // pending remote story update
+      _collabUnsubPresence: null,
+      _collabUnsubStory: null,
+      _cursorThrottle: null,
     };
   },
   computed: {
+    editorColor() {
+      return getEditorColor(this.currentEditor);
+    },
+    editorColors() {
+      return EDITOR_COLORS;
+    },
+    otherEditorsList() {
+      // Filter out stale presence (>30s old)
+      const now = Date.now();
+      return Object.values(this.otherEditors).filter(e => now - e.lastSeen < 30000);
+    },
     stepsView() {
       return this.form.steps.map((step, idx) => ({ step, idx })).reverse();
     },
@@ -1095,13 +1206,19 @@ export default {
               };
             }
           });
+          this.form.status = story.status || 'draft';
           this.previewIndex = 0;
           this.previewHistory = this.form.steps.length ? [{ idx: 0, tags: {} }] : [];
           this.isDirty = false;
+          this.colabRemoteUpdate = null;
+          this.otherEditors = {};
           this.$nextTick(() => {
             this.checkAndRestoreDraft(story.id);
             this.fitToView();
           });
+          this.menuOpen = false;
+          // Start collaboration session for this story
+          this.startCollaboration(story.id);
         }
       } catch (e) {
         this.error = e.message || 'Ошибка загрузки истории';
@@ -1335,7 +1452,101 @@ export default {
         this.previewHistory = this.form.steps.length ? [{ idx: this.previewIndex, tags: {} }] : [];
       }
     },
-    async save() {
+    /* ── Auth ── */
+    doLogin() {
+      this.loginError = '';
+      const editor = login(this.loginUsername, this.loginPassword);
+      if (editor) {
+        this.currentEditor = editor;
+        this.loginUsername = '';
+        this.loginPassword = '';
+        if (this.form.id) this.startCollaboration(this.form.id);
+      } else {
+        this.loginError = 'Неверный логин или пароль';
+      }
+    },
+    doLogout() {
+      this.stopCollaboration();
+      logout();
+      this.currentEditor = null;
+      this.otherEditors = {};
+    },
+    /* ── Collaboration ── */
+    startCollaboration(storyId) {
+      this.stopCollaboration();
+      if (!this.currentEditor || !storyId) return;
+
+      // Announce presence immediately
+      updatePresence(storyId, this.currentEditor, {
+        selectedStep: this.currentStep?.id || null,
+        cursor: null,
+      });
+
+      // Watch other editors' presence
+      this._collabUnsubPresence = watchPresence(storyId, this.currentEditor, (presenceMap) => {
+        this.otherEditors = presenceMap;
+      });
+
+      // Watch story document for remote saves
+      let firstSnapshot = true;
+      this._collabUnsubStory = watchStory(storyId, (remoteStory) => {
+        if (firstSnapshot) { firstSnapshot = false; return; } // skip initial load
+        if (remoteStory.lastEditedBy && remoteStory.lastEditedBy !== this.currentEditor) {
+          this.colabRemoteUpdate = remoteStory;
+        }
+      });
+    },
+    stopCollaboration() {
+      if (this._collabUnsubPresence) { this._collabUnsubPresence(); this._collabUnsubPresence = null; }
+      if (this._collabUnsubStory) { this._collabUnsubStory(); this._collabUnsubStory = null; }
+    },
+    onCanvasCursorMove(event) {
+      if (!this.currentEditor || !this.form.id) return;
+      if (this._cursorThrottle) return;
+      this._cursorThrottle = setTimeout(() => {
+        this._cursorThrottle = null;
+        const world = this.screenToWorld(event);
+        if (!world) return;
+        updatePresence(this.form.id, this.currentEditor, {
+          cursor: { x: world.x, y: world.y },
+          selectedStep: this.currentStep?.id || null,
+        });
+      }, 80); // ~12fps cursor updates
+    },
+    getCursorStyle(editor) {
+      if (!editor.cursor) return { display: 'none' };
+      const sx = editor.cursor.x * this.zoom + this.pan.x;
+      const sy = editor.cursor.y * this.zoom + this.pan.y;
+      return {
+        position: 'absolute',
+        left: `${sx}px`,
+        top: `${sy}px`,
+        pointerEvents: 'none',
+        zIndex: 50,
+        transform: 'translate(0, 0)',
+      };
+    },
+    applyRemoteUpdate() {
+      if (!this.colabRemoteUpdate) return;
+      const remote = this.colabRemoteUpdate;
+      this.colabRemoteUpdate = null;
+      this.undoSnapshot();
+      this.form = { steps: [], characters: [], backgrounds: [], ...remote };
+      this.previewIndex = 0;
+      this.previewHistory = this.form.steps.length ? [{ idx: 0, tags: {} }] : [];
+      this.isDirty = false;
+    },
+    /* ── Save modes ── */
+    async saveAsTest() {
+      if (!this.currentEditor) { this.error = 'Нужно войти в аккаунт'; return; }
+      await this._doSave('test');
+    },
+    async doPublish() {
+      if (!this.currentEditor) { this.error = 'Нужно войти в аккаунт'; return; }
+      if (!confirm('Опубликовать историю? Она станет видна всем пользователям.')) return;
+      await this._doSave('published');
+    },
+    async _doSave(status) {
       this.error = '';
       this.success = '';
       if (!this.form.id || !this.form.title || this.form.steps.length === 0) {
@@ -1344,19 +1555,27 @@ export default {
       }
       this.loading = true;
       try {
-        await saveStory(this.form);
-        this.success = 'Сохранено';
+        let saved;
+        if (status === 'published') {
+          saved = await publishStory(this.form, this.currentEditor);
+        } else {
+          saved = await saveStoryAsTest(this.form, this.currentEditor);
+        }
+        this.form.status = saved.status;
+        this.success = status === 'published' ? 'Опубликовано!' : 'Сохранено для теста';
         this.isDirty = false;
         this.clearLocalDraft();
+        clearEditorDraft(this.currentEditor, this.form.id);
         await this.loadStories();
       } catch (e) {
         this.error = e.message || 'Ошибка сохранения';
       } finally {
         this.loading = false;
-        setTimeout(() => {
-          this.success = '';
-        }, 2000);
+        setTimeout(() => { this.success = ''; }, 3000);
       }
+    },
+    async save() {
+      await this.saveAsTest();
     },
     getNextPreviewIndex() {
       const current = this.form.steps[this.previewIndex];
@@ -1593,8 +1812,12 @@ export default {
     },
     saveDraftToLocal() {
       if (!this.form.id && this.form.steps.length === 0) return;
+      // Use editor-specific key if logged in, otherwise shared key
+      const key = this.currentEditor
+        ? `story_editor_draft_${this.currentEditor}_${this.form.id}`
+        : 'story_editor_draft';
       try {
-        localStorage.setItem('story_editor_draft', JSON.stringify({
+        localStorage.setItem(key, JSON.stringify({
           storyId: this.form.id,
           savedAt: Date.now(),
           form: this.form
@@ -1613,6 +1836,11 @@ export default {
     },
     clearLocalDraft() {
       try {
+        const key = this.currentEditor
+          ? `story_editor_draft_${this.currentEditor}_${this.form.id}`
+          : 'story_editor_draft';
+        localStorage.removeItem(key);
+        // Also clear legacy key
         localStorage.removeItem('story_editor_draft');
       } catch {
         // ignore
@@ -1620,7 +1848,10 @@ export default {
     },
     checkAndRestoreDraft(storyId) {
       try {
-        const raw = localStorage.getItem('story_editor_draft');
+        const key = this.currentEditor
+          ? `story_editor_draft_${this.currentEditor}_${storyId}`
+          : 'story_editor_draft';
+        const raw = localStorage.getItem(key);
         if (!raw) return;
         const draft = JSON.parse(raw);
         if (!draft || draft.storyId !== storyId) return;
@@ -1673,6 +1904,9 @@ export default {
     }
   },
   mounted() {
+    // Restore editor session
+    this.currentEditor = getCurrentEditor();
+
     this.loadStories();
     this.$nextTick(() => {
       this.undoSnapshot();
@@ -1691,6 +1925,7 @@ export default {
     const graph = this.$refs.graph;
     if (graph) {
       graph.addEventListener('mousemove', this.updateTempEdge);
+      graph.addEventListener('mousemove', this.onCanvasCursorMove);
       graph.addEventListener('mouseup', this.cancelLink);
       graph.addEventListener('mouseleave', this.cancelLink);
       graph.addEventListener('mouseleave', this.clearEdgeHover);
@@ -1698,6 +1933,11 @@ export default {
     this.$watch('form', () => { this.scheduleLocalSave(); }, { deep: true });
   },
   beforeUnmount() {
+    this.stopCollaboration();
+    if (this.currentEditor && this.form.id) {
+      removePresence(this.form.id, this.currentEditor);
+    }
+    if (this._cursorThrottle) clearTimeout(this._cursorThrottle);
     if (this._resizeObserver) this._resizeObserver.disconnect();
     document.removeEventListener('click', this.closeContextMenu);
     window.removeEventListener('mouseup', this.stopDrag);
@@ -1713,6 +1953,7 @@ export default {
     const graph = this.$refs.graph;
     if (graph) {
       graph.removeEventListener('mousemove', this.updateTempEdge);
+      graph.removeEventListener('mousemove', this.onCanvasCursorMove);
       graph.removeEventListener('mouseup', this.cancelLink);
       graph.removeEventListener('mouseleave', this.cancelLink);
       graph.removeEventListener('mouseleave', this.clearEdgeHover);
@@ -2427,5 +2668,158 @@ input:focus, textarea:focus, select:focus {
   .layout { grid-template-columns: 1fr; }
   .editor-block { display: none; }
   .side-menu { z-index: 30; }
+}
+
+/* ─── Login overlay ─── */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+}
+.login-logo { font-size: 36px; text-align: center; }
+.login-title { font-size: 20px; font-weight: 800; text-align: center; color: #0f172a; }
+.login-sub { font-size: 13px; color: #6b7280; text-align: center; margin-top: -6px; }
+.login-avatars {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 4px 0;
+}
+.editor-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.15s;
+  user-select: none;
+}
+.editor-avatar:hover { transform: scale(1.15); }
+.login-input {
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.login-input:focus { border-color: #6366f1; }
+.login-error { color: #ef4444; font-size: 12px; text-align: center; }
+.login-btn { width: 100%; padding: 11px; font-size: 15px; border-radius: 12px; margin-top: 4px; }
+
+/* ─── Editor badge ─── */
+.editor-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px 3px 10px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.logout-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0 2px;
+  line-height: 1;
+}
+.logout-btn:hover { color: #fff; }
+.online-editors { display: flex; gap: 4px; align-items: center; }
+.online-badge {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border: 2px solid #fff;
+  cursor: default;
+}
+
+/* ─── Save buttons ─── */
+.save-btns { display: flex; gap: 8px; }
+.save-test-btn { flex: 1; background: #f1f5f9; color: #374151; }
+.save-test-btn.dirty { background: #fef3c7; color: #92400e; }
+.publish-btn { flex: 1; background: #6366f1; color: #fff; }
+.save-test-btn:hover:not(:disabled) { background: #e2e8f0; }
+.publish-btn:hover:not(:disabled) { opacity: 0.88; }
+
+/* ─── Status badges ─── */
+.status-row { display: flex; align-items: center; gap: 6px; }
+.story-status-row { margin-top: 3px; }
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.status-badge.published { background: #d1fae5; color: #065f46; }
+.status-badge.test { background: #ede9fe; color: #5b21b6; }
+.status-badge.draft { background: #f1f5f9; color: #475569; }
+.status-badge.sm { font-size: 10px; padding: 1px 6px; }
+
+/* ─── Remote update banner ─── */
+.collab-banner {
+  position: fixed;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 150;
+  background: #1e293b;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+/* ─── Collaboration cursors ─── */
+.collab-cursors-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  overflow: hidden;
+}
+.collab-cursor-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+}
+.cursor-svg { flex-shrink: 0; display: block; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
+.cursor-name {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+  margin-top: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 </style>
