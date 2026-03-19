@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // URL API сервера
-$api_host = getenv('API_HOST') ?: '127.0.0.1';
+$api_host = getenv('API_HOST') ?: '94.103.13.116';
 $api_port = getenv('API_PORT') ?: '3001';
 $api_url = "http://{$api_host}:{$api_port}/api/emotions";
 

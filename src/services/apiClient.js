@@ -1,11 +1,10 @@
+import { db } from '@/firebase';
+import {
+  doc, getDoc, setDoc, getDocs, updateDoc,
+  collection, query, orderBy, startAt, endAt,
+  documentId, arrayUnion
+} from 'firebase/firestore';
 import { toDateString } from '@/utils/dates';
-
-const fallbackBase =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3001/api'
-    : '/api';
-
-const API_BASE = process.env.VUE_APP_API_URL || fallbackBase;
 
 export class ApiError extends Error {
   constructor(message, status) {
@@ -14,77 +13,44 @@ export class ApiError extends Error {
   }
 }
 
-const request = async (path, options = {}) => {
-  const { body, headers, ...rest } = options;
-  const response = await fetch(`${API_BASE}${path}`, {
-    ...rest,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(headers || {})
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
-
-  if (!response.ok) {
-    let details = '';
-    try {
-      const data = await response.json();
-      details = data?.error || data?.message || '';
-    } catch {
-      // ignore
-    }
-    throw new ApiError(details || response.statusText, response.status);
-  }
-
-  if (response.status === 204) {
-    return null;
-  }
-
-  try {
-    return await response.json();
-  } catch {
-    return null;
-  }
-};
-
-export const getApiUrl = () => API_BASE;
+// -------- Пользователи --------
 
 export const ensureUser = async (telegramId, login) => {
-  try {
-    return await request(`/users/${telegramId}`);
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 404) {
-      await request('/users', {
-        method: 'POST',
-        body: { telegramId, login: login || telegramId }
-      });
-      return request(`/users/${telegramId}`);
-    }
-    throw error;
+  const id = String(telegramId);
+  const ref = doc(db, 'users', id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    const now = new Date().toISOString();
+    await setDoc(ref, { telegramId: id, login: login || id, createdAt: now, updatedAt: now });
   }
+  return (await getDoc(ref)).data();
 };
 
-export const saveEmotion = async ({ telegramId, emotion, note = '', date, username }) =>
-  request('/emotions', {
-    method: 'POST',
-    body: {
-      telegramId,
-      emotion,
-      note,
-      date: date || toDateString(new Date()),
-      username: username || 'Пользователь'
-    }
-  });
+export const getApiUrl = () => 'firebase';
+
+// -------- Эмоции --------
+
+export const saveEmotion = async ({ telegramId, emotion, note = '', date, username }) => {
+  const id = String(telegramId);
+  const dateStr = date || toDateString(new Date());
+  const ref = doc(db, 'emotions', id, 'dates', dateStr);
+  const data = {
+    emotion,
+    note,
+    username: username || 'Пользователь',
+    timestamp: new Date().toISOString(),
+    createdAt: new Date().toISOString()
+  };
+  await setDoc(ref, data);
+  return data;
+};
 
 export const getEmotionByDate = async (telegramId, date) => {
-  try {
-    return await request(`/emotions/${telegramId}/${toDateString(date)}`);
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 404) {
-      return null;
-    }
-    throw error;
-  }
+  const id = String(telegramId);
+  const dateStr = toDateString(date);
+  const snap = await getDoc(doc(db, 'emotions', id, 'dates', dateStr));
+  if (!snap.exists()) return null;
+  return { ...snap.data(), date: dateStr };
 };
 
 export const hasEmotionOnDate = async (telegramId, date) => {
@@ -92,32 +58,151 @@ export const hasEmotionOnDate = async (telegramId, date) => {
   return Boolean(emotion);
 };
 
-export const getEmotionsRange = async (telegramId, startDate, endDate) =>
-  request(`/emotions?${new URLSearchParams({
-    telegramId: String(telegramId),
-    startDate: toDateString(startDate),
-    endDate: toDateString(endDate)
-  }).toString()}`);
+export const getEmotionsRange = async (telegramId, startDate, endDate) => {
+  const id = String(telegramId);
+  const start = toDateString(startDate);
+  const end = toDateString(endDate);
+  const q = query(
+    collection(db, 'emotions', id, 'dates'),
+    orderBy(documentId()),
+    startAt(start),
+    endAt(end)
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ ...d.data(), date: d.id }));
+};
 
-export const saveThought = async ({ telegramId, text, date }) =>
-  request('/thoughts', {
-    method: 'POST',
-    body: {
-      telegramId,
-      thought: text,
-      date: date ? toDateString(date) : undefined
-    }
-  });
+// -------- Мысли --------
+
+export const saveThought = async ({ telegramId, text, date }) => {
+  const id = String(telegramId);
+  const dateStr = date ? toDateString(date) : toDateString(new Date());
+  const ref = doc(db, 'thoughts', id, 'dates', dateStr);
+  const thought = {
+    id: Date.now().toString(),
+    text,
+    timestamp: new Date().toISOString(),
+    createdAt: new Date().toISOString()
+  };
+  const snap = await getDoc(ref);
+  if (snap.exists()) {
+    await updateDoc(ref, { items: arrayUnion(thought) });
+  } else {
+    await setDoc(ref, { items: [thought] });
+  }
+  return thought;
+};
 
 export const getThoughtsByDate = async (telegramId, date) => {
+  const id = String(telegramId);
+  const dateStr = toDateString(date);
+  const snap = await getDoc(doc(db, 'thoughts', id, 'dates', dateStr));
+  if (!snap.exists()) return [];
+  return snap.data().items || [];
+};
+
+// -------- Истории --------
+
+export const getStories = async () => {
+  const snap = await getDocs(collection(db, 'stories'));
+  return snap.docs.map(d => d.data());
+};
+
+// Only published stories (for regular users in the main app)
+export const getPublishedStories = async () => {
+  const snap = await getDocs(collection(db, 'stories'));
+  return snap.docs.map(d => d.data()).filter(s => s.status === 'published');
+};
+
+export const getStory = async (id) => {
+  const snap = await getDoc(doc(db, 'stories', id));
+  if (!snap.exists()) throw new ApiError('Story not found', 404);
+  return snap.data();
+};
+
+export const saveStory = async (story) => {
+  await setDoc(doc(db, 'stories', story.id), story);
+  return story;
+};
+
+// Save as test (visible only to editors)
+export const saveStoryAsTest = async (story, editorName) => {
+  const data = { ...story, status: 'test', lastEditedBy: editorName, updatedAt: new Date().toISOString() };
+  await setDoc(doc(db, 'stories', story.id), data);
+  return data;
+};
+
+// Publish (visible to all users)
+export const publishStory = async (story, editorName) => {
+  const data = { ...story, status: 'published', lastEditedBy: editorName, publishedAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+  await setDoc(doc(db, 'stories', story.id), data);
+  return data;
+};
+
+// Editor private drafts stored in localStorage (keyed by editor name)
+export const saveEditorDraft = (editorName, storyId, form) => {
+  if (!editorName || !storyId) return;
   try {
-    return await request(`/thoughts/${telegramId}/${toDateString(date)}`);
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 404) {
-      return [];
-    }
-    throw error;
+    localStorage.setItem(`editor_draft_${editorName}_${storyId}`, JSON.stringify({
+      form,
+      savedAt: Date.now(),
+    }));
+  } catch {
+    // Ignore quota errors
   }
+};
+
+export const loadEditorDraft = (editorName, storyId) => {
+  if (!editorName || !storyId) return null;
+  try {
+    const raw = localStorage.getItem(`editor_draft_${editorName}_${storyId}`);
+    if (!raw) return null;
+    const draft = JSON.parse(raw);
+    // Expire after 7 days
+    if (Date.now() - draft.savedAt > 7 * 24 * 60 * 60 * 1000) {
+      clearEditorDraft(editorName, storyId);
+      return null;
+    }
+    return draft;
+  } catch {
+    return null;
+  }
+};
+
+export const clearEditorDraft = (editorName, storyId) => {
+  if (!editorName || !storyId) return;
+  try {
+    localStorage.removeItem(`editor_draft_${editorName}_${storyId}`);
+  } catch {
+    // Ignore
+  }
+};
+
+export const getStoryProgress = async (telegramId, storyId) => {
+  const snap = await getDoc(doc(db, 'storyProgress', `${telegramId}_${storyId}`));
+  if (!snap.exists()) return null;
+  return snap.data();
+};
+
+export const saveStoryProgress = async ({ telegramId, storyId, stepIndex, flags }) => {
+  const data = {
+    telegramId: String(telegramId),
+    storyId,
+    stepIndex,
+    flags,
+    updatedAt: new Date().toISOString()
+  };
+  await setDoc(doc(db, 'storyProgress', `${telegramId}_${storyId}`), data);
+  return data;
+};
+
+export const uploadFile = async (filename, base64) => {
+  const response = await fetch('/api/upload', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filename, data: base64 })
+  });
+  return response.json();
 };
 
 export const apiClient = {
@@ -130,38 +215,3 @@ export const apiClient = {
   saveThought,
   getThoughtsByDate
 };
-
-// -------- Истории --------
-
-export const getStories = async () => request('/stories');
-
-export const getStory = async (id) => request(`/stories/${id}`);
-
-export const getStoryProgress = async (telegramId, storyId) => {
-  try {
-    return await request(`/story-progress/${telegramId}/${storyId}`);
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 404) {
-      return null;
-    }
-    throw error;
-  }
-};
-
-export const saveStoryProgress = async ({ telegramId, storyId, stepIndex, flags }) =>
-  request('/story-progress', {
-    method: 'POST',
-    body: { telegramId, storyId, stepIndex, flags }
-  });
-
-export const saveStory = async (story) =>
-  request('/stories', {
-    method: 'POST',
-    body: story
-  });
-
-export const uploadFile = async (filename, base64) =>
-  request('/upload', {
-    method: 'POST',
-    body: { filename, data: base64 }
-  });

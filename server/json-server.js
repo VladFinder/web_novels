@@ -7,6 +7,7 @@ const fsSync = require('fs'); // Для sync-операций (чтение сп
 const app = express();
 const PORT = process.env.PORT || 3001;
 const HOST = process.env.HOST || '127.0.0.1';
+const UPLOAD_DIR = path.join(__dirname, 'uploads');
 
 // Middleware
 app.use(cors());
@@ -44,7 +45,6 @@ async function saveData(data) {
 // Инициализация сервера
 async function initializeServer() {
   await ensureDataDirectory();
-  await fs.mkdir(UPLOAD_DIR, { recursive: true });
   
   // Создаем файл если его нет
   try {
@@ -95,7 +95,6 @@ function normalizeDateString(dateObj) {
 // --- Истории и прогресс историй ---
 const STORIES_DIR = path.join(USER_DATA_DIR, 'stories');
 const STORY_PROGRESS_DIR = path.join(USER_DATA_DIR, 'story_progress');
-const UPLOAD_DIR = path.join(__dirname, 'uploads');
 
 async function ensureStoryDirs() {
   await fs.mkdir(STORIES_DIR, { recursive: true });
@@ -105,7 +104,7 @@ async function ensureStoryDirs() {
 
 async function listStoriesMeta() {
   try {
-    const files = fsSync.readdirSync(STORIES_DIR).filter((f) => f.endsWith('.json'));
+    const files = (await fs.readdir(STORIES_DIR)).filter((f) => f.endsWith('.json'));
     const metas = [];
     for (const file of files) {
       const raw = await fs.readFile(path.join(STORIES_DIR, file), 'utf8');
@@ -197,7 +196,6 @@ app.post('/api/upload', async (req, res) => {
     if (!filename || !data) {
       return res.status(400).json({ error: 'filename и data обязательны' });
     }
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
     const safe = sanitizeFilename(filename);
     const finalName = `${Date.now()}_${safe}`;
     const base64 = String(data).replace(/^data:.+;base64,/, '');
