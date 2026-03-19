@@ -161,7 +161,6 @@ import {
   ensureUser,
   getEmotionByDate,
   getStories,
-  getStory,
   getStoryProgress as fetchStoryProgress,
   saveStoryProgress
 } from '@/services/apiClient';
@@ -241,35 +240,33 @@ export default {
         username.value = telegramUsername.value || id;
       }
       await preloadTodayEmotion(id);
-      await loadStories();
     });
 
     onUnmounted(() => {
       if (typingTimer) { clearInterval(typingTimer); typingTimer = null; }
     });
 
-    // ── Stories loading ───────────────────────────────────────────
+    // ── Stories loading (ленивая — только при открытии модала) ──────
     const loadStories = async () => {
+      if (storiesLoading.value) return;
       storiesLoading.value = true;
       storiesError.value = '';
       try {
-        const list = await getStories();
-        if (Array.isArray(list)) {
-          const results = await Promise.all(list.map((meta) => getStory(meta.id)));
-          stories.value = results.filter((s) => s?.steps?.length);
-        } else {
-          stories.value = [];
-        }
+        const list = await getStories(); // уже содержит полные данные
+        stories.value = Array.isArray(list) ? list.filter((s) => s?.steps?.length) : [];
       } catch (error) {
         storiesError.value = error.message || 'Ошибка загрузки историй';
-        stories.value = [];
       } finally {
         storiesLoading.value = false;
       }
     };
 
     // ── Modal ─────────────────────────────────────────────────────
-    const openStories = () => { if (canSeeStories.value) showStoriesModal.value = true; };
+    const openStories = () => {
+      if (!canSeeStories.value) return;
+      showStoriesModal.value = true;
+      if (!stories.value.length) loadStories(); // загружаем при первом открытии
+    };
     const closeStories = () => { showStoriesModal.value = false; closeStory(); };
 
     const selectStory = (story) => {
@@ -378,7 +375,7 @@ export default {
 
     // ── Computed ──────────────────────────────────────────────────
     const canSeeStories = computed(() =>
-      STORY_ALLOWED_IDS.includes(String(telegramId.value || '')) && stories.value.length > 0
+      STORY_ALLOWED_IDS.includes(String(telegramId.value || ''))
     );
 
     const currentStoryStep = computed(() => {
