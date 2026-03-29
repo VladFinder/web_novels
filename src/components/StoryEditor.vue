@@ -191,12 +191,16 @@
                 <input v-model="char.name" placeholder="Имя персонажа" />
                 <button class="btn tiny danger" @click="removeStoryCharacter(chIdx)">✕</button>
               </div>
+              <div class="media-preview-row">
+                <img v-if="char.image" :src="char.image" class="media-thumb" />
+                <span v-else class="media-thumb empty">нет фото</span>
+                <input type="file" accept="image/*" @change="onUploadStoryCharImage(chIdx, $event)" title="Загрузить основное фото" />
+              </div>
           <div class="variants-row">
             <div class="variants-header">
               <span class="muted">Вариации</span>
               <div class="variant-actions">
                 <button class="btn tiny ghost" @click="addVariant(chIdx)">+ Вариант</button>
-                <input type="file" accept="image/*" @change="onUploadStoryCharImage(chIdx, $event)" title="Загрузить основное фото" />
               </div>
             </div>
             <div v-if="!char.variants || char.variants.length === 0" class="muted">Нет вариантов</div>
@@ -205,11 +209,15 @@
               :key="vIdx"
               class="variant-item"
             >
-              <input v-model="variant.name" placeholder="Имя вариации (например, Бикини)" />
-              <div class="variant-upload-row">
+              <div class="story-char-row">
+                <input v-model="variant.name" placeholder="Имя вариации (например, Бикини)" />
+                <button class="btn tiny danger" @click="removeVariant(chIdx, vIdx)">✕</button>
+              </div>
+              <div class="media-preview-row">
+                <img v-if="variant.image" :src="variant.image" class="media-thumb" />
+                <span v-else class="media-thumb empty">нет фото</span>
                 <input type="file" accept="image/*" @change="onUploadVariantImage(chIdx, vIdx, $event)" title="Загрузить файл" />
               </div>
-              <button class="btn tiny danger" @click="removeVariant(chIdx, vIdx)">✕</button>
               </div>
             </div>
           </div>
@@ -235,7 +243,9 @@
                 <input v-model="bg.name" placeholder="Название фона" />
                 <button class="btn tiny danger" @click="removeBackground(bgIdx)">✕</button>
               </div>
-              <div class="variant-upload-row">
+              <div class="media-preview-row">
+                <img v-if="bg.image" :src="bg.image" class="media-thumb wide" />
+                <span v-else class="media-thumb empty">нет фото</span>
                 <input type="file" accept="image/*" @change="onUploadBackground(bgIdx, $event)" title="Загрузить фон" />
               </div>
             </div>
@@ -2356,6 +2366,33 @@ input:focus, textarea:focus, select:focus {
   gap: 6px;
 }
 .variant-upload-row input[type="file"] { font-size: 11px; width: auto; }
+.media-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+.media-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+.media-thumb.wide {
+  width: 96px;
+  height: 56px;
+}
+.media-thumb.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #9ca3af;
+  background: #f3f4f6;
+}
+.media-preview-row input[type="file"] { font-size: 11px; flex: 1; }
 
 /* ─── Граф (колонка 1) ─── */
 .editor-graph { min-width: 0; }
