@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <div class="side-menu" :class="{ open: menuOpen }">
+    <div class="side-menu" :class="{ open: menuOpen, resizing: isResizingSideMenu }" :style="menuOpen ? { width: sideMenuWidth + 'px' } : {}">
       <div class="side-header">
         <div>
           <div class="menu-title">Истории</div>
@@ -266,6 +266,7 @@
           </div>
         </div>
       </div>
+      <div class="side-resize-handle" @mousedown.prevent="startSideResize"></div>
     </div>
     </div>
 
@@ -702,6 +703,8 @@ export default {
       pendingLink: null,
       tempEdge: null,
       menuOpen: false,
+      sideMenuWidth: Number(localStorage.getItem('sideMenuWidth')) || 320,
+      isResizingSideMenu: false,
       nodeSize: { w: 180, h: 120 },
       portOffset: 10,
       hoveredEdge: null,
@@ -1286,6 +1289,23 @@ export default {
       } catch (e) {
         this.error = e.message || 'Ошибка загрузки истории';
       }
+    },
+    startSideResize(e) {
+      this.isResizingSideMenu = true;
+      const startX = e.clientX;
+      const startWidth = this.sideMenuWidth;
+      const onMove = (ev) => {
+        const w = Math.min(600, Math.max(220, startWidth + ev.clientX - startX));
+        this.sideMenuWidth = w;
+      };
+      const onUp = () => {
+        this.isResizingSideMenu = false;
+        localStorage.setItem('sideMenuWidth', this.sideMenuWidth);
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+      };
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
     },
     createNew() {
       this.stopCollaboration();
@@ -2213,6 +2233,17 @@ export default {
   overflow-y: auto;
 }
 .side-menu.open { transform: translateX(0); }
+.side-menu.resizing { transition: none; user-select: none; }
+.side-resize-handle {
+  position: absolute;
+  top: 0; right: -4px; bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  z-index: 10;
+}
+.side-resize-handle:hover, .side-menu.resizing .side-resize-handle {
+  background: rgba(99, 102, 241, 0.25);
+}
 .menu-overlay { position: fixed; inset: 0; z-index: 19; }
 .side-header {
   display: flex;
