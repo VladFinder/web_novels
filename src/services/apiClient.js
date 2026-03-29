@@ -256,7 +256,6 @@ export const uploadFile = async (file, label) => {
     Key: key,
     Body: body,
     ContentType: isImage ? 'image/webp' : file.type,
-    ACL: 'public-read',
   }));
   return { url: `${S3_ENDPOINT}/${S3_BUCKET}/${key}` };
 };
