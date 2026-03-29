@@ -27,6 +27,10 @@ jobs:
         env:
           NODE_ENV: production
           VUE_APP_API_URL: https://iki.commandc.ru/api
+          VUE_APP_S3_ENDPOINT: https://s3.ru1.storage.beget.cloud
+          VUE_APP_S3_BUCKET: e8faaa356416-ikipoject
+          VUE_APP_S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          VUE_APP_S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
 
       - name: Copy server files into dist
         run: |

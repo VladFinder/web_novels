@@ -197,13 +197,26 @@ export const saveStoryProgress = async ({ telegramId, storyId, stepIndex, flags 
 };
 
 export const uploadFile = async (filename, file) => {
-  const { storage } = await import('@/firebase');
-  const { ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+  const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
+  const client = new S3Client({
+    endpoint: process.env.VUE_APP_S3_ENDPOINT,
+    region: 'ru-1',
+    credentials: {
+      accessKeyId: process.env.VUE_APP_S3_ACCESS_KEY,
+      secretAccessKey: process.env.VUE_APP_S3_SECRET_KEY,
+    },
+    forcePathStyle: true,
+  });
   const ext = filename.split('.').pop();
-  const uniqueName = `uploads/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-  const storageRef = ref(storage, uniqueName);
-  await uploadBytes(storageRef, file);
-  const url = await getDownloadURL(storageRef);
+  const key = `uploads/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  await client.send(new PutObjectCommand({
+    Bucket: process.env.VUE_APP_S3_BUCKET,
+    Key: key,
+    Body: file,
+    ContentType: file.type,
+    ACL: 'public-read',
+  }));
+  const url = `${process.env.VUE_APP_S3_ENDPOINT}/${process.env.VUE_APP_S3_BUCKET}/${key}`;
   return { url };
 };
 
