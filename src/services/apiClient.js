@@ -202,9 +202,9 @@ const S3_BUCKET = 'e8faaa356416-ikipoject';
 function slugify(str) {
   return String(str || 'file')
     .toLowerCase()
-    .replace(/\s+/g, '_')
-    .replace(/[^a-z0-9_а-яёА-ЯЁ-]/g, '')
-    .slice(0, 60) || 'file';
+    .split('/')
+    .map(seg => seg.replace(/\s+/g, '_').replace(/[^a-z0-9_а-яёА-ЯЁ-]/g, '').slice(0, 60) || 'file')
+    .join('/');
 }
 
 function compressImage(file, maxWidth = 1920, quality = 0.85) {
