@@ -196,10 +196,13 @@ export const saveStoryProgress = async ({ telegramId, storyId, stepIndex, flags 
   return data;
 };
 
+const S3_ENDPOINT = 'https://s3.ru1.storage.beget.cloud';
+const S3_BUCKET = 'e8faaa356416-ikipoject';
+
 export const uploadFile = async (filename, file) => {
   const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
   const client = new S3Client({
-    endpoint: process.env.VUE_APP_S3_ENDPOINT,
+    endpoint: S3_ENDPOINT,
     region: 'ru-1',
     credentials: {
       accessKeyId: process.env.VUE_APP_S3_ACCESS_KEY,
@@ -210,14 +213,13 @@ export const uploadFile = async (filename, file) => {
   const ext = filename.split('.').pop();
   const key = `uploads/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   await client.send(new PutObjectCommand({
-    Bucket: process.env.VUE_APP_S3_BUCKET,
+    Bucket: S3_BUCKET,
     Key: key,
     Body: file,
     ContentType: file.type,
     ACL: 'public-read',
   }));
-  const url = `${process.env.VUE_APP_S3_ENDPOINT}/${process.env.VUE_APP_S3_BUCKET}/${key}`;
-  return { url };
+  return { url: `${S3_ENDPOINT}/${S3_BUCKET}/${key}` };
 };
 
 export const apiClient = {
