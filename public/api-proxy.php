@@ -1,0 +1,103 @@
+<?php
+// PHP прокси для API запросов
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+// Обработка preflight запросов
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+// Получаем путь запроса
+$request_uri = $_SERVER['REQUEST_URI'];
+$path = parse_url($request_uri, PHP_URL_PATH);
+// При вызове через mod_rewrite REQUEST_URI = /api/endpoint, SCRIPT_NAME = /api-proxy.php
+// Извлекаем всё что идёт после /api/
+if (preg_match('#^/api/(.*)$#', $path, $m)) {
+    $api_endpoint = $m[1];
+} else {
+    $api_endpoint = ltrim(substr($path, strlen($_SERVER['SCRIPT_NAME'])), '/');
+}
+
+// URL API сервера
+$api_host = getenv('API_HOST') ?: '94.103.13.116';
+$api_port = getenv('API_PORT') ?: '3001';
+$api_url = "http://{$api_host}:{$api_port}/api/" . $api_endpoint;
+
+// Получаем метод запроса
+$method = $_SERVER['REQUEST_METHOD'];
+
+// Получаем заголовки
+$headers = [];
+foreach (getallheaders() as $name => $value) {
+    if (strtolower($name) !== 'host') {
+        $headers[] = "$name: $value";
+    }
+}
+
+// Получаем тело запроса
+$body = file_get_contents('php://input');
+
+// Логирование для отладки
+error_log("API Proxy: $method $api_url");
+error_log("API Proxy: Headers: " . json_encode($headers));
+error_log("API Proxy: Body: " . $body);
+
+// Инициализируем cURL
+$ch = curl_init();
+
+// Настраиваем cURL
+curl_setopt($ch, CURLOPT_URL, $api_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+
+// Добавляем тело запроса для POST/PUT
+if ($method === 'POST' || $method === 'PUT') {
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+}
+
+// Добавляем query параметры для GET
+if ($method === 'GET' && !empty($_GET)) {
+    $query_string = http_build_query($_GET);
+    curl_setopt($ch, CURLOPT_URL, $api_url . '?' . $query_string);
+}
+
+// Выполняем запрос
+$response = curl_exec($ch);
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+
+// Логирование ответа
+error_log("API Proxy: Response code: $http_code");
+error_log("API Proxy: Response: " . substr($response, 0, 500));
+
+// Проверяем ошибки
+if (curl_errno($ch)) {
+    $error = curl_error($ch);
+    error_log("API Proxy: cURL Error: $error");
+    http_response_code(500);
+    echo json_encode(['error' => 'API server error: ' . $error]);
+    curl_close($ch);
+    exit();
+}
+
+curl_close($ch);
+
+// Устанавливаем код ответа
+http_response_code($http_code);
+
+// Устанавливаем Content-Type
+if ($content_type) {
+    header('Content-Type: ' . $content_type);
+} else {
+    header('Content-Type: application/json');
+}
+
+// Возвращаем ответ
+echo $response;
+?> 
