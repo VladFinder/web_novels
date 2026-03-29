@@ -199,7 +199,36 @@ export const saveStoryProgress = async ({ telegramId, storyId, stepIndex, flags 
 const S3_ENDPOINT = 'https://s3.ru1.storage.beget.cloud';
 const S3_BUCKET = 'e8faaa356416-ikipoject';
 
-export const uploadFile = async (filename, file) => {
+function slugify(str) {
+  return String(str || 'file')
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_а-яёА-ЯЁ-]/g, '')
+    .slice(0, 60) || 'file';
+}
+
+function compressImage(file, maxWidth = 1920, quality = 0.85) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement('canvas');
+      let { width, height } = img;
+      if (width > maxWidth) {
+        height = Math.round(height * maxWidth / width);
+        width = maxWidth;
+      }
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      canvas.toBlob(resolve, 'image/webp', quality);
+    };
+    img.src = url;
+  });
+}
+
+export const uploadFile = async (file, label) => {
   const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
   const client = new S3Client({
     endpoint: S3_ENDPOINT,
@@ -210,14 +239,23 @@ export const uploadFile = async (filename, file) => {
     },
     forcePathStyle: true,
   });
-  const ext = filename.split('.').pop();
-  const key = `uploads/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-  const body = new Uint8Array(await file.arrayBuffer());
+
+  const isImage = file.type.startsWith('image/');
+  let uploadBlob = file;
+  let ext = file.name.split('.').pop().toLowerCase();
+
+  if (isImage) {
+    uploadBlob = await compressImage(file);
+    ext = 'webp';
+  }
+
+  const key = `${slugify(label)}.${ext}`;
+  const body = new Uint8Array(await uploadBlob.arrayBuffer());
   await client.send(new PutObjectCommand({
     Bucket: S3_BUCKET,
     Key: key,
     Body: body,
-    ContentType: file.type,
+    ContentType: isImage ? 'image/webp' : file.type,
     ACL: 'public-read',
   }));
   return { url: `${S3_ENDPOINT}/${S3_BUCKET}/${key}` };

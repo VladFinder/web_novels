@@ -1364,7 +1364,8 @@ export default {
     async onUploadStoryCharImage(charIdx, event) {
       const file = event.target.files?.[0];
       if (!file) return;
-      await this.uploadAndSet(file, (url) => {
+      const charName = this.form.characters?.[charIdx]?.name || `char${charIdx}`;
+      await this.uploadAndSet(file, `characters/${charName}_main`, (url) => {
         if (!this.form.characters || !this.form.characters[charIdx]) return;
         this.form.characters[charIdx].image = url;
       });
@@ -1373,7 +1374,9 @@ export default {
     async onUploadVariantImage(charIdx, variantIdx, event) {
       const file = event.target.files?.[0];
       if (!file) return;
-      await this.uploadAndSet(file, (url) => {
+      const charName = this.form.characters?.[charIdx]?.name || `char${charIdx}`;
+      const varName = this.form.characters?.[charIdx]?.variants?.[variantIdx]?.name || `var${variantIdx}`;
+      await this.uploadAndSet(file, `characters/${charName}_${varName}`, (url) => {
         if (!this.form.characters || !this.form.characters[charIdx]?.variants) return;
         this.form.characters[charIdx].variants[variantIdx].image = url;
       });
@@ -1382,16 +1385,17 @@ export default {
     async onUploadBackground(bgIdx, event) {
       const file = event.target.files?.[0];
       if (!file) return;
-      await this.uploadAndSet(file, (url) => {
+      const bgName = this.form.backgrounds?.[bgIdx]?.name || `bg${bgIdx}`;
+      await this.uploadAndSet(file, `backgrounds/${bgName}`, (url) => {
         if (!this.form.backgrounds || !this.form.backgrounds[bgIdx]) return;
         this.form.backgrounds[bgIdx].image = url;
       });
       event.target.value = '';
     },
-    async uploadAndSet(file, setter) {
+    async uploadAndSet(file, label, setter) {
       try {
         this.loading = true;
-        const resp = await uploadFile(file.name, file);
+        const resp = await uploadFile(file, label);
         if (resp?.url) setter(resp.url);
       } catch (e) {
         this.error = e.message || 'Ошибка загрузки файла';
