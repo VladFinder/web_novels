@@ -84,28 +84,52 @@
       </div>
       <div class="stories-list">
         <div class="list-header">
-          <span>Истории на сервере</span>
+          <span>Истории</span>
           <button class="btn small" @click="loadStories" :disabled="loading">Обновить</button>
         </div>
         <div v-if="listLoading" class="muted">Загрузка...</div>
-        <div v-else-if="stories.length === 0" class="muted">Историй нет</div>
-        <div v-else class="list">
-          <button
-            v-for="story in stories"
-            :key="story.id"
-            class="list-item"
-            :class="{ active: story.id === form.id }"
-            @click="selectStory(story.id)"
-          >
-            <div class="title">{{ story.title || story.id }}</div>
-            <div class="meta">{{ story.tagline || story.duration }}</div>
-            <div class="story-status-row">
-              <span class="status-badge sm" :class="story.status || 'draft'">
-                {{ { published: '✅ Опубликовано', test: '🔬 Тест', draft: '📝 Черновик' }[story.status] || '📝 Черновик' }}
-              </span>
-            </div>
-          </button>
-        </div>
+        <template v-else-if="stories.length > 0">
+          <div class="list-section-label">Личные</div>
+          <div v-if="myStories.length === 0" class="muted small">Нет личных историй</div>
+          <div v-else class="list">
+            <button
+              v-for="story in myStories"
+              :key="story.id"
+              class="list-item"
+              :class="{ active: story.id === form.id }"
+              @click="selectStory(story.id)"
+            >
+              <div class="title">{{ story.title || story.id }}</div>
+              <div class="meta">{{ story.tagline || story.duration }}</div>
+              <div class="story-status-row">
+                <span class="status-badge sm" :class="story.status || 'draft'">
+                  {{ { published: '✅ Опубликовано', test: '🔬 Тест', draft: '📝 Черновик' }[story.status] || '📝 Черновик' }}
+                </span>
+              </div>
+            </button>
+          </div>
+          <div class="list-section-label">Групповые</div>
+          <div v-if="groupStories.length === 0" class="muted small">Нет групповых историй</div>
+          <div v-else class="list">
+            <button
+              v-for="story in groupStories"
+              :key="story.id"
+              class="list-item"
+              :class="{ active: story.id === form.id }"
+              @click="selectStory(story.id)"
+            >
+              <div class="title">{{ story.title || story.id }}</div>
+              <div class="meta">{{ story.tagline || story.duration }}</div>
+              <div class="story-status-row">
+                <span class="status-badge sm" :class="story.status || 'draft'">
+                  {{ { published: '✅ Опубликовано', test: '🔬 Тест', draft: '📝 Черновик' }[story.status] || '📝 Черновик' }}
+                </span>
+                <span class="owner-badge">{{ story.owner || '?' }}</span>
+              </div>
+            </button>
+          </div>
+        </template>
+        <div v-else class="muted">Историй нет</div>
       </div>
       <div class="form">
         <label>
@@ -123,6 +147,10 @@
         <label>
           Длительность/мета
           <input v-model="form.duration" placeholder="Например, 10 шагов" />
+        </label>
+        <label class="toggle-row">
+          <input type="checkbox" v-model="form.isGroup" />
+          Групповая история (видна всем редакторам)
         </label>
         <!-- Story status badge -->
         <div v-if="form.status" class="status-row">
@@ -163,7 +191,6 @@
                 <input v-model="char.name" placeholder="Имя персонажа" />
                 <button class="btn tiny danger" @click="removeStoryCharacter(chIdx)">✕</button>
               </div>
-              <input v-model="char.image" placeholder="URL основного изображения" />
           <div class="variants-row">
             <div class="variants-header">
               <span class="muted">Вариации</span>
@@ -180,7 +207,6 @@
             >
               <input v-model="variant.name" placeholder="Имя вариации (например, Бикини)" />
               <div class="variant-upload-row">
-                <input v-model="variant.image" placeholder="URL изображения вариации" />
                 <input type="file" accept="image/*" @change="onUploadVariantImage(chIdx, vIdx, $event)" title="Загрузить файл" />
               </div>
               <button class="btn tiny danger" @click="removeVariant(chIdx, vIdx)">✕</button>
@@ -210,7 +236,6 @@
                 <button class="btn tiny danger" @click="removeBackground(bgIdx)">✕</button>
               </div>
               <div class="variant-upload-row">
-                <input v-model="bg.image" placeholder="URL фонового изображения" readonly />
                 <input type="file" accept="image/*" @change="onUploadBackground(bgIdx, $event)" title="Загрузить фон" />
               </div>
             </div>
@@ -527,7 +552,7 @@
                   <button class="btn tiny danger" @click="removeCharacter(previewIndex, cidx)">✕</button>
                 </div>
                 <div v-if="char.variantKey === 'custom'" class="char-custom-url">
-                  <input v-model="char.image" placeholder="URL изображения" />
+                  <input type="file" accept="image/*" @change="onUploadStepChar(previewIndex, cidx, $event)" title="Загрузить изображение" />
                 </div>
                 <div class="char-pos-row">
                   <label>X%<input type="number" v-model.number="char.x" min="0" max="100" /></label>
@@ -659,6 +684,8 @@ export default {
         characters: [],
         backgrounds: [],
         collaborators: [],
+        owner: '',
+        isGroup: false,
       },
       previewIndex: 0,
       loading: false,
@@ -708,6 +735,12 @@ export default {
     };
   },
   computed: {
+    myStories() {
+      return this.stories.filter(s => !s.isGroup && (!s.owner || s.owner === this.currentEditor));
+    },
+    groupStories() {
+      return this.stories.filter(s => s.isGroup);
+    },
     editorColor() {
       return getEditorColor(this.currentEditor);
     },
@@ -1265,6 +1298,8 @@ export default {
         characters: [],
         backgrounds: [],
         collaborators: [],
+        owner: this.currentEditor || '',
+        isGroup: false,
       };
       this.previewIndex = 0;
       this.previewHistory = [];
@@ -1389,6 +1424,16 @@ export default {
       await this.uploadAndSet(file, `backgrounds/${bgName}`, (url) => {
         if (!this.form.backgrounds || !this.form.backgrounds[bgIdx]) return;
         this.form.backgrounds[bgIdx].image = url;
+      });
+      event.target.value = '';
+    },
+    async onUploadStepChar(stepIdx, charIdx, event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      await this.uploadAndSet(file, `steps/step${stepIdx}_char${charIdx}`, (url) => {
+        const step = this.form.steps[stepIdx];
+        if (!step?.characters?.[charIdx]) return;
+        step.characters[charIdx].image = url;
       });
       event.target.value = '';
     },
@@ -2199,6 +2244,11 @@ export default {
 .list-item.active { border-color: #6366f1; box-shadow: 0 0 0 1px #6366f1; }
 .list-item .title { font-weight: 700; font-size: 13px; }
 .list-item .meta { font-size: 11px; color: #6b7280; }
+.list-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9ca3af; padding: 8px 4px 4px; }
+.owner-badge { font-size: 10px; background: #374151; color: #d1d5db; border-radius: 4px; padding: 1px 5px; margin-left: 4px; }
+.muted.small { font-size: 11px; padding: 2px 4px; }
+.toggle-row { flex-direction: row !important; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
+.toggle-row input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; }
 .form { display: flex; flex-direction: column; gap: 10px; }
 label {
   display: flex;
