@@ -27,6 +27,8 @@ jobs:
         env:
           NODE_ENV: production
           VUE_APP_API_URL: https://ikidev.commandc.ru/api
+          VUE_APP_S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          VUE_APP_S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
 
       - name: Copy server files into dist
         run: |
