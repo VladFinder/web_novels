@@ -257,7 +257,7 @@ export const uploadFile = async (file, label) => {
     Body: body,
     ContentType: isImage ? 'image/webp' : file.type,
   }));
-  return { url: `${S3_ENDPOINT}/${S3_BUCKET}/${key}` };
+  return { url: `https://${S3_BUCKET}.s3.ru1.storage.beget.cloud/${key}` };
 };
 
 export const apiClient = {
