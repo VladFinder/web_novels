@@ -1391,22 +1391,13 @@ export default {
     async uploadAndSet(file, setter) {
       try {
         this.loading = true;
-        const base64 = await this.fileToBase64(file);
-        const resp = await uploadFile(file.name, base64);
+        const resp = await uploadFile(file.name, file);
         if (resp?.url) setter(resp.url);
       } catch (e) {
         this.error = e.message || 'Ошибка загрузки файла';
       } finally {
         this.loading = false;
       }
-    },
-    fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
     },
     resolveVariant(key) {
       if (!key || key === 'custom') return null;

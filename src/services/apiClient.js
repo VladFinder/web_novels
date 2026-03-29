@@ -196,13 +196,15 @@ export const saveStoryProgress = async ({ telegramId, storyId, stepIndex, flags 
   return data;
 };
 
-export const uploadFile = async (filename, base64) => {
-  const response = await fetch('/api/upload', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ filename, data: base64 })
-  });
-  return response.json();
+export const uploadFile = async (filename, file) => {
+  const { storage } = await import('@/firebase');
+  const { ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+  const ext = filename.split('.').pop();
+  const uniqueName = `uploads/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const storageRef = ref(storage, uniqueName);
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+  return { url };
 };
 
 export const apiClient = {
