@@ -212,10 +212,11 @@ export const uploadFile = async (filename, file) => {
   });
   const ext = filename.split('.').pop();
   const key = `uploads/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const body = new Uint8Array(await file.arrayBuffer());
   await client.send(new PutObjectCommand({
     Bucket: S3_BUCKET,
     Key: key,
-    Body: file,
+    Body: body,
     ContentType: file.type,
     ACL: 'public-read',
   }));
